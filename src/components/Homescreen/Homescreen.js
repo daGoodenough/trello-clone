@@ -1,12 +1,11 @@
 
-function Homescreen() {
-    return (
+import HomeHeader from "./HomeHeader";
+
+const Homescreen = () => (
       <div>
-      <SortOptions/>
-       <BoardItem/>
+      <HomeHeader/>
       </div>
     );
-  }
   
   export default Homescreen;
   

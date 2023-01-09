@@ -1,9 +1,8 @@
-function BoardItem() {
-    return (
+const BoardItem = () => (
       <div >
     BoardItem
       </div>
     );
-  }
+  
   
   export default BoardItem;

@@ -1,3 +1,5 @@
+import Card from './Card';
+
 function WorkflowList() {
     return (
       <div>

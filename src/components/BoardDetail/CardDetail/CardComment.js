@@ -1,9 +1,7 @@
-function CardComment() {
-    return (
+const CardComment = () => (
       <div>
        
       </div>
     );
-  }
   
   export default CardComment;
