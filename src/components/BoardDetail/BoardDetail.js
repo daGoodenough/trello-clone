@@ -1,3 +1,5 @@
+import WorkflowList from './WorkflowList';
+
 function BoardDetail() {
     return (
       <div>
