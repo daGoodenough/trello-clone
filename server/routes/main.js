@@ -1,9 +1,11 @@
+
+
 const router = require("express").Router();
 const generateFakeData = require('')//import funciton from somewhere
 
 
 router.get("/generate-fake-data", generateFakeData);
-///Populates DataBase with sample data
+  ///Populates DataBase with sample data
 
 router.post('/auth/signin', requireSignin, Authentication.signin)
 //sign a user in.
