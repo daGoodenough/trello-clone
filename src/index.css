@@ -84,7 +84,6 @@ nav span {
 }
 
 /*BoardList*/
-
 #board-list-title{
 margin-left: 7.5%;
 margin-top: 2%;
@@ -119,4 +118,56 @@ margin-bottom: 2%;
 
 .board-list h5 {
   padding: 5%;
+}
+
+/* BoardDetail */
+
+.workflow-box {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.workflow-item {
+  background: #ebecf0;
+  width: 350px;
+  height: 450px;
+  border-radius: 6px;
+  position: relative;
+
+}
+
+.workflow-wrapper {
+  padding: 2.5%;
+}
+
+.list-ul {
+  padding-left: 0;
+  margin-left: 0;
+
+}
+
+.card-item {
+  background-color: white;
+  list-style: none;
+  margin-top: 4%;
+  padding: 2.5%;
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px gray;
+}
+
+.add-card-btn {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  opacity: .7;
+  padding: 2.5%;
+  border-radius: 6px;
+}
+
+.add-card-btn:hover {
+  opacity: 1;
+  background-color: #c7c7c7;
+  cursor:pointer;
+  
 }
