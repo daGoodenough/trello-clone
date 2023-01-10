@@ -36,7 +36,7 @@ model Comment {
 model Card {
   id          String    @id @default(uuid())
   title       String
-  description String
+  description String?
   comments    Comment[]
   List        List      @relation(fields: [listId], references: [id])
   listId      String
