@@ -14,19 +14,23 @@ app.use(bodyParser.json());
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {}
 }));
 
-passport.serializeUser((user, done) => {
-  console.log("User before serializing: ", user)
-  done(null, user.id);
+app.use(passport.authenticate('session'));
+
+passport.serializeUser(function(user, done) {
+  process.nextTick(function() {
+    done(null, user.id);
+  });
 });
 
-passport.deserializeUser((id, done) => {
-  // this is where you could find the user in the database from the id
-  // done(null, user);
-})
+passport.deserializeUser(function(id, done) {
+  process.nextTick(function() {
+    return done(null, id);
+  });
+});
 
 const routes = require('./routes/main');
 app.use(routes);
