@@ -13,6 +13,7 @@
     "bootstrap-icons": "^1.10.3",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "passport": "^0.6.0",
@@ -32,7 +33,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "devStart": "nodemon script.ts"
+    "devStart": "nodemon script.ts",
+    "devStart:server": "nodemon server/server.js"
   },
   "eslintConfig": {
     "extends": [
