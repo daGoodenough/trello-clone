@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id             String       @id @default(uuid())
+  name           String
+  email          String       @unique
+  org            Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  Comment        Comment[]
+}
+
+model Organization {
+  id      String  @id @default(uuid())
+  name    String
+  members User[]
+  boards  Board[]
+}
+
+model Comment {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  text   String
+  Card   Card   @relation(fields: [cardId], references: [id])
+  cardId String
+}
+
+model Card {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  comments    Comment[]
+  List        List      @relation(fields: [listId], references: [id])
+  listId      String
+}
+
+model List {
+  id          String @id @default(uuid())
+  description String
+  cards       Card[]
+  Board       Board  @relation(fields: [boardId], references: [id])
+  boardId     String
+}
+
+model Board {
+  id             String       @id @default(uuid())
+  title          String
+  lists          List[]
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+}
