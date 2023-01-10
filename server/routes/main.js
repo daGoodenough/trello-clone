@@ -1,25 +1,18 @@
+require('dotenv').config();
 const router = require("express").Router();
+const passportService = require('../services/passport')
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oidc');
+
 // const generateFakeData = require('')//import funciton from somewhere
 
 const googleAuth = passport.authenticate('google', {
   scope: ['profile', 'email']
 })
 
-passport.use(
-  'google',
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/oauth2/redirect/google',
-    },
-    (issuer, profile, done) => {
-      return done(null, profile)
-    }
-  )
-)
+const googleRedirect = passport.authenticate('google', {
+  successRedirect: 'http://localhost:3000/',
+  failureRedirect: 'http://localhost:3000/login',
+})
 
 // router.get("/generate-fake-data", generateFakeData);
 //   ///Populates DataBase with sample data
@@ -27,10 +20,7 @@ passport.use(
 router.get('/auth/google', googleAuth)
 //sign a user in.
 
-router.get('/oauth2/redirect/google', passport.authenticate('google', {
-  successRedirect: 'http://localhost:3000/',
-  failureRedirect: 'http://localhost:3000/login',
-}))
+router.get('/oauth2/redirect/google', googleRedirect)
 
 // router.get('/api/user/:userId', requireAuth, );
 // // check for session then return all boards of user
