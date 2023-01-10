@@ -153,12 +153,49 @@ margin-bottom: 2%;
   padding: 2.5%;
   border-radius: 4px;
   box-shadow: 0px 1px 1px gray;
+  position: relative;
 }
 
-.add-card-btn {
+.card-item:hover {
+  cursor: pointer;
+}
+
+.card-pencil{
+  position: absolute;
+  top: 0;
+  right: 2.5%;
+  font-size: 1.25em;
+}
+
+.card-pencil:hover {
+  cursor: pointer;
+}
+
+.card-title-editor{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.close-title-editor{
+  font-size: 1.5em;
+  margin-left: 2%;
+ 
+}
+
+.close-title-editor:hover {
+  cursor: pointer;
+  
+}
+
+.add-card-section{
   position: absolute;
   bottom: 0;
   display: block;
+  width: 100%;
+}
+
+.add-card-btn {
   width: 100%;
   opacity: .7;
   padding: 2.5%;
@@ -169,5 +206,22 @@ margin-bottom: 2%;
   opacity: 1;
   background-color: #c7c7c7;
   cursor:pointer;
-  
+}
+
+.card-composer {
+  margin: 2.5px;
+}
+
+.card-composer input {
+  width: 100%;
+  margin-bottom: 5%;
+}
+
+.close-composer {
+  margin-left: 5%;
+  font-size: 1.5em;
+}
+
+.close-composer:hover {
+  cursor: pointer;
 }
