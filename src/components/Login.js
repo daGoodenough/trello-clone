@@ -32,7 +32,7 @@ function Login() {
                 </Button>
               </Form>
               <div className='text-center mt-3'>
-                or continue with <a href="">Google</a>
+                or continue with <a href="http://localhost:5000/auth/google">Google</a>
               </div>
             </Card.Body>
           </Card>
