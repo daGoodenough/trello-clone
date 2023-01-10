@@ -4,7 +4,6 @@ const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
 
-
 const app = express();
 
 app.use(cors());
@@ -29,10 +28,8 @@ passport.deserializeUser((id, done) => {
   // done(null, user);
 })
 
-
 const routes = require('./routes/main');
 app.use(routes);
-
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
