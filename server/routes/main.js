@@ -1,45 +1,67 @@
-
-
 const router = require("express").Router();
-const generateFakeData = require('')//import funciton from somewhere
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oidc');
+// const generateFakeData = require('')//import funciton from somewhere
 
+const googleAuth = passport.authenticate('google', {
+  scope: ['profile', 'email']
+})
 
-router.get("/generate-fake-data", generateFakeData);
-  ///Populates DataBase with sample data
+passport.use(
+  'google',
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: '/oauth2/redirect/google',
+    },
+    (issuer, profile, done) => {
+      return done(null, profile)
+    }
+  )
+)
 
-router.post('/auth/signin', requireSignin, Authentication.signin)
+// router.get("/generate-fake-data", generateFakeData);
+//   ///Populates DataBase with sample data
+
+router.get('/auth/google', googleAuth)
 //sign a user in.
 
-router.get('/api/user/:userId', requireAuth, );
-// check for session then return all boards of user
-// should also return org info... or seperate route?
+router.get('/oauth2/redirect/google', passport.authenticate('google', {
+  successRedirect: 'http://localhost:3000/',
+  failureRedirect: 'http://localhost:3000/login',
+}))
 
-router.post('/api/user/:userId', requireAuth, );
-// add a board to org associated with user
+// router.get('/api/user/:userId', requireAuth, );
+// // check for session then return all boards of user
+// // should also return org info... or seperate route?
 
-router.get('/api/boards/:boardId', requireAuth, );
-//get all the lists of a certain board (lists should contain cards title and id)
+// router.post('/api/user/:userId', requireAuth, );
+// // add a board to org associated with user
 
-router.post('/api/boards/:boardId', requrieAuth, );
-//add a list to a board
+// router.get('/api/boards/:boardId', requireAuth, );
+// //get all the lists of a certain board (lists should contain cards title and id)
 
-router.delete('/api/boards/:boardId', requireAuth, );
-//delete board (should be removed from the org its associated with as well)
+// router.post('/api/boards/:boardId', requrieAuth, );
+// //add a list to a board
 
-router.get('/api/cards/:cardId', requireAuth, );
-//get all metadata for card (comments, title, labels, description)
+// router.delete('/api/boards/:boardId', requireAuth, );
+// //delete board (should be removed from the org its associated with as well)
 
-router.post("/api/lists/:listId", requireAuth, );
-  ///post a card to a list
+// router.get('/api/cards/:cardId', requireAuth, );
+// //get all metadata for card (comments, title, labels, description)
 
-router.post("/api/cards/:cardId", requireAuth, );
-  ///create a new comment for card with id
+// router.post("/api/lists/:listId", requireAuth, );
+//   ///post a card to a list
 
-router.put('/api/cards/:cardId', requireAuth, );
-  //update title, description, and labels
+// router.post("/api/cards/:cardId", requireAuth, );
+//   ///create a new comment for card with id
 
-router.delete("/api/cards/:cardId", requrieAuth, );
-  ///delete comment for card with id
+// router.put('/api/cards/:cardId', requireAuth, );
+//   //update title, description, and labels
+
+// router.delete("/api/cards/:cardId", requrieAuth, );
+//   ///delete comment for card with id
 
 module.exports = router;
 
