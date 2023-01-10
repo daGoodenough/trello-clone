@@ -1,9 +1,10 @@
+import { Card } from 'react-bootstrap';
 
 function Login() {
     return (
-      <div>
-
-      </div>
+      <Card>
+        
+      </Card>
     );
   }
   
