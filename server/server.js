@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 
-const routes = require('./routes');
+const routes = require('./routes/main');
 app.use(routes);
 //imports all routes to be used in the app
 
