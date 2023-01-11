@@ -1,3 +1,4 @@
+require('dotenv').config();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oidc');
 
@@ -5,8 +6,8 @@ passport.use(
   'google',
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientID: "40017934833-p5aksfstep103as7v79gmcdkqnmhji40.apps.googleusercontent.com",
+      clientSecret: "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",
       callbackURL: '/oauth2/redirect/google',
     },
     (issuer, profile, done) => {
