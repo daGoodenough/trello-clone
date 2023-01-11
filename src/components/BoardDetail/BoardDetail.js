@@ -8,8 +8,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {storeBoardDetails} from '../../actions'
 
 function BoardDetail() {
-  // let  {boardId}  = useParams();
-  const boardId = 'c008b1eb-2496-4e31-9dab-ce879aca68d2'
+  const  {boardId}  = useParams();
   const dispatch = useDispatch();
   const details = useSelector((state) =>state.boardDetails)
   const workflows = useSelector((state) =>state.boardDetails.lists)
