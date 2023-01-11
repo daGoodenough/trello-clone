@@ -1,6 +1,7 @@
 import {
   CHANGE_LOGIN_STATUS,
   STORE_BOARD_DETAILS,
+  STORE_HOMESCREEN
 } from './types';
 
 export const login = () => {
@@ -22,5 +23,12 @@ export const storeBoardDetails = (boardDetails) => {
   return {
     type: STORE_BOARD_DETAILS,
     payload: boardDetails,
+  }
+}
+
+export const storeHomescreen = (homescreen) => {
+  return {
+    type: STORE_HOMESCREEN,
+    payload: homescreen,
   }
 }

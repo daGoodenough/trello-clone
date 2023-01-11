@@ -2,16 +2,11 @@ import React, { useEffect, useState } from 'react';
 import BoardItem from './BoardItem'
 import { Backspace } from 'react-bootstrap-icons';
 
+const BoardList = ({boards}) => {
 
-
-const BoardList = () => {
-
-  const boards = [{id: 1, title: 'Board One'}, {id: 2, title: 'Board Two'},{id: 3, title: 'Board Three'}, {id: 4, title: 'Board Four'},{id: 5, title: 'Board Five'}, {id: 6, title: 'Board Six'}, {id: 7, title: 'Board Seven'}];
   const [isCreating, setIsCreating] = useState(false)
   const [newBoard, setNewBoard] = useState('')
   const [newBoardValue, setNewBoardValue] = useState('')
-
-
 
   useEffect(()=>{
     createNewBoard()
@@ -20,8 +15,6 @@ const BoardList = () => {
   const createNewBoard = () =>{
     setIsCreating(false)
   }
-
-
 
   return (
     <div>
