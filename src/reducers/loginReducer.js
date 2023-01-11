@@ -6,7 +6,7 @@ const DEFAULT_STATE = () => {
 };
 
 const loginReducer = (state = DEFAULT_STATE(), action) => {
-  switch (action.typed) {
+  switch (action.type) {
     case CHANGE_LOGIN_STATUS:
       return action.payload;
     default:
