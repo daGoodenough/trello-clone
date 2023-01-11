@@ -2,7 +2,7 @@ import { useDrag } from 'react-dnd'
 import { Pencil, Backspace } from 'react-bootstrap-icons'
 import { useState } from 'react'
 
-const Card = ({title, id}) => {
+const Card = ({title, id, listId, description}) => {
 
   const [isHovering, setIsHovering] = useState(false)
   const [cardTitle, setCardTitle] = useState(title)
@@ -10,7 +10,7 @@ const Card = ({title, id}) => {
   const [{ opacity }, dragRef] = useDrag(
     () => ({
       type: "card",
-      item:  {title, id} ,
+      item:  {title, id, listId, description} ,
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1
       })

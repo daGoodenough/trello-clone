@@ -1,6 +1,6 @@
 import {
   CHANGE_LOGIN_STATUS,
-
+  STORE_BOARD_DETAILS,
 } from './types';
 
 export const login = () => {
@@ -17,3 +17,10 @@ export const logout = () => {
     payload: false,
   };
 };
+
+export const storeBoardDetails = (boardDetails) => {
+  return {
+    type: STORE_BOARD_DETAILS,
+    payload: boardDetails,
+  }
+}

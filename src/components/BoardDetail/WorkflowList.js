@@ -3,46 +3,45 @@ import { useEffect, useState } from 'react';
 import { Backspace } from 'react-bootstrap-icons';
 import {useDrop} from 'react-dnd'
 
-function WorkflowList({title}) {
-  const [workflow, setWorkflow] = useState('To Do')
+function WorkflowList({description, id, cardItems}) {
   const [currentValue, setCurrentValue] = useState('')
-  const [cards, setCards] = useState([{id: 1, title: 'butter', workflow: workflow},{id: 2, title: 'milk', workflow: workflow},{id: 3, title: 'eggs', workflow: workflow}])
   const [newCard, setNewCard] = useState({id: null, title: ''})
   const [isComposingCard, setIsComposingCard] = useState(false)
   
 
-  useEffect(()=>{
-    setCards([...cards, newCard])
-    setCurrentValue('')
-    setIsComposingCard(false)
-  },[newCard])
+  // useEffect(()=>{
+  //   setCards([...cards, newCard])
+  //   setCurrentValue('')
+  //   setIsComposingCard(false)
+  // },[newCard])
 
-
+  console.log(cardItems)
   const [{ isOver }, drop] = useDrop({
     accept: 'card',
     drop: (card) => {
-      console.log(card.title, ' dropped!')
-      const selected = card.title
+      const selected = card
       console.log(selected)
-      const nextCards = cards.map((i)=>{
+      console.log(description)
+      const nextCards = cardItems.map((i)=>{
         if(i.title===selected) return{
           ...i,
-          workflow: title
+          listId: id
         }
         else return i
       })
-      setCards(nextCards)
+      console.log('nextcards', nextCards)
+      //api request to change cards to nextCards
     },
   })
-  
+
     return (
       <div ref={drop} className="workflow-item">
         <div className='workflow-wrapper'>
-        <h5>{title}</h5>
+        <h5>{description}</h5>
         <ul className="list-ul">
-        {cards.map((i) => {
-          if (i.workflow === title){
-            return <Card key={i.id} title={i.title} id={i.id}/>
+        {cardItems.map((i) => {
+          if (i.listId === id){
+            return <Card key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description}/>
         }})}
         </ul>
         </div>
@@ -50,7 +49,7 @@ function WorkflowList({title}) {
           <div className='add-card-btn' style={{display: isComposingCard ? 'none' : 'block'}} onClick={() => setIsComposingCard(true)}>+ Add a card</div>
           <div className='card-composer' style={{display: isComposingCard ? 'block' : 'none'}}>
           <input type="text" placeholder='Enter a title for this card' value={currentValue} onChange={(e)=> setCurrentValue(e.target.value)}></input>
-          <button className='btn btn-primary' onClick={()=> setNewCard({id: cards.length+1, title: currentValue, workflow: title})}>Add card</button>
+          <button className='btn btn-primary' onClick={()=> setNewCard({id: cardItems.length+1, title: currentValue, listId: id})}>Add card</button>
          <Backspace className="close-composer" onClick={() => setIsComposingCard(false)}/>
             </div>
           </div>
