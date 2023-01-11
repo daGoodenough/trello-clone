@@ -10,9 +10,7 @@ const Header = () => {
   const dispatch = useDispatch()
   const loggedIn = useSelector(state => state.loggedIn);
 
-  const handleLogOut = () => {
-    dispatch(logout());
-  }
+  const handleLogOut = () => dispatch(logout());
 
   return (
     <nav>
@@ -24,7 +22,6 @@ const Header = () => {
         <div onClick={handleLogOut} className='navbar-right-side'>Log Out</div> :
         <div className='navbar-right-side'><a className='nav-link' href="/login">Log In</a></div>
       }
-
     </nav>
   );
 }
