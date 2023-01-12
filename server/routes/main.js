@@ -2,25 +2,16 @@ require("dotenv").config();
 const router = require("express").Router();
 const passportService = require("../services/passport");
 const passport = require("passport");
+const Authentication = require('../controllers/authentication');
 const PrismaClient = require("@prisma/client").PrismaClient;
 const prisma = new PrismaClient();
 
 // const generateFakeData = require('')//import funciton from somewhere
 
-const googleAuth = passport.authenticate("google", {
-  scope: ["profile", "email"],
-});
-
-const googleRedirect = passport.authenticate("google", {
-  successRedirect: "http://localhost:3000/",
-  failureRedirect: "http://localhost:3000/login",
-});
+const requireSignin = passport.authenticate('local', { session: false });
 
 
-router.get("/auth/google", googleAuth);
-//sign a user in.
-
-router.get("/oauth2/redirect/google", googleRedirect);
+router.post('/auth/login', requireSignin, Authentication.signin)
 
 router.get("/api/user/:userId", async (req, res) => {
   const org = await prisma.user.findFirst({

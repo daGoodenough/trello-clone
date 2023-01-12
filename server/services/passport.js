@@ -1,20 +1,25 @@
 require('dotenv').config();
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oidc');
+const LocalStrategy = require('passport-local');
+const {validPassword} = require('./passwords')
 
-passport.use(
-  'google',
-  new GoogleStrategy(
-    {
-      clientID: "40017934833-p5aksfstep103as7v79gmcdkqnmhji40.apps.googleusercontent.com",
-      clientSecret: "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",
-      callbackURL: '/oauth2/redirect/google',
-    },
-    (issuer, profile, done) => {
-      //here you will look up the user in the data base
-      //if they exist then you will login them in
-      //if they do not exist they should be registerd in the db
-      return done(null, profile)
-    }
-  )
-)
+const localOptions = { usernameField: 'email' };
+
+const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
+  console.log(email, password);
+  // Verify this email and password, call done with the user
+  // if it is the correct email and password
+  // otherwise, call done with false
+  console.log("Valid?: ", validPassword(password))
+  // FIND USER BY EMAIL IN DB
+    //if not found return done(null, false)
+    //if found check password
+      if(!validPassword(password)){
+        return done(null, false, { message: 'Incorrect password.' })
+      }
+    //return done(null, user);
+    return done(null, email);
+});
+
+passport.use(localLogin)
+
