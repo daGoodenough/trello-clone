@@ -5,7 +5,6 @@ const BoardItem = ({title, id}) => {
   const navigate = useNavigate();
 
   const clickHandler = () => {
-   console.log('hello')
    navigate(`/board/${id}`);
   };
 

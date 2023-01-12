@@ -15,7 +15,7 @@ function WorkflowList({description, id, cardItems}) {
   //   setIsComposingCard(false)
   // },[newCard])
 
-  console.log(cardItems)
+  
   const [{ isOver }, drop] = useDrop({
     accept: 'card',
     drop: (card) => {

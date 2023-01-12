@@ -291,3 +291,30 @@ margin-top: 7.5%;
 .close-composer:hover {
   cursor: pointer;
 }
+
+.open-card-detail-target {
+  width: 102.5%;
+  height: 125%;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+/* CardDetail */
+
+.card-detail-box {
+  position: absolute;
+  background: white;
+  width: 400px;
+  height: 400px;
+  top: -150%;
+  z-index: 2;
+}
+
+.close-card-detail {
+  right: 0;
+  top: 0;
+  font-size: 2em;
+  position: absolute;
+}
