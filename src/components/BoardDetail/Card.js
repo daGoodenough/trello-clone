@@ -7,11 +7,12 @@ import {storeCardDetails} from '../../actions'
 import CardDetail from './CardDetail/CardDetail'
 
 
-const Card = ({title, id, listId, description}) => {
+const Card = ({title, id, listId, description, workflow}) => {
 
   const [isHovering, setIsHovering] = useState(false)
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
+  const [isEditingDescription, setIsEditingDescription] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [lengthOfComments, setLengthOfComments] = useState(0)
   
@@ -34,12 +35,6 @@ const Card = ({title, id, listId, description}) => {
     []
   )
 
-  function closeState(){
-    setIsOpen(false)
-  }
-
-
-
  
   return (
       <div className="card-item">
@@ -52,7 +47,7 @@ const Card = ({title, id, listId, description}) => {
             </div>
             {/* <div>{lengthOfComments}</div> */}
             </div>
-            <CardDetail isOpen={isOpen} closeState={closeState} cardId={cardId}/>
+            <CardDetail isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} workflow={workflow} isEditingDescription={isEditingDescription} setIsEditingDescription={setIsEditingDescription}/>
             <div className='card-title-editor' style={{display: isEditingTitle ? 'flex' : 'none',}}>
               <input type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)}></input>
               <button className='btn btn-primary' onClick={() => setIsEditingTitle(false)}>Save</button>
