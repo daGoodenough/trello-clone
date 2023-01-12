@@ -10,7 +10,7 @@ import {storeBoardDetails} from '../../actions'
 function BoardDetail() {
   const  {boardId}  = useParams();
   const dispatch = useDispatch();
-  const details = useSelector((state) =>state.boardDetails)
+  const title = useSelector((state) =>state.boardDetails.title)
   const workflows = useSelector((state) =>state.boardDetails.lists)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -38,7 +38,7 @@ function BoardDetail() {
 }
     return (
       <div>
-        <h1>{details.title}</h1>
+        <h1>{title}</h1>
         <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
         {workflows.map((i=> <WorkflowList key={i.id} id={i.id} cardItems={i.cards} description={i.description}/>))}

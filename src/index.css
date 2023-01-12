@@ -305,16 +305,92 @@ margin-top: 7.5%;
 
 .card-detail-box {
   position: absolute;
-  background: white;
+  background: #F3F6F8;
   width: 400px;
   height: 400px;
+  border-radius: 5px;
+  border: 1px solid #0369A6;
   top: -150%;
   z-index: 2;
+  padding: 5% 10% 10% 15%;
+}
+
+.card-detail-box h5{
+  position: relative;
 }
 
 .close-card-detail {
-  right: 0;
-  top: 0;
-  font-size: 2em;
+  right: 5%;
+  top: 5%;
+  font-size: 1.5em;
   position: absolute;
+}
+
+.card-icons {
+  position: absolute;
+  left: -10%;
+  top: 15%;
+}
+
+.card-detail-workflow{
+  text-decoration: underline;
+}
+
+.card-detail-circles {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10%;
+  
+}
+
+.card-detail-circles div {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  font-weight: 500;
+  margin-right: 5px;
+}
+
+.card-detail-members{
+  background-color: green;
+}
+
+.card-detail-add-members {
+  background-color: #d2d2d2;
+  padding-bottom: 8%;
+}
+
+.card-detail-add-members:hover {
+  background-color: #a8a8a8;
+}
+
+.card-detail-box label {
+  font-size: small;
+}
+
+.card-description-icon{
+  position: absolute;
+  left: 5%;
+}
+
+.edit-description-button {
+  background-color: #d2d2d2 !important;
+  font-size: .7em !important;
+  padding: 1% 2% 1% 2% !important;
+  margin-left: 5%;
+  border-radius: 3px !important;
+}
+
+.edit-description-button:hover {
+  background-color: #a8a8a8;
+}
+
+.description-editor textarea {
+  width: 100%;
+  height: auto;
+  padding: 2.5%;
+  font-size: .7em;
 }
