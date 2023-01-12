@@ -1,7 +1,7 @@
 import { CHANGE_LOGIN_STATUS } from '../actions/types';
 
 const DEFAULT_STATE = () => {
-  // check for cookie
+  if(localStorage.getItem('token')) {return true}
   return false;
 };
 

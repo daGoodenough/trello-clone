@@ -14,6 +14,7 @@ export const login = () => {
 };
 
 export const logout = () => {
+  localStorage.removeItem('token');
   return {
     type: CHANGE_LOGIN_STATUS,
     payload: false,
