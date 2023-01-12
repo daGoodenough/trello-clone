@@ -1,6 +1,8 @@
+import localLogin from '../helpers/localLogin';
 import { Card, Form, Container, Row, Col, Button, Nav } from 'react-bootstrap';
 
 function Login() {
+  
   return (
     <Container>
       <Row className="align-items-center justify-content-center">
@@ -18,14 +20,14 @@ function Login() {
               <Card.Title className='text-center'>
                 Sign In
               </Card.Title>
-              <Form className='d-flex flex-column'>
+              <Form onSubmit={(e) => localLogin(e)} className='d-flex flex-column'>
                 <Form.Group className="m-3">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control type="email" name="email" placeholder="Enter email" />
                 </Form.Group>
                 <Form.Group className="m-3">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control type="password" name="password" placeholder="Password" />
                 </Form.Group>
                 <Button variant="primary" type="submit" className='align-self-center'>
                   Submit

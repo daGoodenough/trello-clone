@@ -1,18 +1,23 @@
-import axios from 'axios';
 
 const localLogin = (event) => {
   const email = event.currentTarget[0].value
   const password = event.currentTarget[1].value
 
-  axios.post('http://localhost:5000/auth/login', {
-    email,
-    password
+  const data = {email, password}
+
+  fetch('http://localhost:5000/auth/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+})
+.then(response => response.json())
+.then(data => {
+    localStorage.setItem("token", JSON.stringify(data.token))
   })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
+  .catch(error => {
+    console.error('Error:', error);
   });
 }
 

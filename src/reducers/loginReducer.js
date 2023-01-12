@@ -2,7 +2,7 @@ import { CHANGE_LOGIN_STATUS } from '../actions/types';
 
 const DEFAULT_STATE = () => {
   // check for cookie
-  return true;
+  return false;
 };
 
 const loginReducer = (state = DEFAULT_STATE(), action) => {
