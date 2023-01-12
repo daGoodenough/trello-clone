@@ -24,3 +24,15 @@ export const fetchBoardDetails = async (boardId) => {
         throw e;
       }
 }
+
+export const fetchCardDetails = async (cardId) => {
+  try{
+    const results = await axios.get(`http://localhost:5000/api/cards/${cardId}`)
+    const data = results.data
+    return data
+  }
+  catch (e) {
+    console.error('Error in fetching card details', e);
+    throw e;
+  }
+}

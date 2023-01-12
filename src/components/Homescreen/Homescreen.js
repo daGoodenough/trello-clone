@@ -28,8 +28,7 @@ const Homescreen = () => {
     fetchData()
   },[])
 
-  console.log(data)
-
+ 
 
 if (isLoading){
   return <div>Loading..</div>

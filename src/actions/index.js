@@ -1,7 +1,8 @@
 import {
   CHANGE_LOGIN_STATUS,
   STORE_BOARD_DETAILS,
-  STORE_HOMESCREEN
+  STORE_HOMESCREEN,
+  STORE_CARD_DETAILS,
 } from './types';
 
 export const login = () => {
@@ -30,5 +31,12 @@ export const storeHomescreen = (homescreen) => {
   return {
     type: STORE_HOMESCREEN,
     payload: homescreen,
+  }
+}
+
+export const storeCardDetails = (cardDetails) => {
+  return {
+    type: STORE_CARD_DETAILS,
+    payload: cardDetails,
   }
 }

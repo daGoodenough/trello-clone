@@ -14,6 +14,7 @@ function BoardDetail() {
   const workflows = useSelector((state) =>state.boardDetails.lists)
   const [isLoading, setIsLoading] = useState(true)
 
+
   useEffect(()=>{
     async function fetchData() {
       try{
@@ -30,8 +31,6 @@ function BoardDetail() {
   }
     fetchData()
   },[])
-
-
 
 
   if (isLoading) {
