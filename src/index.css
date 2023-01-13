@@ -188,6 +188,11 @@ margin-top: 7.5%;
 
 
 /* BoardDetail */
+
+.board-detail {
+  padding: 5%;
+}
+
 .workflow-box {
   display: flex;
   justify-content: space-evenly;
