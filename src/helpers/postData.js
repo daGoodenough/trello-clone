@@ -7,7 +7,7 @@ export const postComment = async (cardId, commentToPost, userId) => {
     await axios.post(`http://localhost:5000/api/cards/${cardId}`,{
        text: commentToPost,
        user: userId,
-       card: cardId
+       id: cardId
     })
     .then(response => {
         console.log(response.data);
@@ -48,4 +48,16 @@ export const postComment = async (cardId, commentToPost, userId) => {
     }
   }
 
+  export const postList = async (boardId, newList) => {
+    try{
+       const response = await axios.post(`http://localhost:5000/api/boards/${boardId}`, {
+        newList
+    })
+    return response.data
+    }
+    catch(e){
+        console.error('Error in posting board', e);
+        throw e;
+    }
+  }
  
