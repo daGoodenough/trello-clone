@@ -2,6 +2,7 @@ import { Backspace, CardText, CardList, CaretRightSquare } from "react-bootstrap
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch  } from 'react-redux'
 import { fetchCardDetails } from '../../../helpers/fetchData'
+import { postComment } from '../../../helpers/postData'
 import {storeCardDetails} from '../../../actions'
 import { setCommentRange } from "typescript";
 
@@ -29,7 +30,9 @@ function CardDetail({isOpen, setIsOpen, cardId, workflow, isEditingDescription, 
   },[isLoading])
 
 useEffect(()=>{
-// dispatch add comments
+console.log('post comment called')
+console.log(cardId)
+// postComment(cardId, currentComment)
 }, [existsCommentToAdd])
 
   useEffect(()=>{
@@ -48,7 +51,6 @@ useEffect(()=>{
     fetchData()
   },[isOpen])
 
-  console.log(comments)
 
   if(!isOpen) return(
     <div></div>

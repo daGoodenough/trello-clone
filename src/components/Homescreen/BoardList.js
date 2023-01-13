@@ -1,20 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import BoardItem from './BoardItem'
 import { Backspace } from 'react-bootstrap-icons';
+import { postBoard } from '../../helpers/postData';
+import { useNavigate } from 'react-router-dom';
 
-const BoardList = ({boards}) => {
+const BoardList = ({boards, userId, setIsPosting}) => {
 
   const [isCreating, setIsCreating] = useState(false)
   const [newBoard, setNewBoard] = useState('')
   const [newBoardValue, setNewBoardValue] = useState('')
+  const navigate = useNavigate();
+
 
   useEffect(()=>{
-    createNewBoard()
+    async function postData(){
+      try{
+        setIsPosting(true)
+       const response = await postBoard(userId, newBoard)
+       navigate(`/board/${response.id}`);
+      }
+      catch (error) {
+        console.log(error)
+    } finally {
+      setIsPosting(false)
+      setNewBoardValue('')
+    }
+    }
+    if (newBoard?.length>1){
+    postData()
+    }
+    
   },[newBoard])
 
-  const createNewBoard = () =>{
-    setIsCreating(false)
-  }
 
   return (
     <div>

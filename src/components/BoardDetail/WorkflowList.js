@@ -2,18 +2,19 @@ import Card from './Card';
 import { useEffect, useState } from 'react';
 import { Backspace } from 'react-bootstrap-icons';
 import {useDrop} from 'react-dnd'
+import { postCard } from '../../helpers/postData'
 
 function WorkflowList({description, id, cardItems}) {
   const [currentValue, setCurrentValue] = useState('')
-  const [newCard, setNewCard] = useState({id: null, title: ''})
+  const [newCard, setNewCard] = useState('')
   const [isComposingCard, setIsComposingCard] = useState(false)
   
 
-  // useEffect(()=>{
-  //   setCards([...cards, newCard])
-  //   setCurrentValue('')
-  //   setIsComposingCard(false)
-  // },[newCard])
+  useEffect(()=>{
+    // postCard(id, newCard)
+    setCurrentValue('')
+    setIsComposingCard(false)
+  },[newCard])
 
   
   const [{ isOver }, drop] = useDrop({
@@ -49,7 +50,7 @@ function WorkflowList({description, id, cardItems}) {
           <div className='add-card-btn' style={{display: isComposingCard ? 'none' : 'block'}} onClick={() => setIsComposingCard(true)}>+ Add a card</div>
           <div className='card-composer' style={{display: isComposingCard ? 'block' : 'none'}}>
           <input type="text" placeholder='Enter a title for this card' value={currentValue} onChange={(e)=> setCurrentValue(e.target.value)}></input>
-          <button className='btn btn-primary' onClick={()=> setNewCard({id: cardItems.length+1, title: currentValue, listId: id})}>Add card</button>
+          <button className='btn btn-primary' onClick={()=> setNewCard(currentValue)}>Add card</button>
          <Backspace className="close-composer" onClick={() => setIsComposingCard(false)}/>
             </div>
           </div>
