@@ -1,8 +1,10 @@
 import axios from 'axios'
 
+axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
 
 export const fetchHomescreen = async (userId) => {
-  try{
+
+  try {
     const results = await axios.get(`http://localhost:5000/api/user/${userId}`)
     const data = results.data
     return data
@@ -14,19 +16,19 @@ export const fetchHomescreen = async (userId) => {
 }
 
 export const fetchBoardDetails = async (boardId) => {
-    try{
+  try {
     const results = await axios.get(`http://localhost:5000/api/boards/${boardId}`)
     const data = results.data
     return data
-    }
-    catch (e) {
-        console.error('Error in fetching board details', e);
-        throw e;
-      }
+  }
+  catch (e) {
+    console.error('Error in fetching board details', e);
+    throw e;
+  }
 }
 
 export const fetchCardDetails = async (cardId) => {
-  try{
+  try {
     const results = await axios.get(`http://localhost:5000/api/cards/${cardId}`)
     const data = results.data
     return data

@@ -12,14 +12,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {}
-}));
-
-app.use(passport.authenticate('session'));
 
 passport.serializeUser(function(user, done) {
   process.nextTick(function() {
