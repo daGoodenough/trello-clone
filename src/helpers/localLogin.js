@@ -14,7 +14,7 @@ const localLogin = (event) => {
 })
 .then(response => response.json())
 .then(data => {
-    localStorage.setItem("token", JSON.stringify(data.token))
+    localStorage.setItem("token", data.token)
   })
   .catch(error => {
     console.error('Error:', error);
