@@ -307,7 +307,7 @@ margin-top: 7.5%;
   position: absolute;
   background: #F3F6F8;
   width: 400px;
-  height: 400px;
+  height: auto;
   border-radius: 5px;
   border: 1px solid #0369A6;
   top: -150%;
@@ -376,21 +376,54 @@ margin-top: 7.5%;
   left: 5%;
 }
 
+.card-description {
+  font-size: .75em;
+  margin-bottom: 10%;
+}
+
 .edit-description-button {
+  margin-left: 5%;
+}
+.edit-description-button, .save-comment {
   background-color: #d2d2d2 !important;
   font-size: .7em !important;
   padding: 1% 2% 1% 2% !important;
-  margin-left: 5%;
   border-radius: 3px !important;
 }
 
-.edit-description-button:hover {
+.edit-description-button:hover, .save-comment:hover {
   background-color: #a8a8a8;
 }
 
-.description-editor textarea {
+.description-editor textarea, .comment-editor textarea {
   width: 100%;
   height: auto;
   padding: 2.5%;
   font-size: .7em;
+}
+
+.comment {
+  width: 100%;
+  background-color: white;
+  padding: 1% 5% 1% 5%;
+  font-size: .75em;
+}
+
+.comment-editor {
+background-color: white;
+margin-bottom: 5%;
+}
+
+.comment-editor textarea:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.comment-editor textarea{
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
 }
