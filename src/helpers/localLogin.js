@@ -1,5 +1,6 @@
 
 const localLogin = (event) => {
+  event.preventDefault();
   const email = event.currentTarget[0].value
   const password = event.currentTarget[1].value
 
