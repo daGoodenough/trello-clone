@@ -2,27 +2,19 @@ require("dotenv").config();
 const router = require("express").Router();
 const passportService = require("../services/passport");
 const passport = require("passport");
+const Authentication = require('../controllers/authentication');
 const PrismaClient = require("@prisma/client").PrismaClient;
 const prisma = new PrismaClient();
 
 // const generateFakeData = require('')//import funciton from somewhere
 
-const googleAuth = passport.authenticate("google", {
-  scope: ["profile", "email"],
-});
-
-const googleRedirect = passport.authenticate("google", {
-  successRedirect: "http://localhost:3000/",
-  failureRedirect: "http://localhost:3000/login",
-});
+const requireSignin = passport.authenticate('local', { session: false });
+const requireAuth = passport.authenticate('jwt', { session: false})
 
 
-router.get("/auth/google", googleAuth);
-//sign a user in.
+router.post('/auth/login', requireSignin, Authentication.signin)
 
-router.get("/oauth2/redirect/google", googleRedirect);
-
-router.get("/api/user/:userId", async (req, res) => {
+router.get("/api/user/:userId", requireAuth, async (req, res) => {
   const org = await prisma.user.findFirst({
     where: { id: req.params.userId },
     include: {
@@ -34,7 +26,7 @@ router.get("/api/user/:userId", async (req, res) => {
 //GET a user based on userId with an "org" property with a list of "boards"
 
 
-router.post("/api/user/:userId", async (req, res) => {
+router.post("/api/user/:userId", requireAuth, async (req, res) => {
   const board = await prisma.board.create({
     data: {
       title: req.body.title,
@@ -46,7 +38,7 @@ router.post("/api/user/:userId", async (req, res) => {
 //ADD a board to org associated with user
 
 
-router.get("/api/boards/:boardId", async (req, res) => {
+router.get("/api/boards/:boardId", requireAuth, async (req, res) => {
   const board = await prisma.board.findFirst({
     where: { id: req.params.boardId },
     include: {
@@ -60,7 +52,7 @@ router.get("/api/boards/:boardId", async (req, res) => {
 //GET a board based on url param with an array of "lists", where each list has an array of "cards"
 
 
-router.put("/api/boards/:boardId", async (req, res) => {
+router.put("/api/boards/:boardId", requireAuth, async (req, res) => {
   const board = await prisma.board.update({
     where: { id: req.params.boardId },
     data: req.body,
@@ -70,7 +62,7 @@ router.put("/api/boards/:boardId", async (req, res) => {
 //UPDATE a board
 
 
-router.post("/api/boards/:boardId", async (req, res) => {
+router.post("/api/boards/:boardId", requireAuth, async (req, res) => {
   const list = await prisma.lists.create({
     data: {
       description: req.body.description,
@@ -82,7 +74,7 @@ router.post("/api/boards/:boardId", async (req, res) => {
 //ADD a list to a board
 
 
-router.delete("/api/boards/:boardId", async (req, res) => {
+router.delete("/api/boards/:boardId", requireAuth, async (req, res) => {
   const board = await prisma.board.delete({
     where: { id: req.params.boardId },
   });
@@ -91,7 +83,7 @@ router.delete("/api/boards/:boardId", async (req, res) => {
 //DELETE board (should be removed from the org its associated with as well)
 
 
-router.post("/api/lists/:listId", async (req, res) => { 
+router.post("/api/lists/:listId", requireAuth, async (req, res) => { 
   const card = await prisma.card.create({
     data: {
       ...req.body,
@@ -103,7 +95,7 @@ router.post("/api/lists/:listId", async (req, res) => {
 ///ADD a card to a list
 
 
-router.put("/api/lists/:listId", async (req, res) => {
+router.put("/api/lists/:listId", requireAuth, async (req, res) => {
   const list = await prisma.list.update({
     where: { id: req.params.listId },
     data: req.body,
@@ -113,7 +105,7 @@ router.put("/api/lists/:listId", async (req, res) => {
 //UPDATE a list
 
 
-router.delete("/api/lists/:listId", async (req, res) => {
+router.delete("/api/lists/:listId", requireAuth, async (req, res) => {
   const list = await prisma.list.delete({
     where: { id: req.params.listId },
   });
@@ -122,7 +114,7 @@ router.delete("/api/lists/:listId", async (req, res) => {
 //DELETE list
 
 
-router.get("/api/cards/:cardId", async (req, res) => {
+router.get("/api/cards/:cardId", requireAuth, async (req, res) => {
   const card = await prisma.card.findFirst({
     where: { id: req.params.cardId },
     include: { comments: true, members: true },
@@ -132,7 +124,7 @@ router.get("/api/cards/:cardId", async (req, res) => {
 //GET a card with an array of "comments"
 
 
-router.put("/api/cards/:cardId", async (req, res) => {
+router.put("/api/cards/:cardId", requireAuth, async (req, res) => {
   const card = await prisma.card.update({
     where: { id: req.params.cardId },
     data: req.body,
@@ -142,7 +134,7 @@ router.put("/api/cards/:cardId", async (req, res) => {
 //UPDATE a Card
 
 
-router.delete("/api/cards/:cardId", async (req, res) => {
+router.delete("/api/cards/:cardId", requireAuth, async (req, res) => {
   const list = await prisma.card.delete({
     where: { id: req.params.cardId },
   });
@@ -151,7 +143,7 @@ router.delete("/api/cards/:cardId", async (req, res) => {
 //DELETE card
 
 
-router.post("/api/cards/:cardId", async (req, res) => { 
+router.post("/api/cards/:cardId", requireAuth, async (req, res) => { 
   const comment = await prisma.comment.create({
     data: req.body,
     Card: {connect: {id: req.params.cardId}}
@@ -161,7 +153,7 @@ router.post("/api/cards/:cardId", async (req, res) => {
 ///create a new comment for card with id
 
 
-router.put("/api/comments/:commentId", async (req, res) => {
+router.put("/api/comments/:commentId", requireAuth, async (req, res) => {
   const comment = await prisma.comment.update({
     where: { id: req.params.commentId },
     data: req.body,
@@ -171,7 +163,7 @@ router.put("/api/comments/:commentId", async (req, res) => {
 //UPDATE a comment with id
 
 
-router.delete("/api/comments/:commentId", async (req, res) => {
+router.delete("/api/comments/:commentId", requireAuth, async (req, res) => {
   const comment = await prisma.comment.delete({
     where: { id: req.params.cardId },
   });
