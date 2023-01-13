@@ -2,10 +2,12 @@ import axios from 'axios'
 
 axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
 
-export const postComment = async (cardId, commentToPost) => {
+export const postComment = async (cardId, commentToPost, userId) => {
     try{
     await axios.post(`http://localhost:5000/api/cards/${cardId}`,{
-       commentToPost
+       text: commentToPost,
+       user: userId,
+       card: cardId
     })
     .then(response => {
         console.log(response.data);
@@ -20,7 +22,8 @@ export const postComment = async (cardId, commentToPost) => {
   export const postCard = async (listId, cardToPost) => {
     try{
    await axios.post(`http://localhost:5000/api/lists/${listId}`,{
-      description: cardToPost
+      id: listId,
+      title: cardToPost
     })
     .then(response => {
         console.log(response.data);

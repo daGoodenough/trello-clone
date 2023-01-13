@@ -6,8 +6,9 @@ import {useEffect, useState} from 'react'
 import {fetchBoardDetails} from '../../helpers/fetchData'
 import {useDispatch, useSelector} from 'react-redux'
 import {storeBoardDetails} from '../../actions'
-import { Trash3Fill } from 'react-bootstrap-icons';
+import { Trash3Fill, PatchPlus, Pencil } from 'react-bootstrap-icons';
 import { deleteBoard } from '../../helpers/deleteData';
+import { Modal } from 'react-bootstrap'
 
 
 function BoardDetail() {
@@ -15,8 +16,12 @@ function BoardDetail() {
   const dispatch = useDispatch();
   const title = useSelector((state) =>state.boardDetails.title)
   const workflows = useSelector((state) =>state.boardDetails.lists)
+  const state = useSelector((state) =>state.boardDetails)
   const [isLoading, setIsLoading] = useState(true)
   const [exists, setExists] = useState(true)
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const navigate = useNavigate();
 
 
@@ -59,7 +64,24 @@ function BoardDetail() {
 }
     return (
       <div className='board-detail'>
-        <h1>{title}<Trash3Fill onClick={()=>setExists(false)}/></h1>
+        <button className='btn btn-warning back-button' onClick={()=>navigate(`/`)}>Back</button>
+        <div className='board-detail-header'>
+        <h1>{title}</h1>
+        <Pencil className="icn"/>
+        <Trash3Fill onClick={()=>setShow(true)} className="delete-board-icon icn"/>
+        <PatchPlus className="add-list-icon icn"/>
+        </div>
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton><h4>Are you sure you want to delete this board?</h4></Modal.Header>
+        <Modal.Footer>
+          <button class="btn" onClick={handleClose}>
+            Cancel
+          </button>
+          <button class="btn btn-danger" onClick={()=>setExists(false)}>
+            Delete Board
+          </button>
+          </Modal.Footer>
+      </Modal>
         <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
         {workflows.map((i=> <WorkflowList key={i.id} id={i.id} cardItems={i.cards} description={i.description}/>))}

@@ -8,7 +8,6 @@ function WorkflowList({description, id, cardItems}) {
   const [currentValue, setCurrentValue] = useState('')
   const [newCard, setNewCard] = useState('')
   const [isComposingCard, setIsComposingCard] = useState(false)
-  
 
   useEffect(()=>{
     // postCard(id, newCard)
@@ -42,7 +41,7 @@ function WorkflowList({description, id, cardItems}) {
         <ul className="list-ul">
         {cardItems.map((i) => {
           if (i.listId === id){
-            return <Card key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description} workflow={description}/>
+            return <Card key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments}/>
         }})}
         </ul>
         </div>
