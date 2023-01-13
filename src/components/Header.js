@@ -4,17 +4,18 @@ import { Link } from 'react-router-dom';
 import { CalendarRangeFill } from 'react-bootstrap-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../actions';
+import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
   const dispatch = useDispatch()
   const loggedIn = useSelector(state => state.loggedIn);
-
+  const navigate = useNavigate();
   const handleLogOut = () => dispatch(logout());
 
   return (
     <nav>
-      <div className="navbar-left-side">
+      <div className="navbar-left-side" onClick={()=>navigate('/')}>
         <CalendarRangeFill className='nav-icon' />
         <span>Trelletto</span>
       </div>

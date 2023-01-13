@@ -6,19 +6,20 @@ import { postComment } from '../../../helpers/postData'
 import {storeCardDetails} from '../../../actions'
 import { setCommentRange } from "typescript";
 
-function CardDetail({isOpen, setIsOpen, cardId, workflow, isEditingDescription, setIsEditingDescription}) {
+function CardDetail({ comments, isOpen, setIsOpen, cardId, workflow, isEditingDescription, setIsEditingDescription }) {
 
+  const userId = 'ccf964bc-d992-4bb8-9fa1-ffcb38487179'
   const [isLoading, setIsLoading] = useState(true)
   const [description, setDescription] = useState('')
-  const [currentComment, setCurrentComment] = useState('lean')
+  const [currentComment, setCurrentComment] = useState('hello')
   const [commentIsSaved, setCommentIsSaved] = useState(false)
   const [existsCommentToAdd, setExistsCommentToAdd] = useState(false)
   const [isEditingComment, setIsEditingComment] = useState(false)
   const cardDetails = useSelector((state)=> state.cardDetails)
-  const comments = useSelector((state)=> state.cardDetails.comments )
   const dispatch = useDispatch()
 
-  useEffect(()=>{
+
+useEffect(()=>{
     if(isLoading) return
     const desc = cardDetails?.description
     const comm = cardDetails?.comment
@@ -30,12 +31,12 @@ function CardDetail({isOpen, setIsOpen, cardId, workflow, isEditingDescription, 
   },[isLoading])
 
 useEffect(()=>{
-console.log('post comment called')
-console.log(cardId)
-// postComment(cardId, currentComment)
+// console.log('post comment called')
+// console.log(cardId, currentComment)
+// postComment(cardId, currentComment, userId)
 }, [existsCommentToAdd])
 
-  useEffect(()=>{
+useEffect(()=>{
     async function fetchData() {
       try{
         setIsLoading(true)

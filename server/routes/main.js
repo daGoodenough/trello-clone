@@ -125,7 +125,7 @@ router.delete("/api/lists/:listId", async (req, res) => {
 router.get("/api/cards/:cardId", async (req, res) => {
   const card = await prisma.card.findFirst({
     where: { id: req.params.cardId },
-    include: { comments: true, members: true },
+    // include: { comments: true, members: true },
   });
   res.json(card);
 });
