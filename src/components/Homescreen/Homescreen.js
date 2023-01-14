@@ -11,7 +11,6 @@ const Homescreen = () => {
   const userId = 'ccf964bc-d992-4bb8-9fa1-ffcb38487179'
   const [isLoading, setIsLoading] = useState(true)
   const [isPosting, setIsPosting] = useState(0)
-  const [postResponse, setPostResponse] = useState({})
   const data = useSelector((state) =>state.homescreen)
   const dispatch = useDispatch()
 

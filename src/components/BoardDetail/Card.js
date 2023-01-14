@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import CardDetail from './CardDetail/CardDetail'
 
 
-const Card = ({title, id, listId, description, workflow, comments}) => {
+const Card = ({title, id, listId, description, workflow, comments, setIsPostingCardDetails, isPostingCardDetails}) => {
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
@@ -38,7 +38,7 @@ const Card = ({title, id, listId, description, workflow, comments}) => {
             </div>
             <div className='comments-length'><Chat/><span>{comments?.length}</span></div>
             </div>
-            <CardDetail comments={comments} isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} workflow={workflow} isEditingDescription={isEditingDescription} setIsEditingDescription={setIsEditingDescription}/>
+            <CardDetail comments={comments} isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} workflow={workflow} isEditingDescription={isEditingDescription} setIsEditingDescription={setIsEditingDescription} setIsPostingCardDetails={setIsPostingCardDetails} isPostingCardDetails={isPostingCardDetails}/>
             <div className='card-title-editor' style={{display: isEditingTitle ? 'flex' : 'none',}}>
               <input type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)}></input>
               <button className='btn btn-primary' onClick={() => setIsEditingTitle(false)}>Save</button>

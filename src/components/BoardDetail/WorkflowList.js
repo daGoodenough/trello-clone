@@ -1,10 +1,10 @@
 import Card from './Card';
 import { useEffect, useState } from 'react';
-import { Backspace } from 'react-bootstrap-icons';
+import { Backspace, Trash3Fill } from 'react-bootstrap-icons';
 import {useDrop} from 'react-dnd'
 import { postCard } from '../../helpers/postData'
 
-function WorkflowList({description, id, cardItems}) {
+function WorkflowList({description, id, cardItems, setIsPostingCardDetails, setListExists, setListId}) {
   const [currentValue, setCurrentValue] = useState('')
   const [newCard, setNewCard] = useState('')
   const [isComposingCard, setIsComposingCard] = useState(false)
@@ -38,10 +38,11 @@ function WorkflowList({description, id, cardItems}) {
       <div ref={drop} className="workflow-item">
         <div className='workflow-wrapper'>
         <h5>{description}</h5>
+        <Trash3Fill onClick={()=>setListId(id)} className="icn delete-list-icn"/>
         <ul className="list-ul">
         {cardItems.map((i) => {
           if (i.listId === id){
-            return <Card key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments}/>
+            return <Card key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
         }})}
         </ul>
         </div>

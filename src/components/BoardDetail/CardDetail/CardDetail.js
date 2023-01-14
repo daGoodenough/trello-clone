@@ -1,40 +1,54 @@
-import { Backspace, CardText, CardList, CaretRightSquare } from "react-bootstrap-icons";
+import { Backspace, CardText, CardList, CaretRightSquare, Trash3Fill } from "react-bootstrap-icons";
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch  } from 'react-redux'
 import { fetchCardDetails } from '../../../helpers/fetchData'
 import { postComment } from '../../../helpers/postData'
 import {storeCardDetails} from '../../../actions'
 import { setCommentRange } from "typescript";
+import { deleteComment } from "../../../helpers/deleteData";
 
-function CardDetail({ comments, isOpen, setIsOpen, cardId, workflow, isEditingDescription, setIsEditingDescription }) {
+function CardDetail({ comments, isOpen, setIsOpen, cardId, workflow, isEditingDescription, setIsEditingDescription, setIsPostingCardDetails, isPostingCardDetails}) {
 
   const userId = 'ccf964bc-d992-4bb8-9fa1-ffcb38487179'
   const [isLoading, setIsLoading] = useState(true)
   const [description, setDescription] = useState('')
-  const [currentComment, setCurrentComment] = useState('hello')
-  const [commentIsSaved, setCommentIsSaved] = useState(false)
+  const [currentComment, setCurrentComment] = useState('')
   const [existsCommentToAdd, setExistsCommentToAdd] = useState(false)
   const [isEditingComment, setIsEditingComment] = useState(false)
+  const [exists, setExists] = useState(true)
   const cardDetails = useSelector((state)=> state.cardDetails)
   const dispatch = useDispatch()
+
 
 
 useEffect(()=>{
     if(isLoading) return
     const desc = cardDetails?.description
-    const comm = cardDetails?.comment
-    if(comm?.length>1){
-      setCommentIsSaved(true)
-    }
-    setCurrentComment(comm)
     setDescription(desc)
   },[isLoading])
 
 useEffect(()=>{
-// console.log('post comment called')
-// console.log(cardId, currentComment)
-// postComment(cardId, currentComment, userId)
+  async function postData(){
+    try{
+      setIsPostingCardDetails(true)
+      await postComment(cardId, currentComment, userId) 
+    }
+    catch(e) {
+      console.error(e)
+    }
+    finally{
+      setExistsCommentToAdd(false)
+      setIsPostingCardDetails(false)
+      setCurrentComment('')
+      setIsEditingComment(false)
+    }
+  }
+  if(currentComment?.length<1) return
+  if(!existsCommentToAdd) return
+  postData()
 }, [existsCommentToAdd])
+
+
 
 useEffect(()=>{
     async function fetchData() {
@@ -51,6 +65,25 @@ useEffect(()=>{
   }
     fetchData()
   },[isOpen])
+
+  useEffect(()=>{
+   async function deleteData(){
+    try{
+      const commentId = cardDetails.id
+      console.log(commentId)
+      await deleteComment(commentId)
+    }
+    catch(e){
+      console.error(e)
+    }
+    finally{
+      setExistsCommentToAdd(true)
+      setExists(true)
+    }
+   }
+   if(exists)return 
+   deleteData()
+  },[exists])
 
 
   if(!isOpen) return(
@@ -91,7 +124,7 @@ useEffect(()=>{
             Save</button>
         </div>
         {comments.map((i)=>{
-          return <p className="comment">{i.text}</p>
+          return <div className="comment"><span>{i.text}</span><span className="delete-comment icn" onClick={()=>setExists(false)}><Trash3Fill/></span></div>
         })}
       </div>
     );
