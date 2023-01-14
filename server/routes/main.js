@@ -1,18 +1,18 @@
 require("dotenv").config();
 const router = require("express").Router();
-const passportService = require("../services/passport");
+// const passportService = require("../services/passport");
 const passport = require("passport");
-const Authentication = require('../controllers/authentication');
+// const Authentication = require('../controllers/authentication');
 const PrismaClient = require("@prisma/client").PrismaClient;
 const prisma = new PrismaClient();
 
 // const generateFakeData = require('')//import funciton from somewhere
 
 const requireSignin = passport.authenticate('local', { session: false });
-const requireAuth = passport.authenticate('jwt', { session: false})
+// const requireAuth = passport.authenticate('jwt', { session: false})
 
 
-router.post('/auth/login', requireSignin, Authentication.signin)
+// router.post('/auth/login', requireSignin, Authentication.signin)
 
 router.get("/api/user/:userId",  async (req, res) => {
   const org = await prisma.user.findFirst({
@@ -63,7 +63,7 @@ router.put("/api/boards/:boardId", async (req, res) => {
 
 
 router.post("/api/boards/:boardId",  async (req, res) => {
-  const list = await prisma.lists.create({
+  const list = await prisma.list.create({
     data: {
       description: req.body.description,
       Board: { connect: { id: req.params.boardId } },
@@ -83,15 +83,15 @@ router.delete("/api/boards/:boardId",  async (req, res) => {
 //DELETE board (should be removed from the org its associated with as well)
 
 
-router.put("/api/boards/:boardId", async (req, res) => { 
-  const lists = await prisma.list.updateMany({
-    where: {
-      boardId: req.params .boardId
-    },
-    data: 
-  })
-  res.json(lists)
-})
+// router.put("/api/boards/:boardId", async (req, res) => { 
+//   const lists = await prisma.list.updateMany({
+//     where: {
+//       boardId: req.params .boardId
+//     },
+//     data: 
+//   })
+//   res.json(lists)
+// })
 
 
 router.post("/api/lists/:listId", async (req, res) => { 
