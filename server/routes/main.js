@@ -83,7 +83,18 @@ router.delete("/api/boards/:boardId",  async (req, res) => {
 //DELETE board (should be removed from the org its associated with as well)
 
 
-router.post("/api/lists/:listId",  async (req, res) => { 
+router.put("/api/boards/:boardId", async (req, res) => { 
+  const lists = await prisma.list.updateMany({
+    where: {
+      boardId: req.params .boardId
+    },
+    data: 
+  })
+  res.json(lists)
+})
+
+
+router.post("/api/lists/:listId", async (req, res) => { 
   const card = await prisma.card.create({
     data: {
       ...req.body,
@@ -145,8 +156,9 @@ router.delete("/api/cards/:cardId",  async (req, res) => {
 
 router.post("/api/cards/:cardId",  async (req, res) => { 
   const comment = await prisma.comment.create({
-    data: req.body,
-    Card: {connect: {id: req.params.cardId}}
+    data: {text: req.body.text, 
+    user: {connect: {id: req.body.userId}},
+    Card: {connect: {id: req.params.cardId}}}
   })
   res.json(comment)
   })
