@@ -195,6 +195,7 @@ margin-top: 7.5%;
 
 .board-detail {
   padding: 5%;
+  overflow-y:hidden;
 }
 
 .board-detail-header {
@@ -221,12 +222,6 @@ margin-top: 7.5%;
   margin-right: 2%;
 }
 
-.add-list-icon{
-  margin-left: 2.5%;
-  font-size: 1.5em;
-  color: black;
-  font-weight: bolder;
-}
 
 .delete-board-icon{
   margin-left: 1%;
@@ -249,25 +244,46 @@ margin-top: 7.5%;
 
 .workflow-box {
   display: flex;
-  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  overflow-x:scroll;
+  height: 450px;
 }
+
 
 .workflow-item {
   background: #ebecf0;
-  width: 270px;
+  min-width: 270px;
+  max-height: 400px;
   height: auto;
   border-radius: 6px;
   position: relative;
+  margin: 10px 10px 10px 10px;
+  /* overflow-y:scroll; */
+}
 
+.workflow-item:hover .delete-list-icn{
+  display: inline-flex;
+}
+
+.delete-list-icn{
+  position: absolute;
+  right:2.5%;
+  top: 2.5%;
+  display:none;
+}
+
+.delete-list-icn:hover {
+  color: red;
 }
 
 .workflow-wrapper {
-  padding: 2.5%;
+  padding: 2.5% 2.5% 15% 2.5%;
 }
 
 .new-workflow-trigger{
   background-color: #ebecf0;
-  width: 270px;
+  min-width: 270px;
+  margin: 10px 10px 10px 10px;
   height: fit-content;
 }
 
@@ -278,6 +294,18 @@ margin-top: 7.5%;
 
 .new-workflow-btn:hover {
   background-color: #a8a8a8 !important; 
+}
+
+.new-workflow-btn:hover .add-list-icon{
+  display: inline-flex;
+}
+
+.add-list-icon{
+  margin-left: 2.5%;
+  font-size: 1.5em;
+  color: black;
+  font-weight: bolder;
+  display: none;
 }
 
 .new-workflow-box input {
@@ -509,9 +537,29 @@ margin-bottom: 2%;
 .comment {
   width: 100%;
   background-color: white;
-  padding: 1% 5% 1% 5%;
+  padding: 3% 5% 3% 5%;
   font-size: .75em;
+  display: flex;
+  align-items: center;
+  height: 20px;
+  margin-bottom: 10px;
+  line-height: 20px;
 }
+
+.delete-comment {
+  margin-left: 2%;
+  display: none;
+}
+
+.delete-comment:hover {
+color: red;
+}
+
+
+.comment:hover .delete-comment {
+  display: inline-flex;
+}
+
 
 .comment-editor {
 background-color: white;
@@ -531,3 +579,4 @@ margin-bottom: 5%;
   box-shadow: none;
   background-color: transparent;
 }
+

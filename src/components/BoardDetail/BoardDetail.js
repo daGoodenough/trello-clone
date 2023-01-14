@@ -8,7 +8,7 @@ import {postList} from '../../helpers/postData'
 import {useDispatch, useSelector} from 'react-redux'
 import {storeBoardDetails} from '../../actions'
 import { Trash3Fill, PatchPlus, Pencil, Backspace } from 'react-bootstrap-icons';
-import { deleteBoard } from '../../helpers/deleteData';
+import { deleteBoard, deleteList } from '../../helpers/deleteData';
 import { Modal } from 'react-bootstrap'
 
 
@@ -20,6 +20,7 @@ function BoardDetail() {
   const state = useSelector((state) =>state.boardDetails)
   const [isLoading, setIsLoading] = useState(true)
   const [exists, setExists] = useState(true)
+  const [listExists, setListExists] = useState(true)
   const [show, setShow] = useState(false);
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
   const [currentTitle, setCurrentTitle] = useState(title)
@@ -28,6 +29,8 @@ function BoardDetail() {
   const [newListValue, setNewListValue] = useState('')
   const [newList, setNewList] = useState('')
   const [isPosting, setIsPosting] = useState(false)
+  const [isPostingCardDetails, setIsPostingCardDetails] = useState(false)
+  const [listId, setListId] = useState('')
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
@@ -48,7 +51,7 @@ function BoardDetail() {
     }
   }
     fetchData()
-  },[])
+  },[isPostingCardDetails, isPosting])
 
   useEffect(()=>{
     if(!existsTitleToUpdate) return
@@ -78,10 +81,28 @@ function BoardDetail() {
   },[exists])
 
   useEffect(()=>{
+    if(listId?.length<2) return
+    async function deleteData(){
+      try{
+        setIsPosting(true)
+        await deleteList(listId)
+      }
+      catch(e){
+        console.error(e)
+      }
+      finally{
+        setIsPosting(false)
+        setListId('')
+      }
+    }
+    deleteData()
+  },[listId])
+
+  useEffect(()=>{
     async function postData(){
       try{
         setIsPosting(true)
-       const response = await postList(boardId, newList)
+       await postList(boardId, newList)
       }
       catch (error) {
         console.log(error)
@@ -125,7 +146,7 @@ function BoardDetail() {
       </Modal>
         <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
-        {workflows.map((i=> <WorkflowList key={i.id} id={i.id} cardItems={i.cards} description={i.description}/>))}
+        {workflows.map((i=> <WorkflowList key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists} setListId={setListId}/>))}
         <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={()=>setIsCreating(true)} style={{display: isCreating ? 'none' : 'block'}}>Create new list<PatchPlus className="icn add-list-icon"/></button>
         <div className='new-workflow-box' style={{display: isCreating ? 'block' : 'none',}}>
         <input placeholder='List name' type='text' value={newListValue} onChange={(e)=>setNewListValue(e.target.value)}></input>
