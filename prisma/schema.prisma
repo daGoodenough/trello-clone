@@ -26,12 +26,13 @@ model Organization {
 }
 
 model Comment {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  text   String
-  Card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
-  cardId String
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  text      String
+  Card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  cardId    String
+  createdAt DateTime @default(now())
 }
 
 model Card {
@@ -43,6 +44,7 @@ model Card {
   listId      String
   label       String?
   members     String[]
+  order       Int       @default(autoincrement())
 }
 
 model List {
@@ -51,6 +53,7 @@ model List {
   cards       Card[]
   Board       Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
   boardId     String
+  order       Int    @default(autoincrement())
 }
 
 model Board {
