@@ -15,7 +15,7 @@ function CardDetail({ comments, isOpen, setIsOpen, cardId, workflow, isEditingDe
   const [currentComment, setCurrentComment] = useState('')
   const [existsCommentToAdd, setExistsCommentToAdd] = useState(false)
   const [isEditingComment, setIsEditingComment] = useState(false)
-  const [exists, setExists] = useState(true)
+  const [commentId, setCommentId] = useState('')
   const cardDetails = useSelector((state)=> state.cardDetails)
   const dispatch = useDispatch()
 
@@ -69,7 +69,6 @@ useEffect(()=>{
   useEffect(()=>{
    async function deleteData(){
     try{
-      const commentId = cardDetails.id
       console.log(commentId)
       await deleteComment(commentId)
     }
@@ -78,12 +77,12 @@ useEffect(()=>{
     }
     finally{
       setExistsCommentToAdd(true)
-      setExists(true)
+      setCommentId('')
     }
    }
-   if(exists)return 
+   if(commentId?.length<2)return 
    deleteData()
-  },[exists])
+  },[commentId])
 
 
   if(!isOpen) return(
@@ -124,7 +123,7 @@ useEffect(()=>{
             Save</button>
         </div>
         {comments.map((i)=>{
-          return <div className="comment"><span>{i.text}</span><span className="delete-comment icn" onClick={()=>setExists(false)}><Trash3Fill/></span></div>
+          return <div className="comment" key={i.id}><span>{i.text}</span><span data-key={i.id} className="delete-comment icn" onClick={(e)=>setCommentId(e.currentTarget.dataset.key)}><Trash3Fill/></span></div>
         })}
       </div>
     );

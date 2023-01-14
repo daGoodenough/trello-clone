@@ -195,7 +195,7 @@ margin-top: 7.5%;
 
 .board-detail {
   padding: 5%;
-  overflow-y:hidden;
+  overflow-x: scroll;
 }
 
 .board-detail-header {
@@ -245,8 +245,8 @@ margin-top: 7.5%;
 .workflow-box {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x:scroll;
   height: 450px;
+ 
 }
 
 
@@ -258,7 +258,6 @@ margin-top: 7.5%;
   border-radius: 6px;
   position: relative;
   margin: 10px 10px 10px 10px;
-  /* overflow-y:scroll; */
 }
 
 .workflow-item:hover .delete-list-icn{
@@ -438,7 +437,9 @@ margin-bottom: 2%;
 .card-detail-box {
   position: absolute;
   background: #F3F6F8;
-  width: 400px;
+  min-width: 400px;
+  min-height: 400px;
+  overflow-y: scroll;
   height: auto;
   border-radius: 5px;
   border: 1px solid #0369A6;
