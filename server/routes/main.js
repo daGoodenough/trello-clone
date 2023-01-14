@@ -177,7 +177,7 @@ router.put("/api/comments/:commentId",  async (req, res) => {
 
 router.delete("/api/comments/:commentId",  async (req, res) => {
   const comment = await prisma.comment.delete({
-    where: { id: req.params.cardId },
+    where: { id: req.params.commentId },
   });
   res.json(comment);
 });
