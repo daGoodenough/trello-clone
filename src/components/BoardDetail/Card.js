@@ -14,7 +14,7 @@ const Card = ({title, id, listId, description, workflow, comments, setIsPostingC
   //make card draggable
   const [{ opacity }, dragRef] = useDrag(
     () => ({
-      type: "card",
+      type: 'card',
       item:  {title, id, listId, description} ,
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1
@@ -26,9 +26,9 @@ const Card = ({title, id, listId, description, workflow, comments, setIsPostingC
 
  
   return (
-      <div className="card-item">
+      <div className="card-item"  ref={dragRef} style={{ opacity, display: isEditingTitle ? 'none' : 'block', }}>
         <div className='open-card-detail-target' onClick={()=>setIsOpen(true)}>
-        <div  ref={dragRef} style={{ opacity, display: isEditingTitle ? 'none' : 'block', }} >
+        <div  >
           {cardTitle}
           </div>
           <div className='card-pencil'>
