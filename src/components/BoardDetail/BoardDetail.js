@@ -34,6 +34,26 @@ function BoardDetail() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
+  const[unorderedCards, setUnorderedCards] = useState([])
+  const [cards, setCards] = useState([])
+
+  useEffect(()=>{
+    if(isLoading) return
+    setUnorderedCards(workflows[0].cards)
+  },[workflows, isLoading])
+
+  useEffect(()=>{
+    if (unorderedCards.length<1) return
+    const updatedCards = unorderedCards.map((card, index) => {
+      return {
+        ...card,
+        order: index + 1
+      }
+    });
+    setCards(updatedCards);
+  },[unorderedCards])
+
+  console.log(cards)
 
 
   useEffect(()=>{
@@ -46,7 +66,6 @@ function BoardDetail() {
       catch (error) {
         console.log(error)
     } finally {
-    
         setIsLoading(false);
     }
   }
@@ -146,7 +165,7 @@ function BoardDetail() {
       </Modal>
         <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
-        {workflows.map((i=> <WorkflowList key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists} setListId={setListId}/>))}
+        {workflows.map((i=> <WorkflowList setCards={setCards} cards={cards} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists} setListId={setListId}/>))}
         <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={()=>setIsCreating(true)} style={{display: isCreating ? 'none' : 'block'}}>Create new list<PatchPlus className="icn add-list-icon"/></button>
         <div className='new-workflow-box' style={{display: isCreating ? 'block' : 'none',}}>
         <input placeholder='List name' type='text' value={newListValue} onChange={(e)=>setNewListValue(e.target.value)}></input>
