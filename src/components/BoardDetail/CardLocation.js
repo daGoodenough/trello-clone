@@ -5,18 +5,38 @@ function CardLocation ({index, cards, setCards, description, setIsPostingCardDet
 
     const [, drop] = useDrop({
         accept: 'card',
-        drop: (card, monitor) => {
-          const locationId = monitor
+        drop: (card) => {
           const selected = card.title
+          const fromListId = card.listId
           const nextCards = cards.map((i)=>{
-            if(i.title===selected) return{
-              ...i,
-              listId: listId,
-              order: index
+            if(i.title === selected){
+                let highestOrder;
+                if (index === 0) {
+                    highestOrder = -1;
+                } else {
+                    highestOrder = cards.reduce((highest, card) => {
+                        if (card.listId === listId && card.order >= index) {
+                            return card.order;
+                        }
+                        return highest;
+                    }, -1);
+                }
+                return {
+                    ...i,
+                    listId: listId,
+                    order: highestOrder + 1
+                }
+            }
+            else if(i.listId === listId && i.order >= index){
+                return {...i, order: i.order+1}
+            }
+            else if(i.listId === fromListId && i.order > index){
+                return {...i, order: i.order-1}
             }
             else return i
-          })
-          setCards(nextCards)
+        })
+        setCards(nextCards)
+        console.log(nextCards)
         },
       })
 
