@@ -1,7 +1,12 @@
-import localLogin from '../helpers/localLogin';
+import {localLogin} from '../actions/';
 import { Card, Form, Container, Row, Col, Button, Nav } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 
 function Login() {
+  const dispatch = useDispatch();
+  const handleLocalLogin = (e) => {
+    dispatch(localLogin(e))
+  }
   
   return (
     <Container>
@@ -9,18 +14,18 @@ function Login() {
         <Col md={5}>
           <Card border="secondary" className="shadow-lg p-3 mb-5 bg-body-tertiary rounded ">
             <Card.Body>
-              <Nav className="justify-content-center mb-4" variant="tabs" defaultActiveKey="/home">
+              {/* <Nav className="justify-content-center mb-4" variant="tabs" defaultActiveKey="/home">
                 <Nav.Item>
                   <Nav.Link active href="/login">Login</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link eventKey="sign-up">Sign-Up</Nav.Link>
-                </Nav.Item>
-              </Nav>
+                </Nav.Item> */}
+              {/* </Nav> */}
               <Card.Title className='text-center'>
                 Sign In
               </Card.Title>
-              <Form onSubmit={(e) => localLogin(e)} className='d-flex flex-column'>
+              <Form onSubmit={(e) => handleLocalLogin(e)} className='d-flex flex-column'>
                 <Form.Group className="m-3">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control type="email" name="email" placeholder="Enter email" />

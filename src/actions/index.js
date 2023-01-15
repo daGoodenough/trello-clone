@@ -3,6 +3,8 @@ import {
   STORE_BOARD_DETAILS,
   STORE_HOMESCREEN,
   STORE_CARD_DETAILS,
+  AUTH_ERROR,
+  AUTH_USER,
 } from './types';
 
 export const login = () => {
@@ -12,6 +14,41 @@ export const login = () => {
     payload: true,
   };
 };
+
+export const localLogin = (event) => dispatch => {
+  event.preventDefault();
+  const email = event.currentTarget[0].value
+  const password = event.currentTarget[1].value
+
+  const data = { email, password }
+
+  fetch('http://localhost:5000/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => {
+      if (response.status === 401) {
+        throw new Error("Incorrect username or password")
+      }
+      return response.json()
+    })
+    .then(data => {
+      localStorage.setItem("token", data.token);
+      dispatch({
+        type: AUTH_USER,
+        payload: data,
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: AUTH_ERROR,
+        payload: error,
+      })
+    });
+}
 
 export const logout = () => {
   localStorage.removeItem('token');

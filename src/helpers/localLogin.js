@@ -13,12 +13,17 @@ const localLogin = (event) => {
   },
   body: JSON.stringify(data)
 })
-.then(response => response.json())
+.then(response => {
+  if(response.status === 401){
+    throw new Error("Incorrect username or password")
+  }
+  return response.json()})
 .then(data => {
-    localStorage.setItem("token", data.token)
+    localStorage.setItem("token", data.token);
+    return 200;
   })
   .catch(error => {
-    console.error('Error:', error);
+    return 401;
   });
 }
 
