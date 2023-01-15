@@ -47,13 +47,11 @@ function BoardDetail() {
     const updatedCards = unorderedCards.map((card, index) => {
       return {
         ...card,
-        order: index + 1
+        order: index 
       }
     });
     setCards(updatedCards);
   },[unorderedCards])
-
-  console.log(cards)
 
 
   useEffect(()=>{

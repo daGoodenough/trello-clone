@@ -1,5 +1,6 @@
 import Card from './Card';
-import { useEffect, useState } from 'react';
+import CardLocation from './CardLocation'
+import { useEffect, useState, useRef } from 'react';
 import { Backspace, Trash3Fill } from 'react-bootstrap-icons';
 import {useDrop} from 'react-dnd'
 import { postCard } from '../../helpers/postData'
@@ -8,6 +9,7 @@ function WorkflowList({setCards, cards, description, id, cardItems, setIsPosting
   const [currentValue, setCurrentValue] = useState('')
   const [newCard, setNewCard] = useState('')
   const [isComposingCard, setIsComposingCard] = useState(false)
+  const locationRef = useRef(null);
 
 
   // useEffect(()=>{
@@ -30,34 +32,21 @@ function WorkflowList({setCards, cards, description, id, cardItems, setIsPosting
   // },[newCard])
 
   
-  const [{ isOver }, drop] = useDrop({
-    accept: 'card',
-    drop: (card) => {
-      const selected = card.title
-      const nextCards = cards.map((i)=>{
-        if(i.title===selected) return{
-          ...i,
-          listId: id
-        }
-        else return i
-      })
-      setCards(nextCards)
-      console.log(nextCards)
-    },
-  })
 
+  const emptyArr = []
+  for (let i = 0; i < cards.length; i++) {
+    emptyArr.push(i)
+  }
 
     return (
-      <div ref={drop} className="workflow-item">
+      <div className="workflow-item">
         <div className='workflow-wrapper'>
         <h5>{description}</h5>
         <Trash3Fill onClick={()=>setListId(id)} className="icn delete-list-icn"/>
-        <ul className="list-ul">
-        {cards.map((i) => {
-          if (i.listId === id){
-            return <Card key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
-        }})}
-        </ul>
+        <ul className="list-ul" >
+  {emptyArr.map(index => (
+    <CardLocation index={index} setCards={setCards} cards={cards} workflow={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
+</ul>
         </div>
         <div className="add-card-section" >
           <div className='add-card-btn' style={{display: isComposingCard ? 'none' : 'block'}} onClick={() => setIsComposingCard(true)}>+ Add a card</div>

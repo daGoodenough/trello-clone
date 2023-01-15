@@ -323,6 +323,12 @@ margin-bottom: 2%;
 
 }
 
+.card-location{
+  height: 50px;
+  background-color: transparent;
+  margin-top: 15px;
+}
+
 .card-item {
   background-color: white;
   list-style: none;
