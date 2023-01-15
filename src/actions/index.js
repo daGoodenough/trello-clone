@@ -5,7 +5,9 @@ import {
   STORE_CARD_DETAILS,
   AUTH_ERROR,
   AUTH_USER,
+  GET_USER,
 } from './types';
+import axios from 'axios';
 
 export const login = () => {
   //maybe make it accept username and password then send a request to get logged in
@@ -48,6 +50,16 @@ export const localLogin = (event) => dispatch => {
         payload: error,
       })
     });
+}
+
+export const fetchUser = () => dispatch => {
+  axios.get('http://localhost:5000/auth/current_user')
+    .then(response => {
+      dispatch({ type: GET_USER, payload: response.data })
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 export const logout = () => {
