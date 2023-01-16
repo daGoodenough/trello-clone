@@ -8,39 +8,40 @@ import { useEffect, useState } from "react";
 
 
 const Homescreen = () => {
-  const userId = 'ccf964bc-d992-4bb8-9fa1-ffcb38487179'
+  const { userId } = useSelector(state => state.auth)
   const [isLoading, setIsLoading] = useState(true)
   const [isPosting, setIsPosting] = useState(0)
-  const data = useSelector((state) =>state.homescreen)
+  const data = useSelector((state) => state.homescreen)
   const dispatch = useDispatch()
-
-  useEffect(()=>{
-    async function fetchData(){
-      try{
-      const homescreen = await fetchHomescreen(userId)
-      dispatch(storeHomescreen(homescreen))
+  
+  useEffect(() => {
+    if(userId) {
+      async function fetchData() {
+        try {
+          const homescreen = await fetchHomescreen(userId)
+          dispatch(storeHomescreen(homescreen))
+        }
+        catch (error) {
+          console.log(error)
+        } finally {
+          setIsLoading(false);
+        }
+      }
+      fetchData()
     }
-    catch (error) {
-      console.log(error)
-  } finally {
-      setIsLoading(false);
+  }, [isPosting, userId])
+
+
+
+  if (isLoading) {
+    return <div>Loading..</div>
   }
+  return (
+    <div>
+      <HomeHeader title={data.org.name} />
+      <BoardList boards={data.org.boards} userId={userId} setIsPosting={setIsPosting} />
+    </div>
+  );
 }
-    fetchData()
-  },[isPosting])
 
-
-
-if (isLoading){
-  return <div>Loading..</div>
-}
-return (
-      <div>
-      <HomeHeader title={data.org.name}/>
-      <BoardList boards={data.org.boards} userId={userId} setIsPosting={setIsPosting}/>
-      </div>
-    );
-}
-  
-  export default Homescreen;
-  
+export default Homescreen;
