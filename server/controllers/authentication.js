@@ -45,6 +45,7 @@ exports.signup = function (req, res, next) {
 
   // user.setPassword(password)
   const cryptoSecrets = setPassword(password)
+  console.log(cryptoSecrets);
 
   // user.save(function(err, user) {
   //   if (err) { return next(err) }

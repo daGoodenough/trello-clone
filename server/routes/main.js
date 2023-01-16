@@ -1,5 +1,6 @@
 require("dotenv").config();
 const router = require("express").Router();
+// eslint-disable-next-line no-unused-vars
 const passportService = require("../services/passport");
 const passport = require("passport");
 const Authentication = require('../controllers/authentication');
