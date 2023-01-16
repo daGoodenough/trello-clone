@@ -41,7 +41,6 @@ const Card = ({title, id, listId, description, workflow, comments, setIsPostingC
     }
     if(thisCardId.length<1) return
     deleteData()
-    console.log('delete card got called')
   },[thisCardId])
  
   return (

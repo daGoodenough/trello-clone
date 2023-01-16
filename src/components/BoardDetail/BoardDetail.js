@@ -17,7 +17,6 @@ function BoardDetail() {
   const dispatch = useDispatch();
   const title = useSelector((state) =>state.boardDetails.title)
   const workflows = useSelector((state) =>state.boardDetails.lists)
-  const state = useSelector((state) =>state.boardDetails)
   const [isLoading, setIsLoading] = useState(true)
   const [exists, setExists] = useState(true)
   const [listExists, setListExists] = useState(true)
@@ -52,8 +51,6 @@ function BoardDetail() {
     });
     setCards(updatedCards);
   },[unorderedCards])
-
-  console.log(cards)
 
 
   useEffect(()=>{

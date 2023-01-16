@@ -8,30 +8,33 @@ function CardLocation ({index, cards, setCards, description, setIsPostingCardDet
         drop: (card) => {
           const selected = card.title
           const fromListId = card.listId
+          const fromOrder = 2
+          console.log(fromOrder)
           const nextCards = cards.map((i)=>{
             if(i.title === selected){
-                let highestOrder;
-                if (index === 0) {
-                    highestOrder = -1;
-                } else {
-                    highestOrder = cards.reduce((highest, card) => {
-                        if (card.listId === listId && card.order >= index) {
-                            return card.order;
-                        }
-                        return highest;
-                    }, -1);
-                }
                 return {
                     ...i,
                     listId: listId,
-                    order: highestOrder + 1
+                    order: index
+                }
+            }
+            else if(listId===fromListId && i.title !== selected){
+                if(i.order>index){
+                    if(i.order>fromOrder) return i
+                    if(i.order<fromOrder) return {...i, order: i.order+1}
+                }
+                if(i.order<index) {
+                   if(i.order<fromOrder) return i
+                   if(i.order>fromOrder) return {...i, order: i.order-1}
+                }
+                if(i.order===index){
+                    if(i.order>fromOrder) return {...i, order: i.order-1}
+                    if(i.order<fromOrder) return {...i, order: i.order+1}
+                    else return i
                 }
             }
             else if(i.listId === listId && i.order >= index){
                 return {...i, order: i.order+1}
-            }
-            else if(i.listId === fromListId && i.order > index){
-                return {...i, order: i.order-1}
             }
             else return i
         })
@@ -39,6 +42,8 @@ function CardLocation ({index, cards, setCards, description, setIsPostingCardDet
         console.log(nextCards)
         },
       })
+
+    
 
 
 return (
