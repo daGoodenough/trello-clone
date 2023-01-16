@@ -625,3 +625,15 @@ width: 20%;
 .user-email {
   margin-right: 12px;
 }
+
+.login-error {
+  background-color: rgb(255, 0, 0, 0.5);
+  text-align: center;
+  padding: 5px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border: 2px solid red;
+  border-radius: 5px;
+  max-width: fit-content;
+  font-weight: 600;
+}
