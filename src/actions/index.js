@@ -14,35 +14,24 @@ export const localLogin = (event, callback) => dispatch => {
   const email = event.currentTarget[0].value
   const password = event.currentTarget[1].value
 
-  const data = { email, password }
-
-  fetch('http://localhost:5000/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
+  axios.post('http://localhost:5000/auth/login', {
+    email,
+    password
   })
-    .then(response => {
-      if (response.status === 401) {
-        throw new Error("Incorrect username or password")
-      }
-      return response.json();
-    })
-    .then(data => {
-      localStorage.setItem("token", data.token);
-      dispatch({
-        type: AUTH_USER,
-        payload: data,
-      });
-      callback();
-    })
-    .catch(error => {
-      dispatch({
-        type: AUTH_ERROR,
-        payload: error,
-      });
+  .then(response => {
+    localStorage.setItem("token", response.data.token);
+    dispatch({
+      type: AUTH_USER,
+      payload: response.data,
     });
+    callback();
+  })
+  .catch(error => {
+    dispatch({
+      type: AUTH_ERROR,
+      payload: error.response.status,
+    });
+  });
 }
 
 export const logout = () => dispatch => {

@@ -2,7 +2,7 @@ import { AUTH_ERROR, AUTH_USER, GET_USER } from "../actions/types";
 
 const INITIAL_STATE = {
   authenticated: localStorage.getItem('token') || '',
-  errorMessage: '',
+  errorMessage: null,
 }
 
 const authReducer = (state = INITIAL_STATE, action) => {
@@ -10,7 +10,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
     case AUTH_USER:
       return {...state, authenticated: action.payload.token, email: action.payload.email}    
     case AUTH_ERROR:
-      return {...state, error: action.payload}
+      return {...state, errorMessage: action.payload}
     case GET_USER:
       return {...state, email: action.payload.email}
     default:
