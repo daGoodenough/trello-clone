@@ -56,6 +56,7 @@ function BoardDetail() {
     setCards(updatedCards);
   },[unorderedCards])
 
+  //GET data
   useEffect(()=>{
     async function fetchData() {
       try{
@@ -70,10 +71,28 @@ function BoardDetail() {
     }
   }
     fetchData()
-  },[isPostingCardDetails, isPosting])
+  },[isPosting])
+
+//GET data after card has been renamed
+useEffect(()=>{
+  async function fetchData() {
+    try{
+      setIsReady(false)
+      const boardDetails = await fetchBoardDetails(boardId)
+      dispatch(storeBoardDetails(boardDetails))
+    }
+    catch (error) {
+      console.log(error)
+  } finally {
+      setIsReady(true)
+      setIsPostingCardDetails(false)
+  }
+}
+  fetchData()
+},[isPostingCardDetails])
 
 
-//after card has been deleted
+//GET data after card has been deleted
   useEffect(()=>{
     async function fetchData() {
       try{
@@ -103,6 +122,7 @@ function BoardDetail() {
     setExistsTitleToUpdate(false)
   },[isEditingBoardName])
 
+//DELETE board
   useEffect(()=>{
     if(exists) return
     async function deleteData(){
@@ -119,6 +139,7 @@ function BoardDetail() {
     deleteData();
   },[exists])
 
+//DELETE list
   useEffect(()=>{
     if(listId?.length<2) return
     async function deleteData(){
@@ -137,6 +158,7 @@ function BoardDetail() {
     deleteData()
   },[listId])
 
+//POST list
   useEffect(()=>{
     async function postData(){
       try{

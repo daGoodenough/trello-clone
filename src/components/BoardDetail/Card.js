@@ -7,11 +7,12 @@ import { updateCard } from '../../helpers/postData'
 import { ThreeDots } from 'react-loader-spinner'
 
 
-const Card = ({setCardIsDeleting, order, title, cardId, listId, description, workflow, comments, setIsPostingCardDetails, isPostingCardDetails}) => {
+const Card = ({setCardIsDeleting, order, title, cardId, listId, description, listName, comments, setIsPostingCardDetails }) => {
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [existsTitleToChange, setExistsTitleToChange] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [thisCardId, setThisCardId] = useState('')
@@ -28,6 +29,7 @@ const Card = ({setCardIsDeleting, order, title, cardId, listId, description, wor
     []
   )
 
+//DELETE card
   useEffect(()=>{
     async function deleteData(){
       try {
@@ -47,10 +49,13 @@ const Card = ({setCardIsDeleting, order, title, cardId, listId, description, wor
     deleteData()
   },[thisCardId])
 
+
+  //UPDATE card title
   useEffect(()=>{
     async function postData(){
       try{
         setIsPostingCardDetails(true)
+        setIsUpdating(true)
         await updateCard(cardId, cardTitle)
       }
       catch(e){
@@ -58,15 +63,17 @@ const Card = ({setCardIsDeleting, order, title, cardId, listId, description, wor
       }
       finally{
         setIsEditingTitle(false)
+        setIsUpdating(false)
         setIsPostingCardDetails(false)
         setExistsTitleToChange(false)
       }
     }
     if(cardTitle.length<1) return
     if(!existsTitleToChange) return
-    console.log('this got called')
     postData()
   },[existsTitleToChange])
+
+
  
   return (
       <div className="card-item"  ref={dragRef} style={{ opacity }}>
@@ -75,7 +82,7 @@ const Card = ({setCardIsDeleting, order, title, cardId, listId, description, wor
         <div  >
           {cardTitle}
           </div>
-          {isDeleting ? null : <div>
+          {isDeleting || isUpdating ? null : <div>
             <Pencil onClick={(e) => {
               e.stopPropagation();
               setIsEditingTitle(true)}} className="icn edit-card-icn card-icn"/>
@@ -83,11 +90,11 @@ const Card = ({setCardIsDeleting, order, title, cardId, listId, description, wor
                 e.stopPropagation();
                 setThisCardId(cardId)}} className="icn delete-card-icn card-icn"/>
                 </div>}
-                 {isDeleting ? <div className='loader'><ThreeDots color="black"/></div> : null}
+                 {isDeleting || isUpdating ? <div className='loader'><ThreeDots color="black"/></div> : null}
             <div className='comments-length'><Chat/><span>{comments?.length}</span></div>
             </div>
             </div>
-            <CardDetail comments={comments} isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} workflow={workflow} isEditingDescription={isEditingDescription} setIsEditingDescription={setIsEditingDescription} setIsPostingCardDetails={setIsPostingCardDetails} isPostingCardDetails={isPostingCardDetails}/>
+            <CardDetail comments={comments} isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} listName={listName}/>
             <div className='card-title-editor' style={{display: isEditingTitle ? 'flex' : 'none',}}>
               <input type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)}></input>
               <button className='btn btn-primary' onClick={() => setExistsTitleToChange(true)}>Save</button>

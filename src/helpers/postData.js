@@ -60,10 +60,23 @@ export const postComment = async (cardId, commentToPost, userId) => {
     }
   }
 
-  export const updateCard = async (cardId, newCard) => {
+  export const updateCard = async (cardId, newCard, newDescription) => {
     try{
        const response = await axios.put(`http://localhost:5000/api/cards/${cardId}`, {
       title: newCard
+    })
+    return response.data
+    }
+    catch(e){
+        console.error('Error in updating card', e);
+        throw e;
+    }
+  }
+
+  export const updateCardDescription = async (cardId, newDescription) => {
+    try{
+       const response = await axios.put(`http://localhost:5000/api/cards/${cardId}`, {
+      description: newDescription
     })
     return response.data
     }
