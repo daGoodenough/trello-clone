@@ -5,4 +5,5 @@ export const STORE_HOMESCREEN = 'store_homescreen'
 export const STORE_CARD_DETAILS = 'store_card_details'
 export const AUTH_ERROR = 'auth_error';
 export const AUTH_USER = 'auth_user';
-export const GET_USER = 'GET_USER';
+export const GET_USER = 'get_user';
+export const REMOVE_USER = 'remove_user';

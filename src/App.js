@@ -8,15 +8,15 @@ import { fetchUser } from './actions';
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const authenticated = useSelector(state => state.auth.authenticated)
+  const {auth} = useSelector(state => state)
 
   useEffect(() => {
-    if (!authenticated) {
+    if (!auth.authenticated) {
       navigate("/login");
     } else {
       dispatch(fetchUser());
     }
-  }, [authenticated]);
+  }, [auth.authenticated]);
 
   return (
     <div className="App">

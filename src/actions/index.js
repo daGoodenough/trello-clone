@@ -6,6 +6,7 @@ import {
   AUTH_ERROR,
   AUTH_USER,
   GET_USER,
+  REMOVE_USER,
 } from './types';
 import axios from 'axios';
 
@@ -36,11 +37,16 @@ export const localLogin = (event, callback) => dispatch => {
 
 export const logout = () => dispatch => {
   localStorage.removeItem('token');
-  dispatch({type: AUTH_USER, payload: ''})
+  dispatch({type: REMOVE_USER})
 }
 
 export const fetchUser = () => dispatch => {
-  axios.get('http://localhost:5000/auth/current_user')
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    }
+  };
+  axios.get('http://localhost:5000/auth/current_user', config)
     .then(response => {
       dispatch({ type: GET_USER, payload: response.data })
     })

@@ -17,7 +17,8 @@ router.post('/auth/login', requireSignin, Authentication.signin);
 router.get('/auth/current_user', requireAuth, async (req, res) => {
   res.send({
     name: req.user.name,
-    email: req.user.email
+    email: req.user.email,
+    id: req.user.id,
   });
 });
 

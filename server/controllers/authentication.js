@@ -16,7 +16,6 @@ exports.signin = function (req, res, next) {
   const token = tokenForUser(req.user)
   res.send({
     token,
-    email: req.user.email,
   })
   next();
 }
