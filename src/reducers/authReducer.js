@@ -10,7 +10,6 @@ const INITIAL_STATE = {
 const authReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case AUTH_USER:
-      debugger;
       return {
         ...state,
         authenticated: action.payload.token || '',
@@ -21,7 +20,6 @@ const authReducer = (state = INITIAL_STATE, action) => {
     case AUTH_ERROR:
       return {...state, errorMessage: action.payload};
     case GET_USER:
-      debugger;
       return {
         ...state, 
         email: action.payload.email, 

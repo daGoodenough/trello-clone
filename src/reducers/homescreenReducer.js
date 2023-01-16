@@ -3,11 +3,11 @@ import { STORE_HOMESCREEN } from '../actions/types';
 const DEFAULT_STATE = {}
 
 const homescreenReducer = function (state = DEFAULT_STATE, action) {
-    switch(action.type){
+    switch (action.type) {
         case STORE_HOMESCREEN:
             return action.payload;
-            default:
-                return state;
+        default:
+            return state;
     }
 }
 
