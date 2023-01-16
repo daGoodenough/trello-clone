@@ -9,12 +9,16 @@ const prisma = new PrismaClient();
 // const generateFakeData = require('')//import funciton from somewhere
 
 const requireSignin = passport.authenticate("local", { session: false });
-const requireAuth = passport.authenticate('jwt', { session: false})
+const requireAuth = passport.authenticate('jwt', { session: false })
 
 router.post('/auth/login', requireSignin, Authentication.signin);
+
 router.get('/auth/current_user', requireAuth, async (req, res) => {
-  res.send({name: req.user.name, email: req.user.email});
-})
+  res.send({
+    name: req.user.name,
+    email: req.user.email
+  });
+});
 
 router.get("/api/user/:userId", async (req, res) => {
   const org = await prisma.user.findFirst({
