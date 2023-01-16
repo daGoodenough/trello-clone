@@ -53,6 +53,8 @@ function BoardDetail() {
     setCards(updatedCards);
   },[unorderedCards])
 
+  console.log(cards)
+
 
   useEffect(()=>{
     async function fetchData() {
@@ -67,6 +69,7 @@ function BoardDetail() {
         setIsLoading(false);
     }
   }
+    console.log('render data got called')
     fetchData()
   },[isPostingCardDetails, isPosting])
 
@@ -133,7 +136,6 @@ function BoardDetail() {
     }
     
   },[newList])
-
 
 
   if (isLoading) {

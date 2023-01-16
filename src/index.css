@@ -228,8 +228,17 @@ margin-top: 7.5%;
   display: none;
 }
 
+.delete-board-icon:hover {
+  color: red;
+}
+
 .pencil-icon{
   display: none;
+  border-radius: 5px;
+}
+
+.pencil-icon:hover {
+  background-color:#c7c7c7;
 }
 
 .icn:hover {
@@ -343,7 +352,7 @@ margin-bottom: 2%;
   cursor: pointer;
 }
 
-.card-pencil{
+.card-icn{
   position: absolute;
   top: 0;
   right: 2.5%;
@@ -353,13 +362,22 @@ margin-bottom: 2%;
   border-radius: 5px;
 }
 
-.card-item:hover .card-pencil {
+.edit-card-icn{
+  margin-right: 15%;
+  border-radius: 5px;
+  padding: 1%;
+}
+
+.card-item:hover .card-icn {
   display: inline-flex;
 }
 
-.card-pencil:hover {
-  cursor: pointer;
-  background-color: #a8a8a8;
+.edit-card-icn:hover{
+  background-color:#c7c7c7;
+}
+
+.delete-card-icn:hover{
+  color: red;
 }
 
 .comments-length {
