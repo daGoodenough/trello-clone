@@ -16,10 +16,8 @@ function CardDetail({ comments, isOpen, setIsOpen, cardId, workflow, isEditingDe
   const [existsCommentToAdd, setExistsCommentToAdd] = useState(false)
   const [isEditingComment, setIsEditingComment] = useState(false)
   const [commentId, setCommentId] = useState('')
-  const cardDetails = useSelector((state)=> state.cardDetails)
+  const cardDetails = useSelector((state)=> state)
   const dispatch = useDispatch()
-
-
 
 useEffect(()=>{
     if(isLoading) return
