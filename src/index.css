@@ -284,6 +284,13 @@ margin-top: 7.5%;
   color: red;
 }
 
+.loader {
+position:absolute;
+right: 10px;
+top: -20px;
+width: 20%;
+}
+
 .workflow-wrapper {
   padding: 2.5% 2.5% 15% 2.5%;
 }
