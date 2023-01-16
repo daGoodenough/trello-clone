@@ -5,7 +5,7 @@ import { Backspace, Trash3Fill } from 'react-bootstrap-icons';
 import {useDrop} from 'react-dnd'
 import { postCard } from '../../helpers/postData'
 
-function WorkflowList({setCards, cards, description, id, cardItems, setIsPostingCardDetails, setListExists, setListId}) {
+function WorkflowList({ setIsDeletingCard, setCards, cards, description, id, cardItems, setIsPostingCardDetails, setListExists, setListId}) {
   const [currentValue, setCurrentValue] = useState('')
   const [newCard, setNewCard] = useState('')
   const [isComposingCard, setIsComposingCard] = useState(false)
@@ -46,7 +46,7 @@ function WorkflowList({setCards, cards, description, id, cardItems, setIsPosting
         <Trash3Fill onClick={()=>setListId(id)} className="icn delete-list-icn"/>
         <ul className="list-ul" >
   {emptyArr.map(index => (
-    <CardLocation index={index} setCards={setCards} cards={cards} workflow={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
+    <CardLocation setIsDeletingCard={setIsDeletingCard} index={index} setCards={setCards} cards={cards} workflow={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
 </ul>
         </div>
         <div className="add-card-section" >

@@ -6,13 +6,14 @@ import { deleteCard } from '../../helpers/deleteData'
 import { updateCard } from '../../helpers/postData'
 
 
-const Card = ({order, title, cardId, listId, description, workflow, comments, setIsPostingCardDetails, isPostingCardDetails}) => {
+const Card = ({order, setIsDeletingCard, title, cardId, listId, description, workflow, comments, setIsPostingCardDetails, isPostingCardDetails}) => {
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [existsTitleToChange, setExistsTitleToChange] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [thisCardId, setThisCardId] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
   
   //make card draggable
   const [{ opacity }, dragRef] = useDrag(
@@ -29,14 +30,16 @@ const Card = ({order, title, cardId, listId, description, workflow, comments, se
   useEffect(()=>{
     async function deleteData(){
       try {
-      setIsPostingCardDetails(true)
-       await deleteCard(thisCardId)
+      setIsDeletingCard(true)
+      setIsDeleting(true)
+      await deleteCard(thisCardId)
       }
       catch(e) {
         console.error(e)
       }
       finally{
-        setIsPostingCardDetails(false)
+        setIsDeletingCard(false)
+        setIsDeleting(false)
       }
     }
     if(thisCardId.length<1) return
@@ -77,6 +80,7 @@ const Card = ({order, title, cardId, listId, description, workflow, comments, se
               <Trash3Fill onClick={(e)=>{
                 e.stopPropagation();
                 setThisCardId(cardId)}} className="icn delete-card-icn card-icn"/>
+                {isDeleting && <div>Hold on!</div>}
             <div className='comments-length'><Chat/><span>{comments?.length}</span></div>
             </div>
             </div>
