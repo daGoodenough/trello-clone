@@ -38,6 +38,7 @@ function WorkflowList({setCards, cards, description, id, cardItems, setIsPosting
     emptyArr.push(i)
   }
 
+ 
     return (
       <div className="workflow-item">
         <div className='workflow-wrapper'>
