@@ -9,7 +9,7 @@ import {
 } from './types';
 import axios from 'axios';
 
-export const localLogin = (event) => dispatch => {
+export const localLogin = (event, callback) => dispatch => {
   event.preventDefault();
   const email = event.currentTarget[0].value
   const password = event.currentTarget[1].value
@@ -27,20 +27,21 @@ export const localLogin = (event) => dispatch => {
       if (response.status === 401) {
         throw new Error("Incorrect username or password")
       }
-      return response.json()
+      return response.json();
     })
     .then(data => {
       localStorage.setItem("token", data.token);
       dispatch({
         type: AUTH_USER,
         payload: data,
-      })
+      });
+      callback();
     })
     .catch(error => {
       dispatch({
         type: AUTH_ERROR,
         payload: error,
-      })
+      });
     });
 }
 

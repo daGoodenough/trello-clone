@@ -1,11 +1,16 @@
 import {localLogin} from '../actions/';
 import { Card, Form, Container, Row, Col, Button, Nav } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const handleLocalLogin = (e) => {
-    dispatch(localLogin(e))
+    dispatch(localLogin(e, () => {
+      navigate('/')
+    }))
   }
   
   return (
