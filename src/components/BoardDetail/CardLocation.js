@@ -1,7 +1,7 @@
 import Card from './Card';
 import {useDrop} from 'react-dnd'
 
-function CardLocation ({setCardIsDeleting, index, cards, setCards, description, setIsPostingCardDetails, listId}){
+function CardLocation ({setCardIsDeleting, index, cards, setCards, description, setIsPostingCardDetails, listId, listName}){
 
     const [, drop] = useDrop({
         accept: 'card',
@@ -48,7 +48,7 @@ return (
     <div ref={drop} className='card-location' id={index}>
     {cards.map((i) => {
       if (i.listId === listId && i.order === index) {
-        return <Card setCardIsDeleting={setCardIsDeleting} order={index} key={i.id} title={i.title} cardId={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
+        return <Card setCardIsDeleting={setCardIsDeleting} order={index} key={i.id} title={i.title} cardId={i.id} listId={i.listId} description={i.description} listName={listName} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
       }
       if(i.order === index){
       return <div className='empty-div'></div>

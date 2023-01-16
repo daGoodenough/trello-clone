@@ -46,7 +46,7 @@ function WorkflowList({setCards, setCardIsDeleting, cards, description, id, card
         <Trash3Fill onClick={()=>setListId(id)} className="icn delete-list-icn"/>
         <ul className="list-ul" >
   {emptyArr.map(index => (
-    <CardLocation setCardIsDeleting={setCardIsDeleting} index={index} setCards={setCards} cards={cards} workflow={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
+    <CardLocation setCardIsDeleting={setCardIsDeleting} index={index} setCards={setCards} cards={cards} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
 </ul>
         </div>
         <div className="add-card-section" >
