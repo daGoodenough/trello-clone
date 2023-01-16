@@ -12,24 +12,24 @@ function WorkflowList({setCards, cards, description, id, cardItems, setIsPosting
   const locationRef = useRef(null);
 
 
-  // useEffect(()=>{
-  //   async function postData(){
-  //     try{
-  //       setIsPostingCardDetails(true)
-  //       await postCard(id, newCard)
-  //     }
-  //     catch(e){
-  //       console.error(e)
-  //     }
-  //     finally{
-  //     setCurrentValue('')
-  //     setIsComposingCard(false)
-  //     setIsPostingCardDetails(false)
-  //     }
-  //   }
-  //   if(newCard?.length<1) return
-  //   postData()
-  // },[newCard])
+  useEffect(()=>{
+    async function postData(){
+      try{
+        setIsPostingCardDetails(true)
+        await postCard(id, newCard)
+      }
+      catch(e){
+        console.error(e)
+      }
+      finally{
+      setCurrentValue('')
+      setIsComposingCard(false)
+      setIsPostingCardDetails(false)
+      }
+    }
+    if(newCard?.length<1) return
+    postData()
+  },[newCard])
 
   
 

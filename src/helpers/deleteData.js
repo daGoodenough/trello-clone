@@ -31,3 +31,13 @@ export const deleteComment = async (commentId) => {
         throw e;
     }
   }
+
+  export const deleteCard = async (cardId) => {
+    try{
+       await axios.delete(`http://localhost:5000/api/cards/${cardId}`)
+    }
+    catch(e){
+        console.error('Error in deleting board', e);
+        throw e;
+    }
+  }
