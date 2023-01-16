@@ -8,8 +8,7 @@ function CardLocation ({index, cards, setCards, description, setIsPostingCardDet
         drop: (card) => {
           const selected = card.title
           const fromListId = card.listId
-          const fromOrder = 2
-          console.log(fromOrder)
+          const fromOrder = card.order
           const nextCards = cards.map((i)=>{
             if(i.title === selected){
                 return {
@@ -39,7 +38,6 @@ function CardLocation ({index, cards, setCards, description, setIsPostingCardDet
             else return i
         })
         setCards(nextCards)
-        console.log(nextCards)
         },
       })
 
@@ -50,7 +48,7 @@ return (
     <div ref={drop} className='card-location' id={index}>
     {cards.map((i) => {
       if (i.listId === listId && i.order === index) {
-        return <Card key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
+        return <Card order={index} key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
       }
       if(i.order === index){
       return <div className='empty-div'></div>

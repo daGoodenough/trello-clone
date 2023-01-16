@@ -5,7 +5,7 @@ import CardDetail from './CardDetail/CardDetail'
 import { deleteCard } from '../../helpers/deleteData'
 
 
-const Card = ({title, id, listId, description, workflow, comments, setIsPostingCardDetails, isPostingCardDetails}) => {
+const Card = ({order, title, id, listId, description, workflow, comments, setIsPostingCardDetails, isPostingCardDetails}) => {
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
@@ -17,7 +17,7 @@ const Card = ({title, id, listId, description, workflow, comments, setIsPostingC
   const [{ opacity }, dragRef] = useDrag(
     () => ({
       type: 'card',
-      item:  {title, id, listId, description} ,
+      item:  {title, id, listId, description, order} ,
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1
       })
