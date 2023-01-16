@@ -9,7 +9,7 @@ function Login() {
   }
   
   return (
-    <Container>
+    <Container className='mt-5'>
       <Row className="align-items-center justify-content-center">
         <Col md={5}>
           <Card border="secondary" className="shadow-lg p-3 mb-5 bg-body-tertiary rounded ">
@@ -38,9 +38,7 @@ function Login() {
                   Submit
                 </Button>
               </Form>
-              <div className='text-center mt-3'>
-                or continue with <a href="http://localhost:5000/auth/google">Google</a>
-              </div>
+             
             </Card.Body>
           </Card>
         </Col>

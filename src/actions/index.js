@@ -9,14 +9,6 @@ import {
 } from './types';
 import axios from 'axios';
 
-export const login = () => {
-  //maybe make it accept username and password then send a request to get logged in
-  return {
-    type: CHANGE_LOGIN_STATUS,
-    payload: true,
-  };
-};
-
 export const localLogin = (event) => dispatch => {
   event.preventDefault();
   const email = event.currentTarget[0].value
@@ -52,6 +44,11 @@ export const localLogin = (event) => dispatch => {
     });
 }
 
+export const logout = () => dispatch => {
+  localStorage.removeItem('token');
+  dispatch({type: AUTH_USER, payload: ''})
+}
+
 export const fetchUser = () => dispatch => {
   axios.get('http://localhost:5000/auth/current_user')
     .then(response => {
@@ -61,14 +58,6 @@ export const fetchUser = () => dispatch => {
       console.log(err);
     })
 }
-
-export const logout = () => {
-  localStorage.removeItem('token');
-  return {
-    type: CHANGE_LOGIN_STATUS,
-    payload: false,
-  };
-};
 
 export const storeBoardDetails = (boardDetails) => {
   return {

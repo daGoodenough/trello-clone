@@ -1,19 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import Header from './components/Header';
 import Main from './components/Main';
-import Login from './components/Login';
+import { fetchUser } from './actions';
 
 function App() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedIn = useSelector(state => state.loggedIn)
+  const authenticated = useSelector(state => state.auth.authenticated)
 
   useEffect(() => {
-    if (!loggedIn) {
+    if (!authenticated) {
       navigate("/login");
+    } else {
+      dispatch(fetchUser());
     }
-  }, [loggedIn]);
+  }, [authenticated]);
 
   return (
     <div className="App">

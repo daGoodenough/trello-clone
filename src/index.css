@@ -1,4 +1,3 @@
-
 /*Header*/
 nav {
   background-color: #0369a6;
@@ -33,21 +32,35 @@ nav span {
   cursor: pointer;
 }
 
+.user-email {
+  padding: 6px;
+}
+
+.auth-status {
+  font-weight: 700;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.auth-status:hover {
+  border-radius: 3px;
+  background-color: #88c1e2;
+}
 
 /*Homescreen Header*/
 .card-title.h5 {
   text-align: center;
   font-size: 1.6rem;
-  }
+}
 
-.workspace-title-section{
+.workspace-title-section {
   display: flex;
   align-items: center;
   row-gap: 10px;
 }
 
 .workspace-icon {
-  background-color: #0369A6;
+  background-color: #0369a6;
   border-radius: 8px;
   width: 75px;
   height: 75px;
@@ -67,7 +80,6 @@ nav span {
   margin-left: 5%;
   margin-top: 5%;
   justify-content: center;
-
 }
 
 .home-header-title button {
@@ -76,7 +88,7 @@ nav span {
 }
 
 .title-icon {
-  font-size: .5em;
+  font-size: 0.5em;
   margin-left: 10px;
   display: inline-block;
 }
@@ -88,24 +100,24 @@ nav span {
 }
 
 /*BoardList*/
-#board-list-title{
-margin-left: 7.5%;
-margin-top: 2%;
-margin-bottom: 2%;
+#board-list-title {
+  margin-left: 7.5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
-.flex-container{
+.flex-container {
   display: flex;
   justify-content: center;
 }
-.board-list{
+.board-list {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   width: 85%;
 }
 
-.board-item{
+.board-item {
   display: flex;
   width: 200px;
   height: 100px;
@@ -116,7 +128,7 @@ margin-bottom: 2%;
   background-image: url("https://images.unsplash.com/photo-1447433693259-c8549e937d62?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1153&q=80");
 }
 
-.board-item:hover{
+.board-item:hover {
   box-shadow: inset 0 0 100px #7dbee3;
   cursor: pointer;
 }
@@ -135,11 +147,11 @@ margin-bottom: 2%;
   color: white;
 }
 
-.new-board-trigger{
+.new-board-trigger {
   position: relative;
 }
 
-.new-board-box{
+.new-board-box {
   background: white;
   position: absolute;
   left: 105%;
@@ -148,7 +160,7 @@ margin-bottom: 2%;
   width: 100%;
   border-radius: 8px;
   padding: 10% 2.5% 10% 2.5%;
-  border: 1px solid #0369A6;
+  border: 1px solid #0369a6;
 }
 
 .new-board-box:before {
@@ -159,9 +171,9 @@ margin-bottom: 2%;
   top: 50%;
   left: -20px;
   border-left: 10px solid transparent;
-  border-right: 10px solid #0369A6;
+  border-right: 10px solid #0369a6;
   border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent
+  border-bottom: 10px solid transparent;
 }
 
 .new-board-box:after {
@@ -174,22 +186,20 @@ margin-bottom: 2%;
   border-left: 10px solid transparent;
   border-right: 10px solid white;
   border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent
+  border-bottom: 10px solid transparent;
 }
 
-.create-board-button{
-font-size: .8em;
-margin-top: 7.5%;
-
+.create-board-button {
+  font-size: 0.8em;
+  margin-top: 7.5%;
 }
 
-.close-board-creator{
-  font-size:2em;
+.close-board-creator {
+  font-size: 2em;
   color: black;
   margin-top: 5%;
   margin-left: 7.5%;
 }
-
 
 /* BoardDetail */
 
@@ -214,16 +224,15 @@ margin-top: 7.5%;
   display: inline-flex;
 }
 
-.board-detail-header h1{
+.board-detail-header h1 {
   margin-right: 1%;
 }
 
-.board-detail-header input{
+.board-detail-header input {
   margin-right: 2%;
 }
 
-
-.delete-board-icon{
+.delete-board-icon {
   margin-left: 1%;
   display: none;
 }
@@ -232,19 +241,18 @@ margin-top: 7.5%;
   color: red;
 }
 
-.pencil-icon{
+.pencil-icon {
   display: none;
   border-radius: 5px;
 }
 
 .pencil-icon:hover {
-  background-color:#c7c7c7;
+  background-color: #c7c7c7;
 }
 
 .icn:hover {
   cursor: pointer;
 }
-
 
 .back-button {
   margin-bottom: 5%;
@@ -255,9 +263,7 @@ margin-top: 7.5%;
   display: flex;
   flex-wrap: nowrap;
   height: 450px;
- 
 }
-
 
 .workflow-item {
   background: #ebecf0;
@@ -269,15 +275,15 @@ margin-top: 7.5%;
   margin: 10px 10px 10px 10px;
 }
 
-.workflow-item:hover .delete-list-icn{
+.workflow-item:hover .delete-list-icn {
   display: inline-flex;
 }
 
-.delete-list-icn{
+.delete-list-icn {
   position: absolute;
-  right:2.5%;
+  right: 2.5%;
   top: 2.5%;
-  display:none;
+  display: none;
 }
 
 .delete-list-icn:hover {
@@ -295,7 +301,7 @@ width: 20%;
   padding: 2.5% 2.5% 15% 2.5%;
 }
 
-.new-workflow-trigger{
+.new-workflow-trigger {
   background-color: #ebecf0;
   min-width: 270px;
   margin: 10px 10px 10px 10px;
@@ -308,14 +314,14 @@ width: 20%;
 }
 
 .new-workflow-btn:hover {
-  background-color: #a8a8a8 !important; 
+  background-color: #a8a8a8 !important;
 }
 
-.new-workflow-btn:hover .add-list-icon{
+.new-workflow-btn:hover .add-list-icon {
   display: inline-flex;
 }
 
-.add-list-icon{
+.add-list-icon {
   margin-left: 2.5%;
   font-size: 1.5em;
   color: black;
@@ -324,8 +330,8 @@ width: 20%;
 }
 
 .new-workflow-box input {
-width: 100%;
-margin-bottom: 2%;
+  width: 100%;
+  margin-bottom: 2%;
 }
 
 .close-new-workflow {
@@ -336,10 +342,15 @@ margin-bottom: 2%;
 .list-ul {
   padding-left: 0;
   margin-left: 0;
-
 }
 
-.card-location{
+.card-location {
+  height: 50px;
+  background-color: transparent;
+  margin-top: 15px;
+}
+
+.card-location {
   height: 50px;
   background-color: transparent;
   margin-top: 15px;
@@ -359,7 +370,7 @@ margin-bottom: 2%;
   cursor: pointer;
 }
 
-.card-icn{
+.card-icn {
   position: absolute;
   top: 0;
   right: 2.5%;
@@ -369,7 +380,7 @@ margin-bottom: 2%;
   border-radius: 5px;
 }
 
-.edit-card-icn{
+.edit-card-icn {
   margin-right: 15%;
   border-radius: 5px;
   padding: 1%;
@@ -379,44 +390,42 @@ margin-bottom: 2%;
   display: inline-flex;
 }
 
-.edit-card-icn:hover{
-  background-color:#c7c7c7;
+.edit-card-icn:hover {
+  background-color: #c7c7c7;
 }
 
-.delete-card-icn:hover{
+.delete-card-icn:hover {
   color: red;
 }
 
 .comments-length {
-  font-size: .75em;
+  font-size: 0.75em;
   display: flex;
   flex-direction: row;
   text-align: center;
   align-items: center;
 }
 
-.comments-length span{
+.comments-length span {
   margin-left: 1.25%;
 }
 
-.card-title-editor{
+.card-title-editor {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
-.close-title-editor{
+.close-title-editor {
   font-size: 1.5em;
   margin-left: 2%;
- 
 }
 
 .close-title-editor:hover {
   cursor: pointer;
-  
 }
 
-.add-card-section{
+.add-card-section {
   position: absolute;
   bottom: 0;
   display: block;
@@ -425,7 +434,7 @@ margin-bottom: 2%;
 
 .add-card-btn {
   width: 100%;
-  opacity: .7;
+  opacity: 0.7;
   padding: 2.5%;
   border-radius: 6px;
 }
@@ -433,7 +442,7 @@ margin-bottom: 2%;
 .add-card-btn:hover {
   opacity: 1;
   background-color: #c7c7c7;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .card-composer {
@@ -467,20 +476,20 @@ margin-bottom: 2%;
 
 .card-detail-box {
   position: absolute;
-  background: #F3F6F8;
+  background: #f3f6f8;
   min-width: 400px;
   min-height: 400px;
   overflow-y: scroll;
   height: auto;
   border-radius: 5px;
-  border: 19px solid #0369A6;
+  border: 19px solid #0369a6;
   top: -150%;
   z-index: 2;
   padding: 5% 10% 10% 15%;
   cursor:auto;
 }
 
-.card-detail-box h5{
+.card-detail-box h5 {
   position: relative;
 }
 
@@ -497,7 +506,7 @@ margin-bottom: 2%;
   top: 15%;
 }
 
-.card-detail-workflow{
+.card-detail-workflow {
   text-decoration: underline;
 }
 
@@ -506,7 +515,6 @@ margin-bottom: 2%;
   flex-direction: row;
   align-items: center;
   margin-bottom: 10%;
-  
 }
 
 .card-detail-circles div {
@@ -519,7 +527,7 @@ margin-bottom: 2%;
   margin-right: 5px;
 }
 
-.card-detail-members{
+.card-detail-members {
   background-color: green;
 }
 
@@ -536,42 +544,45 @@ margin-bottom: 2%;
   font-size: small;
 }
 
-.card-description-icon{
+.card-description-icon {
   position: absolute;
   left: 5%;
 }
 
 .card-description {
-  font-size: .75em;
+  font-size: 0.75em;
   margin-bottom: 10%;
 }
 
 .edit-description-button {
   margin-left: 5%;
 }
-.edit-description-button, .save-comment {
+.edit-description-button,
+.save-comment {
   background-color: #d2d2d2 !important;
-  font-size: .7em !important;
+  font-size: 0.7em !important;
   padding: 1% 2% 1% 2% !important;
   border-radius: 3px !important;
 }
 
-.edit-description-button:hover, .save-comment:hover {
+.edit-description-button:hover,
+.save-comment:hover {
   background-color: #a8a8a8;
 }
 
-.description-editor textarea, .comment-editor textarea {
+.description-editor textarea,
+.comment-editor textarea {
   width: 100%;
   height: auto;
   padding: 2.5%;
-  font-size: .7em;
+  font-size: 0.7em;
 }
 
 .comment {
   width: 100%;
   background-color: white;
   padding: 3% 5% 3% 5%;
-  font-size: .75em;
+  font-size: 0.75em;
   display: flex;
   align-items: center;
   height: 20px;
@@ -585,18 +596,16 @@ margin-bottom: 2%;
 }
 
 .delete-comment:hover {
-color: red;
+  color: red;
 }
-
 
 .comment:hover .delete-comment {
   display: inline-flex;
 }
 
-
 .comment-editor {
-background-color: white;
-margin-bottom: 5%;
+  background-color: white;
+  margin-bottom: 5%;
 }
 
 .comment-editor textarea:focus {
@@ -606,10 +615,13 @@ margin-bottom: 5%;
   background-color: transparent;
 }
 
-.comment-editor textarea{
+.comment-editor textarea {
   border: none;
   outline: none;
   box-shadow: none;
   background-color: transparent;
 }
 
+.user-email {
+  margin-right: 12px;
+}

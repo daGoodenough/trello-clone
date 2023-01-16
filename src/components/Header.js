@@ -9,19 +9,29 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const dispatch = useDispatch()
-  const loggedIn = useSelector(state => state.loggedIn);
+  const { auth } = useSelector(state => state);
   const navigate = useNavigate();
   const handleLogOut = () => dispatch(logout());
 
   return (
     <nav>
-      <div className="navbar-left-side" onClick={()=>navigate('/')}>
+      <div className="navbar-left-side" onClick={() => navigate('/')}>
         <CalendarRangeFill className='nav-icon' />
         <span>Trelletto</span>
       </div>
-      {loggedIn ?
-        <div onClick={handleLogOut} className='navbar-right-side'>Log Out</div> :
-        <div className='navbar-right-side'><a className='nav-link' href="/login">Log In</a></div>
+      {(auth.authenticated) ?
+        (
+          <div className='navbar-right-side d-flex'>
+            <div className='user-email'>{auth.email}</div>
+            <div className='p-1'> |  </div>
+            <div onClick={handleLogOut} className='auth-status'>Log Out</div>
+          </div>
+        ) :
+        (
+        <div className='navbar-right-side auth-status'>
+          <a className='nav-link ' href="/login">Log In</a>
+        </div>
+        )
       }
     </nav>
   );
