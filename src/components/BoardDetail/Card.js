@@ -4,14 +4,16 @@ import { useState, useEffect } from 'react'
 import CardDetail from './CardDetail/CardDetail'
 import { deleteCard } from '../../helpers/deleteData'
 import { updateCard } from '../../helpers/postData'
+import { ThreeDots } from 'react-loader-spinner'
 
 
-const Card = ({order, title, cardId, listId, description, workflow, comments, setIsPostingCardDetails, isPostingCardDetails}) => {
+const Card = ({setCardIsDeleting, order, title, cardId, listId, description, workflow, comments, setIsPostingCardDetails, isPostingCardDetails}) => {
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [existsTitleToChange, setExistsTitleToChange] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const [thisCardId, setThisCardId] = useState('')
   
   //make card draggable
@@ -29,14 +31,16 @@ const Card = ({order, title, cardId, listId, description, workflow, comments, se
   useEffect(()=>{
     async function deleteData(){
       try {
-      setIsPostingCardDetails(true)
+       setCardIsDeleting(true)
+       setIsDeleting(true)
        await deleteCard(thisCardId)
       }
       catch(e) {
         console.error(e)
       }
       finally{
-        setIsPostingCardDetails(false)
+        setCardIsDeleting(false)
+        setIsDeleting(false)
       }
     }
     if(thisCardId.length<1) return
@@ -71,12 +75,15 @@ const Card = ({order, title, cardId, listId, description, workflow, comments, se
         <div  >
           {cardTitle}
           </div>
+          {isDeleting ? null : <div>
             <Pencil onClick={(e) => {
               e.stopPropagation();
               setIsEditingTitle(true)}} className="icn edit-card-icn card-icn"/>
               <Trash3Fill onClick={(e)=>{
                 e.stopPropagation();
                 setThisCardId(cardId)}} className="icn delete-card-icn card-icn"/>
+                </div>}
+                 {isDeleting ? <div className='loader'><ThreeDots color="black"/></div> : null}
             <div className='comments-length'><Chat/><span>{comments?.length}</span></div>
             </div>
             </div>
