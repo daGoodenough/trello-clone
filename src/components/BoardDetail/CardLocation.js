@@ -48,7 +48,7 @@ return (
     <div ref={drop} className='card-location' id={index}>
     {cards.map((i) => {
       if (i.listId === listId && i.order === index) {
-        return <Card order={index} key={i.id} title={i.title} id={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
+        return <Card order={index} key={i.id} title={i.title} cardId={i.id} listId={i.listId} description={i.description} workflow={description} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
       }
       if(i.order === index){
       return <div className='empty-div'></div>

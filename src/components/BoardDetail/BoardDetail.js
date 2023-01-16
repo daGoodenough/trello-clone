@@ -49,6 +49,7 @@ function BoardDetail() {
         order: index 
       }
     });
+    console.log('updated cards', updatedCards)
     setCards(updatedCards);
   },[unorderedCards])
 
