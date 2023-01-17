@@ -26,8 +26,13 @@ router.get("/api/user/:userId", async (req, res) => {
   const org = await prisma.user.findFirst({
     where: { id: req.params.userId },
     include: {
-      org: { include: { boards: true } },
-    },
+      org: {
+        include: {
+          boards: true,
+          members: true
+        }
+      },
+    }
   });
   res.json(org);
 });
@@ -48,9 +53,8 @@ router.get("/api/boards/:boardId", async (req, res) => {
   const board = await prisma.board.findFirst({
     where: { id: req.params.boardId },
     include: {
-      lists: {
-        include: { cards: { include: { comments: true } } },
-      },
+      lists: true,
+      cards: true
     },
   });
   res.json(board);
@@ -85,15 +89,6 @@ router.delete("/api/boards/:boardId", async (req, res) => {
 });
 //DELETE board (should be removed from the org its associated with as well)
 
-// router.put("/api/boards/:boardId", async (req, res) => {
-//   const lists = await prisma.list.updateMany({
-//     where: {
-//       boardId: req.params .boardId
-//     },
-//     data:
-//   })
-//   res.json(lists)
-// })
 
 router.post("/api/lists/:listId", async (req, res) => {
   const card = await prisma.card.create({
@@ -179,5 +174,10 @@ router.delete("/api/comments/:commentId", async (req, res) => {
   res.json(comment);
 });
 //DELETE a comment with id
+
+router.delete("/api/clear", async (req, res) => {
+  await prisma.board.deleteMany();
+  res.send(200, "All Boards Deleted Successfully");
+})
 
 module.exports = router;

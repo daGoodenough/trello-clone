@@ -45,6 +45,8 @@ model Card {
   label       String?
   members     String[]
   order       Int       @default(autoincrement())
+  Board       Board?    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId     String?
 }
 
 model List {
@@ -60,6 +62,7 @@ model Board {
   id             String       @id @default(uuid())
   title          String
   lists          List[]
+  cards          Card[]
   Organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
 }
