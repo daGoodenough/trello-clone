@@ -1,40 +1,37 @@
 import Card from './Card';
 import CardLocation from './CardLocation'
 import { useEffect, useState, useRef } from 'react';
+import { useSelector  } from 'react-redux';
 import { Backspace, Trash3Fill } from 'react-bootstrap-icons';
-import {useDrop} from 'react-dnd'
 import { postCard } from '../../helpers/postData'
 
-function WorkflowList({setCards, setCardIsDeleting, cards, description, id, cardItems, setIsPostingCardDetails, setListExists, setListId}) {
-  const [currentValue, setCurrentValue] = useState('')
+function WorkflowList({setCardIsDeleting, description, id, setIsPostingCardDetails, setListId}) {
+  const cards = useSelector((state) => state?.boardDetails?.cards)
   const [newCard, setNewCard] = useState('')
   const [isComposingCard, setIsComposingCard] = useState(false)
   const locationRef = useRef(null);
 
 
-  useEffect(()=>{
-    async function postData(){
-      try{
+async function postNewCard(){
+    try{
         setIsPostingCardDetails(true)
         await postCard(id, newCard)
       }
-      catch(e){
+    catch(e){
         console.error(e)
       }
-      finally{
-      setCurrentValue('')
+    finally{
+      setNewCard('')
       setIsComposingCard(false)
       setIsPostingCardDetails(false)
       }
     }
-    if(newCard?.length<1) return
-    postData()
-  },[newCard])
+
 
   
 
   const emptyArr = []
-  for (let i = 0; i < cards.length; i++) {
+  for (let i = 0; i < cards?.length; i++) {
     emptyArr.push(i)
   }
 
@@ -46,14 +43,14 @@ function WorkflowList({setCards, setCardIsDeleting, cards, description, id, card
         <Trash3Fill onClick={()=>setListId(id)} className="icn delete-list-icn"/>
         <ul className="list-ul" >
   {emptyArr.map(index => (
-    <CardLocation setCardIsDeleting={setCardIsDeleting} index={index} setCards={setCards} cards={cards} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
+    <CardLocation setCardIsDeleting={setCardIsDeleting} index={index} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
 </ul>
         </div>
         <div className="add-card-section" >
           <div className='add-card-btn' style={{display: isComposingCard ? 'none' : 'block'}} onClick={() => setIsComposingCard(true)}>+ Add a card</div>
           <div className='card-composer' style={{display: isComposingCard ? 'block' : 'none'}}>
-          <input type="text" placeholder='Enter a title for this card' value={currentValue} onChange={(e)=> setCurrentValue(e.target.value)}></input>
-          <button className='btn btn-primary' onClick={()=> setNewCard(currentValue)}>Add card</button>
+          <input type="text" placeholder='Enter a title for this card' value={newCard} onChange={(e)=> setNewCard(e.target.value)}></input>
+          <button className='btn btn-primary' onClick={()=> postNewCard()}>Add card</button>
          <Backspace className="close-composer" onClick={() => setIsComposingCard(false)}/>
             </div>
           </div>

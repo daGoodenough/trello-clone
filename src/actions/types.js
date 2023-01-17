@@ -7,3 +7,4 @@ export const AUTH_ERROR = 'auth_error';
 export const AUTH_USER = 'auth_user';
 export const GET_USER = 'get_user';
 export const REMOVE_USER = 'remove_user';
+export const REORDER_CARDS = 'reorder_cards';

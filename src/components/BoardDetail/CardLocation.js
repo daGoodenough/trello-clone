@@ -1,19 +1,14 @@
 import Card from './Card';
 import {useDrop} from 'react-dnd'
 import {useState, useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {reOrderCards} from '../../actions'
 
-function CardLocation ({setCardIsDeleting, index, cards, setCards, setIsPostingCardDetails, listId, listName}){
+function CardLocation ({setCardIsDeleting, index, setIsPostingCardDetails, listId, listName}){
 
-  // const [commentsLengths, setCommentsLengths] = useState({})
-  // useEffect(()=>{
-  //   const arrOfIds=cards.map((i)=>i.id)
-  //   const initialCommentsLengths = {}
-  //   arrOfIds.forEach((id)=>{
-  //     initialCommentsLengths[id] = 0
-  //   })
-  //   setCommentsLengths(initialCommentsLengths)
-  // },[])
-
+  const cards = useSelector((state) =>state?.boardDetails?.cards)
+  const dispatch = useDispatch();
+   
     const [, drop] = useDrop({
         accept: 'card',
         drop: (card) => {
@@ -70,7 +65,8 @@ function CardLocation ({setCardIsDeleting, index, cards, setCards, setIsPostingC
             else return i
         })
         console.log(nextCards)
-        setCards(nextCards)
+        dispatch(reOrderCards(nextCards))
+        // setCards(nextCards)
         },
       })
 
@@ -79,7 +75,7 @@ function CardLocation ({setCardIsDeleting, index, cards, setCards, setIsPostingC
 
 return (
     <div ref={drop} className='card-location' id={index}>
-    {cards.map((i) => {
+    {cards?.map((i) => {
       if (i?.listId === listId && i?.order === index) {
         return <Card setCardIsDeleting={setCardIsDeleting} order={index} key={i.id} title={i.title} cardId={i.id} listId={i.listId} description={i.description} listName={listName} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
       }
