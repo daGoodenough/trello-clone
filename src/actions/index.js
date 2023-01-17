@@ -3,6 +3,7 @@ import {
   STORE_BOARD_DETAILS,
   STORE_HOMESCREEN,
   STORE_CARD_DETAILS,
+  REORDER_CARDS,
   AUTH_ERROR,
   AUTH_USER,
   GET_USER,
@@ -74,5 +75,12 @@ export const storeCardDetails = (cardDetails) => {
   return {
     type: STORE_CARD_DETAILS,
     payload: cardDetails,
+  }
+}
+
+export const reOrderCards = (newCards) => {
+  return {
+    type: REORDER_CARDS,
+    payload: newCards,
   }
 }

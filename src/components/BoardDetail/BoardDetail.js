@@ -17,6 +17,7 @@ function BoardDetail() {
   const dispatch = useDispatch();
   const title = useSelector((state) =>state.boardDetails.title)
   const workflows = useSelector((state) =>state.boardDetails.lists)
+  const thisState = useSelector((state)=>state.boardDetails)
   const [isLoading, setIsLoading] = useState(true)
   const [exists, setExists] = useState(true)
   const [listExists, setListExists] = useState(true)
@@ -33,29 +34,11 @@ function BoardDetail() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
-  const[unorderedCards, setUnorderedCards] = useState([])
-  const [cards, setCards] = useState([])
   const [cardIsDeleting, setCardIsDeleting] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const [existsBoardToRerender, setExistsBoardToRerender] = useState(false)
 
-
-  useEffect(()=>{
-    if(isLoading) return
-    setUnorderedCards(workflows[0].cards)
-  },[workflows, isLoading, isReady])
-
-  useEffect(()=>{
-    if (unorderedCards.length<1) return
-    const updatedCards = unorderedCards.map((card, index) => {
-      return {
-        ...card,
-        order: index 
-      }
-    });
-    console.log('updated cards', updatedCards)
-    setCards(updatedCards);
-  },[unorderedCards])
+  // console.log(thisState)
 
   //GET data
   useEffect(()=>{
@@ -233,7 +216,7 @@ useEffect(()=>{
       </Modal>
         <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
-        {workflows.map((i=> <WorkflowList setCardIsDeleting={setCardIsDeleting} setCards={setCards} cards={cards} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists} setListId={setListId}/>))}
+        {workflows.map((i=> <WorkflowList setCardIsDeleting={setCardIsDeleting} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists} setListId={setListId}/>))}
         <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={()=>setIsCreating(true)} style={{display: isCreating ? 'none' : 'block'}}>Create new list<PatchPlus className="icn add-list-icon"/></button>
         <div className='new-workflow-box' style={{display: isCreating ? 'block' : 'none',}}>
         <input placeholder='List name' type='text' value={newListValue} onChange={(e)=>setNewListValue(e.target.value)}></input>
