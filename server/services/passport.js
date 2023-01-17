@@ -34,8 +34,6 @@ const jwtLogin = new JwtStrategy(jwtOptions, async function(payload, done) {
   // If it does, call 'done' with that other
   // otherwise, call done without a user object
   const user = await prisma.user.findFirst({ where: { id: payload.sub } })  
-  // User.findById(payload.sub, function(err, user) {
-  //   if (err) { return done(err, false) }
 
     if (user) {
       done(null, user)

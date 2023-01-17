@@ -1,17 +1,26 @@
 require("dotenv").config();
 const router = require("express").Router();
-// const passportService = require("../services/passport");
+// eslint-disable-next-line no-unused-vars
+const passportService = require("../services/passport");
 const passport = require("passport");
-// const Authentication = require('../controllers/authentication');
+const Authentication = require('../controllers/authentication');
 const PrismaClient = require("@prisma/client").PrismaClient;
 const prisma = new PrismaClient();
 
 // const generateFakeData = require('')//import funciton from somewhere
 
 const requireSignin = passport.authenticate("local", { session: false });
-// const requireAuth = passport.authenticate('jwt', { session: false})
+const requireAuth = passport.authenticate('jwt', { session: false })
 
-// router.post('/auth/login', requireSignin, Authentication.signin)
+router.post('/auth/login', requireSignin, Authentication.signin);
+
+router.get('/auth/current_user', requireAuth, async (req, res) => {
+  res.send({
+    name: req.user.name,
+    email: req.user.email,
+    id: req.user.id,
+  });
+});
 
 router.get("/api/user/:userId", async (req, res) => {
   const org = await prisma.user.findFirst({
