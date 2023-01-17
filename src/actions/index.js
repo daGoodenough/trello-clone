@@ -40,7 +40,7 @@ export const logout = () => dispatch => {
   dispatch({type: REMOVE_USER})
 }
 
-export const fetchUser = () => dispatch => {
+export const fetchUser = (errorCb) => dispatch => {
   const config = {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -52,6 +52,7 @@ export const fetchUser = () => dispatch => {
     })
     .catch(err => {
       console.log(err);
+      errorCb();
     })
 }
 

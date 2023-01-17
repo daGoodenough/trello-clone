@@ -14,7 +14,9 @@ function App() {
     if (!auth.authenticated) {
       navigate("/login");
     } else {
-      dispatch(fetchUser());
+      dispatch(fetchUser(() => {
+        navigate("/login");
+      }));
     }
   }, [auth.authenticated]);
 
