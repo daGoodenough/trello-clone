@@ -4,7 +4,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import {useEffect, useState} from 'react'
 import {fetchBoardDetails} from '../../helpers/fetchData'
-import {postList} from '../../helpers/postData'
+import {postList, updateBoard} from '../../helpers/postData'
 import {useDispatch, useSelector} from 'react-redux'
 import {storeBoardDetails} from '../../actions'
 import { Trash3Fill, PatchPlus, Pencil, Backspace } from 'react-bootstrap-icons';
@@ -37,6 +37,7 @@ function BoardDetail() {
   const [cards, setCards] = useState([])
   const [cardIsDeleting, setCardIsDeleting] = useState(false)
   const [isReady, setIsReady] = useState(false)
+  const [existsBoardToRerender, setExistsBoardToRerender] = useState(false)
 
 
   useEffect(()=>{
@@ -105,22 +106,49 @@ useEffect(()=>{
     } finally {
         setIsReady(true)
         setCardIsDeleting(false)
-        console.log('done')
+        console.log('deleted card')
     }
   }
     fetchData()
   },[cardIsDeleting])
 
+
+//GET data after board has been updated
+useEffect(()=>{
+  async function fetchData() {
+    try{
+      const boardDetails = await fetchBoardDetails(boardId)
+      dispatch(storeBoardDetails(boardDetails))
+    }
+    catch (error) {
+      console.log(error)
+  } finally {
+      console.log('updated board')
+  }
+}
+  fetchData()
+},[existsBoardToRerender])
+
+
+//UPDATE board title
   useEffect(()=>{
+    async function postData() {
+      try{
+        setExistsBoardToRerender(false)
+        await updateBoard(boardId, currentTitle)
+      }
+      catch (error) {
+        console.log(error)
+    } finally {
+      setIsEditingBoardName(false)
+      setExistsTitleToUpdate(false)
+      setExistsBoardToRerender(true)
+    }
+  }
     if(!existsTitleToUpdate) return
-    setIsEditingBoardName(false)
-    console.log(currentTitle)
+    postData()
   },[existsTitleToUpdate])
 
-  useEffect(()=>{
-    if(!isEditingBoardName) return
-    setExistsTitleToUpdate(false)
-  },[isEditingBoardName])
 
 //DELETE board
   useEffect(()=>{
@@ -188,7 +216,6 @@ useEffect(()=>{
         <div className='board-detail-header'>
         <h1 style={{display: isEditingBoardName ? 'none' : 'inline-flex'}}>{title}</h1>
         <input style={{display: isEditingBoardName ? 'inline-flex' : 'none'}} value={currentTitle} onChange={(e)=>setCurrentTitle(e.target.value)} onBlur={()=>setExistsTitleToUpdate(true)}>
-
         </input>
         <Pencil className="pencil-icon icn" onClick={()=>setIsEditingBoardName(true)}/>
         <Trash3Fill onClick={()=>setShow(true)} className="delete-board-icon icn"/>

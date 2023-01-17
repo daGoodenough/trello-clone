@@ -1,7 +1,18 @@
 import Card from './Card';
 import {useDrop} from 'react-dnd'
+import {useState, useEffect} from 'react'
 
-function CardLocation ({setCardIsDeleting, index, cards, setCards, description, setIsPostingCardDetails, listId, listName}){
+function CardLocation ({setCardIsDeleting, index, cards, setCards, setIsPostingCardDetails, listId, listName}){
+
+  // const [commentsLengths, setCommentsLengths] = useState({})
+  // useEffect(()=>{
+  //   const arrOfIds=cards.map((i)=>i.id)
+  //   const initialCommentsLengths = {}
+  //   arrOfIds.forEach((id)=>{
+  //     initialCommentsLengths[id] = 0
+  //   })
+  //   setCommentsLengths(initialCommentsLengths)
+  // },[])
 
     const [, drop] = useDrop({
         accept: 'card',
