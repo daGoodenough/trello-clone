@@ -7,7 +7,7 @@ import {storeCardDetails} from '../../../actions'
 import { ThreeDots } from 'react-loader-spinner'
 import { deleteComment } from "../../../helpers/deleteData";
 
-function CardDetail({ isOpen, setIsOpen, cardId, listName}) {
+function CardDetail({ isOpen, setIsOpen, cardId, listName }) {
 
   const userId = 'ccf964bc-d992-4bb8-9fa1-ffcb38487179'
   const [isLoading, setIsLoading] = useState(true)
@@ -20,11 +20,21 @@ function CardDetail({ isOpen, setIsOpen, cardId, listName}) {
   const [existsDescriptionToAdd, setExistsDescriptionToAdd] = useState(false)
   const [isPostingDescription, setIsPostingDescription] = useState(false)
   const [commentId, setCommentId] = useState('')
-  const cardDetails = useSelector((state)=> state.cardDetails)
-  const comments = useSelector((state)=> state.cardDetails.comments)
-  const desc = useSelector((state)=> state.cardDetails.description)
+  const cardDetails = useSelector((state)=> state?.cardDetails)
+  const comments = useSelector((state)=> state?.cardDetails?.comments)
+  const desc = useSelector((state)=> state?.cardDetails?.description)
   const [description, setDescription] = useState(desc)
   const dispatch = useDispatch()
+
+
+// useEffect(()=>{
+//   const updatedCommentsLengths = {...commentsLengths}
+//   for (const id in updatedCommentsLengths){
+//     updatedCommentsLengths[cardId] = 5
+//   }
+//   setCommentsLengths(updatedCommentsLengths)
+// },[])
+
 
 //GET card details
 useEffect(()=>{

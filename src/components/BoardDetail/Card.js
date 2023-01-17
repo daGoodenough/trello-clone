@@ -7,7 +7,7 @@ import { updateCard } from '../../helpers/postData'
 import { ThreeDots } from 'react-loader-spinner'
 
 
-const Card = ({setCardIsDeleting, order, title, cardId, listId, description, listName, comments, setIsPostingCardDetails }) => {
+const Card = ({ setCardIsDeleting, order, title, cardId, listId, description, listName, setIsPostingCardDetails }) => {
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [existsTitleToChange, setExistsTitleToChange] = useState(false)
@@ -73,7 +73,6 @@ const Card = ({setCardIsDeleting, order, title, cardId, listId, description, lis
     postData()
   },[existsTitleToChange])
 
-
  
   return (
       <div className="card-item"  ref={dragRef} style={{ opacity }}>
@@ -91,10 +90,10 @@ const Card = ({setCardIsDeleting, order, title, cardId, listId, description, lis
                 setThisCardId(cardId)}} className="icn delete-card-icn card-icn"/>
                 </div>}
                  {isDeleting || isUpdating ? <div className='loader'><ThreeDots color="black"/></div> : null}
-            <div className='comments-length'><Chat/><span>{comments?.length}</span></div>
+            <div className='comments-length'><Chat/><span></span></div>
             </div>
             </div>
-            <CardDetail comments={comments} isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} listName={listName}/>
+            <CardDetail isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} listName={listName}/>
             <div className='card-title-editor' style={{display: isEditingTitle ? 'flex' : 'none',}}>
               <input type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)}></input>
               <button className='btn btn-primary' onClick={() => setExistsTitleToChange(true)}>Save</button>

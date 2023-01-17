@@ -60,6 +60,19 @@ export const postComment = async (cardId, commentToPost, userId) => {
     }
   }
 
+  export const updateBoard = async (boardId, newTitle) => {
+    try{
+       const response = await axios.put(`http://localhost:5000/api/boards/${boardId}`, {
+      title: newTitle
+    })
+    return response.data
+    }
+    catch(e){
+        console.error('Error in updating card', e);
+        throw e;
+    }
+  }
+
   export const updateCard = async (cardId, newCard, newDescription) => {
     try{
        const response = await axios.put(`http://localhost:5000/api/cards/${cardId}`, {
@@ -86,4 +99,5 @@ export const postComment = async (cardId, commentToPost, userId) => {
     }
   }
 
+  
  
