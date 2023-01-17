@@ -3,18 +3,18 @@ const router = require("express").Router();
 // eslint-disable-next-line no-unused-vars
 const passportService = require("../services/passport");
 const passport = require("passport");
-const Authentication = require('../controllers/authentication');
+const Authentication = require("../controllers/authentication");
 const PrismaClient = require("@prisma/client").PrismaClient;
 const prisma = new PrismaClient();
 
 // const generateFakeData = require('')//import funciton from somewhere
 
 const requireSignin = passport.authenticate("local", { session: false });
-const requireAuth = passport.authenticate('jwt', { session: false })
+const requireAuth = passport.authenticate("jwt", { session: false });
 
-router.post('/auth/login', requireSignin, Authentication.signin);
+router.post("/auth/login", requireSignin, Authentication.signin);
 
-router.get('/auth/current_user', requireAuth, async (req, res) => {
+router.get("/auth/current_user", requireAuth, async (req, res) => {
   res.send({
     name: req.user.name,
     email: req.user.email,
@@ -29,10 +29,10 @@ router.get("/api/user/:userId", async (req, res) => {
       org: {
         include: {
           boards: true,
-          members: true
-        }
+          members: true,
+        },
       },
-    }
+    },
   });
   res.json(org);
 });
@@ -54,7 +54,7 @@ router.get("/api/boards/:boardId", async (req, res) => {
     where: { id: req.params.boardId },
     include: {
       lists: true,
-      cards: true
+      cards: true,
     },
   });
   res.json(board);
@@ -89,13 +89,15 @@ router.delete("/api/boards/:boardId", async (req, res) => {
 });
 //DELETE board (should be removed from the org its associated with as well)
 
-
 router.post("/api/lists/:listId", async (req, res) => {
   const card = await prisma.card.create({
     data: {
       title: req.body.title,
       List: {
         connect: { id: req.params.listId },
+      },
+      Board: {
+        connect: { id: req.body.boardId },
       },
     },
   });
@@ -123,7 +125,7 @@ router.delete("/api/lists/:listId", async (req, res) => {
 router.get("/api/cards/:cardId", async (req, res) => {
   const card = await prisma.card.findFirst({
     where: { id: req.params.cardId },
-    include: { comments: true},
+    include: { comments: true },
   });
   res.json(card);
 });
@@ -178,6 +180,6 @@ router.delete("/api/comments/:commentId", async (req, res) => {
 router.delete("/api/clear", async (req, res) => {
   await prisma.board.deleteMany();
   res.send(200, "All Boards Deleted Successfully");
-})
+});
 
 module.exports = router;
