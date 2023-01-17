@@ -9,7 +9,7 @@ import { deleteComment } from "../../../helpers/deleteData";
 
 function CardDetail({ isOpen, setIsOpen, cardId, listName }) {
 
-  const userId = 'ccf964bc-d992-4bb8-9fa1-ffcb38487179'
+  
   const [isLoading, setIsLoading] = useState(true)
   const [currentComment, setCurrentComment] = useState('')
   const [existsCommentToAdd, setExistsCommentToAdd] = useState(false)
@@ -20,6 +20,7 @@ function CardDetail({ isOpen, setIsOpen, cardId, listName }) {
   const [existsDescriptionToAdd, setExistsDescriptionToAdd] = useState(false)
   const [isPostingDescription, setIsPostingDescription] = useState(false)
   const [commentId, setCommentId] = useState('')
+  const userId = useSelector((state)=> state?.auth?.userId)
   const cardDetails = useSelector((state)=> state?.cardDetails)
   const comments = useSelector((state)=> state?.cardDetails?.comments)
   const desc = useSelector((state)=> state?.cardDetails?.description)
