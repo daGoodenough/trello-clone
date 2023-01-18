@@ -8,6 +8,7 @@ import {
   AUTH_USER,
   GET_USER,
   REMOVE_USER,
+  REORDER_LISTS,
 } from './types';
 import axios from 'axios';
 
@@ -82,5 +83,12 @@ export const reOrderCards = (newCards) => {
   return {
     type: REORDER_CARDS,
     payload: newCards,
+  }
+}
+
+export const reOrderLists = (newLists) => {
+  return {
+    type: REORDER_LISTS,
+    payload: newLists,
   }
 }

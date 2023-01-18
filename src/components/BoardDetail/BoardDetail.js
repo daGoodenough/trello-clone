@@ -1,4 +1,5 @@
 import WorkflowList from './WorkflowList';
+import ListLocation from './ListLocation'
 import {useParams, useNavigate} from 'react-router-dom'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -20,7 +21,6 @@ function BoardDetail() {
   const thisState = useSelector((state)=>state.boardDetails)
   const [isLoading, setIsLoading] = useState(true)
   const [exists, setExists] = useState(true)
-  const [listExists, setListExists] = useState(true)
   const [show, setShow] = useState(false);
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
   const [currentTitle, setCurrentTitle] = useState(title)
@@ -29,13 +29,13 @@ function BoardDetail() {
   const [newListValue, setNewListValue] = useState('')
   const [newList, setNewList] = useState('')
   const [isPostingCardDetails, setIsPostingCardDetails] = useState(false)
-  const [listId, setListId] = useState('')
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
   const [cardIsDeleting, setCardIsDeleting] = useState(false)
   const [existsBoardToRerender, setExistsBoardToRerender] = useState(false)
 
+  // console.log(thisState)
   
   //GET data
   useEffect(()=>{
@@ -69,24 +69,6 @@ useEffect(()=>{
 }
   fetchData()
 },[isPostingCardDetails])
-
-
-//GET data after card has been deleted
-  useEffect(()=>{
-    async function fetchData() {
-      try{
-        const boardDetails = await fetchBoardDetails(boardId)
-        dispatch(storeBoardDetails(boardDetails))
-      }
-      catch (error) {
-        console.log(error)
-    } finally {
-        setCardIsDeleting(false)
-        console.log('deleted card')
-    }
-  }
-    fetchData()
-  },[cardIsDeleting])
 
 
 //GET data after board has been updated
@@ -165,7 +147,7 @@ useEffect(()=>{
     
   },[newList])
 
-
+console.log('fluus', workflows)
   if (isLoading) {
     return <div>Loading...</div>
 }
@@ -192,8 +174,7 @@ useEffect(()=>{
       </Modal>
         <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
-        {/* {workflows.map((i=> <ListLocation boardId={boardId} setCardIsDeleting={setCardIsDeleting} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists}/>))} */}
-        {workflows.map((i=> <WorkflowList boardId={boardId} setCardIsDeleting={setCardIsDeleting} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists}/>))}
+        {workflows.map((i=> <ListLocation workflows={workflows} listOrder={i.order} boardId={boardId} key={i.id} setIsPostingCardDetails={setIsPostingCardDetails}/>))}
         <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={()=>setIsCreating(true)} style={{display: isCreating ? 'none' : 'block'}}>Create new list<PatchPlus className="icn add-list-icon"/></button>
         <div className='new-workflow-box' style={{display: isCreating ? 'block' : 'none',}}>
         <input placeholder='List name' type='text' value={newListValue} onChange={(e)=>setNewListValue(e.target.value)}></input>

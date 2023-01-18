@@ -275,6 +275,11 @@ nav span {
   margin: 10px 10px 10px 10px;
 }
 
+.workflow-item:hover{
+cursor:pointer;
+}
+
+
 .workflow-item:hover .delete-list-icn {
   display: inline-flex;
 }
