@@ -30,7 +30,7 @@ function ListLocation({boardId, setIsPostingCardDetails, workflows, listOrder })
             }
             return i
         })
-        console.log(newLists)
+        console.log('new lists', newLists)
         dispatch(reOrderLists(newLists))
         }
     })

@@ -7,7 +7,7 @@ import {useEffect, useState} from 'react'
 import {fetchBoardDetails} from '../../helpers/fetchData'
 import {postList, updateBoard} from '../../helpers/postData'
 import {useDispatch, useSelector} from 'react-redux'
-import {storeBoardDetails} from '../../actions'
+import {reOrderCards, storeBoardDetails} from '../../actions'
 import { Trash3Fill, PatchPlus, Pencil, Backspace } from 'react-bootstrap-icons';
 import { deleteBoard, deleteList } from '../../helpers/deleteData';
 import { Modal } from 'react-bootstrap'
@@ -32,11 +32,8 @@ function BoardDetail() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
-  const [cardIsDeleting, setCardIsDeleting] = useState(false)
   const [existsBoardToRerender, setExistsBoardToRerender] = useState(false)
 
-  // console.log(thisState)
-  
   //GET data
   useEffect(()=>{
     async function fetchData() {
@@ -147,7 +144,6 @@ useEffect(()=>{
     
   },[newList])
 
-console.log('fluus', workflows)
   if (isLoading) {
     return <div>Loading...</div>
 }
@@ -174,7 +170,8 @@ console.log('fluus', workflows)
       </Modal>
         <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
-        {workflows.map((i=> <ListLocation workflows={workflows} listOrder={i.order} boardId={boardId} key={i.id} setIsPostingCardDetails={setIsPostingCardDetails}/>))}
+        {workflows.map((i, index)=> {
+        return <ListLocation workflows={workflows} listOrder={index} boardId={boardId} key={i.id} setIsPostingCardDetails={setIsPostingCardDetails}/>})}
         <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={()=>setIsCreating(true)} style={{display: isCreating ? 'none' : 'block'}}>Create new list<PatchPlus className="icn add-list-icon"/></button>
         <div className='new-workflow-box' style={{display: isCreating ? 'block' : 'none',}}>
         <input placeholder='List name' type='text' value={newListValue} onChange={(e)=>setNewListValue(e.target.value)}></input>
