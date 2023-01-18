@@ -8,6 +8,8 @@ function CardLocation ({setCardIsDeleting, index, setIsPostingCardDetails, listI
 
   const cards = useSelector((state) =>state?.boardDetails?.cards)
   const dispatch = useDispatch();
+
+
    
     const [, drop] = useDrop({
         accept: 'card',
