@@ -5,13 +5,16 @@ axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getIte
 export const postComment = async (cardId, commentToPost, userId) => {
   if (commentToPost.length < 1) return
   try {
-    await axios.post(`http://localhost:5000/api/cards/${cardId}`, {
-      text: commentToPost,
-      userId: userId,
-    })
-      .then(response => {
+    await axios
+      .post(
+        `http://localhost:5000/api/org/:orgId/user/${userId}/boards/:boardId/lists/:listId/cards/${cardId}`,
+        {
+          text: commentToPost
+        }
+      )
+      .then((response) => {
         console.log(response.data);
-      })
+      });
   }
   catch (e) {
     console.error('Error in posting comment', e);
@@ -21,13 +24,16 @@ export const postComment = async (cardId, commentToPost, userId) => {
 
   export const postCard = async (listId, cardToPost, boardId) => {
     try{
-   await axios.post(`http://localhost:5000/api/lists/${listId}`,{
-      title: cardToPost,
-      boardId
-    })
-      .then(response => {
-        console.log(response.data);
-      })
+   await axios
+     .post(
+       `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}`,
+       {
+         title: cardToPost
+       }
+     )
+     .then((response) => {
+       console.log(response.data);
+     });
   }
   catch (e) {
     console.error('Error in posting comment', e);
@@ -37,15 +43,20 @@ export const postComment = async (cardId, commentToPost, userId) => {
 
   export const postBoard = async (userId, newBoard, orgId) => {
     try{
-       const response = await axios.post(`http://localhost:5000/api/user/${userId}`, {
-          title: newBoard,
-          orgId
-    })
+       const response = await axios.post(
+         `http://localhost:5000/api/org/${orgId}/user/${userId}/boards`,
+         {
+           title: newBoard
+         }
+       );
     if (response.status === 200) {
       ['To Do', 'Doing', 'Done'].forEach(list => {
-        axios.post(`http://localhost:5000/api/boards/${response.data.id}`, {
-          description: list,
-        })
+        axios.post(
+          `http://localhost:5000/api/org/:orgId/user/:userId/boards/${response.data.id}/lists`,
+          {
+            description: list,
+          }
+        );
       })
     }
     return response.data
@@ -58,9 +69,12 @@ export const postComment = async (cardId, commentToPost, userId) => {
 
 export const postList = async (boardId, newList) => {
   try {
-    const response = await axios.post(`http://localhost:5000/api/boards/${boardId}`, {
-      description: newList
-    })
+    const response = await axios.post(
+      `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists`,
+      {
+        description: newList,
+      }
+    );
     return response.data
   }
   catch (e) {
