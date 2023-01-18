@@ -255,8 +255,16 @@ nav span {
 }
 
 .back-button {
-  margin-bottom: 5%;
-  margin-top: -2.5%;
+  margin-bottom: 0.5%;
+  margin-right: 1%;
+  display: inline-block;
+  font-size: 1.7rem;
+  color: #0369a6;
+}
+
+.left-arrow:hover {
+  background-color: #c7c7c7;
+  cursor: pointer;
 }
 
 .workflow-box {
@@ -275,10 +283,9 @@ nav span {
   margin: 10px 10px 10px 10px;
 }
 
-.workflow-item:hover{
-cursor:pointer;
+.workflow-item:hover {
+  cursor: pointer;
 }
-
 
 .workflow-item:hover .delete-list-icn {
   display: inline-flex;
@@ -296,10 +303,10 @@ cursor:pointer;
 }
 
 .loader {
-position:absolute;
-right: 10px;
-top: -20px;
-width: 20%;
+  position: absolute;
+  right: 10px;
+  top: -20px;
+  width: 20%;
 }
 
 .workflow-wrapper {
@@ -491,7 +498,7 @@ width: 20%;
   top: -150%;
   z-index: 2;
   padding: 5% 10% 10% 15%;
-  cursor:auto;
+  cursor: auto;
 }
 
 .card-detail-box h5 {
