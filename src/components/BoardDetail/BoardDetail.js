@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { fetchBoardDetails } from '../../helpers/fetchData'
 import { postList, updateBoard } from '../../helpers/postData'
 import { useDispatch, useSelector } from 'react-redux'
-import {reOrderCards,  storeBoardDetails } from '../../actions'
+import { reOrderCards, storeBoardDetails, updateBoardTitle } from '../../actions'
 import { Trash3Fill, PatchPlus, Pencil, Backspace, ArrowBarLeft } from 'react-bootstrap-icons';
 import { deleteBoard, deleteList } from '../../helpers/deleteData';
 import { Modal } from 'react-bootstrap'
@@ -24,7 +24,6 @@ function BoardDetail() {
   const [show, setShow] = useState(false);
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
   const [currentTitle, setCurrentTitle] = useState(title)
-  const [existsTitleToUpdate, setExistsTitleToUpdate] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
   const [newListValue, setNewListValue] = useState('')
   const [newList, setNewList] = useState('')
@@ -32,7 +31,6 @@ function BoardDetail() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
-  const [existsBoardToRerender, setExistsBoardToRerender] = useState(false)
 
   //GET data
   useEffect(() => {
@@ -67,42 +65,20 @@ function BoardDetail() {
     fetchData()
   }, [isPostingCardDetails])
 
-
-  //GET data after board has been updated
-  useEffect(() => {
-    async function fetchData() {
+    //update title
+    const handleTitleChange = async (title) => {
       try {
-        const boardDetails = await fetchBoardDetails(boardId)
-        dispatch(storeBoardDetails(boardDetails))
+        dispatch(updateBoardTitle(title))
+        setIsEditingBoardName(false);
+  
+        const updatedBoard = await updateBoard(boardId, title)
+        dispatch(storeBoardDetails(updatedBoard))
+      } catch (err) {
+        // setPostingErrors(err);
+        setIsEditingBoardName(false);
+        console.log(err)
       }
-      catch (error) {
-        console.log(error)
-      } finally {
-        console.log('updated board')
-      }
-    }
-    fetchData()
-  }, [existsBoardToRerender])
-
-
-  //UPDATE board title
-  useEffect(() => {
-    async function postData() {
-      try {
-        setExistsBoardToRerender(false)
-        await updateBoard(boardId, currentTitle)
-      }
-      catch (error) {
-        console.log(error)
-      } finally {
-        setIsEditingBoardName(false)
-        setExistsTitleToUpdate(false)
-        setExistsBoardToRerender(true)
-      }
-    }
-    if (!existsTitleToUpdate) return
-    postData()
-  }, [existsTitleToUpdate])
+    };
 
 
   //DELETE board
@@ -122,8 +98,6 @@ function BoardDetail() {
     deleteData();
   }, [exists])
 
-
-
   //POST list
   useEffect(() => {
     async function postData() {
@@ -141,7 +115,6 @@ function BoardDetail() {
     if (newList?.length > 1) {
       postData()
     }
-
   }, [newList])
 
   if (isLoading) {
@@ -152,7 +125,11 @@ function BoardDetail() {
       <div className='board-detail-header'>
         <div className='back-button' onClick={() => navigate(`/`)}><ArrowBarLeft className='left-arrow' /></div>
         <h1 style={{ display: isEditingBoardName ? 'none' : 'inline-flex' }}>{title}</h1>
-        <input style={{ display: isEditingBoardName ? 'inline-flex' : 'none' }} value={currentTitle} onChange={(e) => setCurrentTitle(e.target.value)} onBlur={() => setExistsTitleToUpdate(true)}>
+        <input 
+          style={{ display: isEditingBoardName ? 'inline-flex' : 'none' }} 
+          value={currentTitle} 
+          onChange={(e) => setCurrentTitle(e.target.value)} 
+          onBlur={(e) => handleTitleChange(e.target.value)}>
         </input>
         <Pencil className="pencil-icon icn" onClick={() => setIsEditingBoardName(true)} />
         <Trash3Fill onClick={() => setShow(true)} className="delete-board-icon icn" />
@@ -170,15 +147,16 @@ function BoardDetail() {
       </Modal>
       <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
-        {workflows.map((i, index)=> {
-        return <ListLocation workflows={workflows} listOrder={index} boardId={boardId} key={i.id} setIsPostingCardDetails={setIsPostingCardDetails}/>})}
-        <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={()=>setIsCreating(true)} style={{display: isCreating ? 'none' : 'block'}}>Create new list<PatchPlus className="icn add-list-icon"/></button>
-        <div className='new-workflow-box' style={{display: isCreating ? 'block' : 'none',}}>
-        <input placeholder='List name' type='text' value={newListValue} onChange={(e)=>setNewListValue(e.target.value)}></input>
-        <button className='btn btn-primary' onClick={()=>setNewList(newListValue)}>Create</button>
-        <Backspace className='close-new-workflow icn' onClick={()=>setIsCreating(false)}/>
-      </div>
-      </div>
+          {workflows.map((i, index) => {
+            return <ListLocation workflows={workflows} listOrder={index} boardId={boardId} key={i.id} setIsPostingCardDetails={setIsPostingCardDetails} />
+          })}
+          <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={() => setIsCreating(true)} style={{ display: isCreating ? 'none' : 'block' }}>Create new list<PatchPlus className="icn add-list-icon" /></button>
+            <div className='new-workflow-box' style={{ display: isCreating ? 'block' : 'none', }}>
+              <input placeholder='List name' type='text' value={newListValue} onChange={(e) => setNewListValue(e.target.value)}></input>
+              <button className='btn btn-primary' onClick={() => setNewList(newListValue)}>Create</button>
+              <Backspace className='close-new-workflow icn' onClick={() => setIsCreating(false)} />
+            </div>
+          </div>
         </div>
       </DndProvider>
     </div>
