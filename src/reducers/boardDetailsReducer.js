@@ -1,4 +1,4 @@
-import { STORE_BOARD_DETAILS, REORDER_CARDS } from '../actions/types';
+import { STORE_BOARD_DETAILS, REORDER_CARDS, REORDER_LISTS } from '../actions/types';
 
 const DEFAULT_STATE = {cards:[]}
 
@@ -8,6 +8,8 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
             return action.payload;
         case REORDER_CARDS:
             return {...state, cards: action.payload}
+        case REORDER_LISTS:
+            return {...state, lists: action.payload}
             default:
                 return state;
     }

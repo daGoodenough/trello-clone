@@ -9,6 +9,7 @@ const BoardList = ({boards, userId, setIsPosting}) => {
   const [isCreating, setIsCreating] = useState(false)
   const [newBoard, setNewBoard] = useState('')
   const [newBoardValue, setNewBoardValue] = useState('')
+  const orgId = '6cdbf98a-12c1-4d1b-83b4-863e8fca8224'
   const navigate = useNavigate();
 
 
@@ -16,7 +17,7 @@ const BoardList = ({boards, userId, setIsPosting}) => {
     async function postData(){
       try{
         setIsPosting(true)
-       const response = await postBoard(userId, newBoard)
+       const response = await postBoard(userId, newBoard, orgId)
        navigate(`/board/${response.id}`);
       }
       catch (error) {

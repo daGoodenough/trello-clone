@@ -1,12 +1,12 @@
-import Card from './Card';
 import CardLocation from './CardLocation'
+import { useDrag } from 'react-dnd'
 import { useEffect, useState, useRef } from 'react';
 import { useSelector  } from 'react-redux';
 import { Backspace, Trash3Fill } from 'react-bootstrap-icons';
 import { postCard } from '../../helpers/postData'
 import { deleteList } from '../../helpers/deleteData'
 
-function WorkflowList({setCardIsDeleting, description, id, setIsPostingCardDetails, setListId, boardId}) {
+function WorkflowList({description, listOrder, id, setIsPostingCardDetails, setListId, boardId}) {
   const cards = useSelector((state) => state?.boardDetails?.cards)
   const [newCard, setNewCard] = useState('')
   const [newCardOrder, setNewCardOrder] = useState(0)
@@ -44,25 +44,38 @@ async function deleteThisList(){
 
 
 
-  const emptyArr = []
-  for (let i = 0; i < cards?.length; i++) {
-    emptyArr.push(i)
-    if(cards[i].listId===id) {
-      setNewCardOrder(newCardOrder+1)
-    }
-  }
+  // const emptyArr = []
+  // for (let i = 0; i < cards?.length; i++) {
+  //   emptyArr.push(i)
+  //   // if(cards[i].listId===id) {
+  //   //   setNewCardOrder(newCardOrder+1)
+  //   // }
+  // }
 
-  console.log(newCardOrder)
+  // console.log(newCardOrder)
 
- 
+
+    //make list draggable
+    const [{ opacity }, dragRef] = useDrag(
+      () => ({
+        type: 'list',
+        item:  {id, description, listOrder} ,
+        collect: (monitor) => ({
+          opacity: monitor.isDragging() ? 0.5 : 1
+        })
+      }),
+      []
+    )
+
+//  console.log('cards', cards)
     return (
-      <div className="workflow-item">
+      <div ref={dragRef} className="workflow-item">
         <div className='workflow-wrapper'>
         <h5>{description}</h5>
         <Trash3Fill onClick={()=>deleteThisList()} className="icn delete-list-icn"/>
         <ul className="list-ul" >
-  {emptyArr.map(index => (
-    <CardLocation setCardIsDeleting={setCardIsDeleting} index={index} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
+  {cards.map(i => (
+    <CardLocation index={i.order} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
 </ul>
         </div>
         <div className="add-card-section" >

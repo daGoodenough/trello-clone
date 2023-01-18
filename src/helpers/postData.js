@@ -35,10 +35,11 @@ export const postComment = async (cardId, commentToPost, userId) => {
     }
   }
 
-  export const postBoard = async (userId, newBoard) => {
+  export const postBoard = async (userId, newBoard, orgId) => {
     try{
        const response = await axios.post(`http://localhost:5000/api/user/${userId}`, {
-          title: newBoard
+          title: newBoard,
+          orgId
     })
     return response.data
     }

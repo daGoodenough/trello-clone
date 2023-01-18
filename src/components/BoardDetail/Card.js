@@ -7,7 +7,7 @@ import { updateCard } from '../../helpers/postData'
 import { ThreeDots } from 'react-loader-spinner'
 
 
-const Card = ({ setCardIsDeleting, order, title, cardId, listId, description, listName, setIsPostingCardDetails }) => {
+const Card = ({order, title, cardId, listId, description, listName, setIsPostingCardDetails }) => {
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [existsTitleToChange, setExistsTitleToChange] = useState(false)
@@ -33,7 +33,7 @@ const Card = ({ setCardIsDeleting, order, title, cardId, listId, description, li
   useEffect(()=>{
     async function deleteData(){
       try {
-       setCardIsDeleting(true)
+       setIsPostingCardDetails(true)
        setIsDeleting(true)
        await deleteCard(thisCardId)
       }
@@ -41,7 +41,7 @@ const Card = ({ setCardIsDeleting, order, title, cardId, listId, description, li
         console.error(e)
       }
       finally{
-        setCardIsDeleting(false)
+        setIsPostingCardDetails(false)
         setIsDeleting(false)
       }
     }
