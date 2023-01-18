@@ -19,10 +19,11 @@ export const postComment = async (cardId, commentToPost, userId) => {
     }
   }
 
-  export const postCard = async (listId, cardToPost) => {
+  export const postCard = async (listId, cardToPost, boardId) => {
     try{
    await axios.post(`http://localhost:5000/api/lists/${listId}`,{
-      title: cardToPost
+      title: cardToPost,
+      boardId
     })
     .then(response => {
         console.log(response.data);

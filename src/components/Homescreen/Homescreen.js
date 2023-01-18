@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 const Homescreen = () => {
   const { userId } = useSelector(state => state.auth)
+  // const userId = 'ccf964bc-d992-4bb8-9fa1-ffcb38487179'
   const [isLoading, setIsLoading] = useState(true)
   const [isPosting, setIsPosting] = useState(0)
   const data = useSelector((state) => state.homescreen)
@@ -38,8 +39,8 @@ const Homescreen = () => {
   }
   return (
     <div>
-      <HomeHeader title={data.org.name} />
-      <BoardList boards={data.org.boards} userId={userId} setIsPosting={setIsPosting} />
+      <HomeHeader title={data?.org?.name} />
+      <BoardList boards={data?.org?.boards} userId={userId} setIsPosting={setIsPosting} />
     </div>
   );
 }

@@ -4,18 +4,19 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector  } from 'react-redux';
 import { Backspace, Trash3Fill } from 'react-bootstrap-icons';
 import { postCard } from '../../helpers/postData'
+import { deleteList } from '../../helpers/deleteData'
 
-function WorkflowList({setCardIsDeleting, description, id, setIsPostingCardDetails, setListId}) {
+function WorkflowList({setCardIsDeleting, description, id, setIsPostingCardDetails, setListId, boardId}) {
   const cards = useSelector((state) => state?.boardDetails?.cards)
   const [newCard, setNewCard] = useState('')
+  const [newCardOrder, setNewCardOrder] = useState(0)
   const [isComposingCard, setIsComposingCard] = useState(false)
-  const locationRef = useRef(null);
 
 
 async function postNewCard(){
     try{
         setIsPostingCardDetails(true)
-        await postCard(id, newCard)
+        await postCard(id, newCard, boardId)
       }
     catch(e){
         console.error(e)
@@ -27,20 +28,38 @@ async function postNewCard(){
       }
     }
 
+async function deleteThisList(){
+  try{
+      setIsPostingCardDetails(true)
+      await deleteList(id)
+    }
+  catch(e){
+      console.error(e)
+    }
+  finally{
+      setIsPostingCardDetails(false)
+      setListId('')
+    }
+  }
 
-  
+
 
   const emptyArr = []
   for (let i = 0; i < cards?.length; i++) {
     emptyArr.push(i)
+    if(cards[i].listId===id) {
+      setNewCardOrder(newCardOrder+1)
+    }
   }
+
+  console.log(newCardOrder)
 
  
     return (
       <div className="workflow-item">
         <div className='workflow-wrapper'>
         <h5>{description}</h5>
-        <Trash3Fill onClick={()=>setListId(id)} className="icn delete-list-icn"/>
+        <Trash3Fill onClick={()=>deleteThisList()} className="icn delete-list-icn"/>
         <ul className="list-ul" >
   {emptyArr.map(index => (
     <CardLocation setCardIsDeleting={setCardIsDeleting} index={index} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}

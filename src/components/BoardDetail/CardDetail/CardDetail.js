@@ -9,15 +9,11 @@ import { deleteComment } from "../../../helpers/deleteData";
 
 function CardDetail({ isOpen, setIsOpen, cardId, listName }) {
 
-  
-  const [isLoading, setIsLoading] = useState(true)
   const [currentComment, setCurrentComment] = useState('')
-  const [existsCommentToAdd, setExistsCommentToAdd] = useState(false)
   const [isPostingComment, setIsPostingComment] = useState(false)
   const [isDeletingComment, setIsDeletingComment] = useState(false)
   const [isEditingComment, setIsEditingComment] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
-  const [existsDescriptionToAdd, setExistsDescriptionToAdd] = useState(false)
   const [isPostingDescription, setIsPostingDescription] = useState(false)
   const [commentId, setCommentId] = useState('')
   const userId = useSelector((state)=> state?.auth?.userId)
@@ -54,48 +50,37 @@ useEffect(()=>{
 },[isOpen, isPostingComment, isDeletingComment, isPostingDescription])
 
 //POST comment
-useEffect(()=>{
-  async function postData(){
-    try{
+async function postNewComment(){
+  try{
       setIsPostingComment(true)
       await postComment(cardId, currentComment, userId) 
     }
-    catch(e) {
+  catch(e) {
       console.error(e)
     }
-    finally{
-      setExistsCommentToAdd(false)
+  finally{
       setIsPostingComment(false)
       setCurrentComment('')
       setIsEditingComment(false)
     }
   }
-  if(currentComment?.length<1) return
-  if(!existsCommentToAdd) return
-  postData()
-}, [existsCommentToAdd])
+
 
 //POST description
-
-useEffect(()=>{
-  async function postData(){
-    try{
+async function postDescription(){
+  try{
       setIsPostingDescription(true)
       await updateCardDescription(cardId, description) 
     }
-    catch(e) {
+  catch(e) {
       console.error(e)
     }
-    finally{
-      setExistsDescriptionToAdd(false)
+  finally{
       setIsPostingDescription(false)
       setIsEditingDescription(false)
     }
   }
-  if(description?.length<1) return
-  if(!existsDescriptionToAdd) return
-  postData()
-}, [existsDescriptionToAdd])
+
 
 //DELETE comment
   useEffect(()=>{
@@ -136,13 +121,13 @@ useEffect(()=>{
         <p className="card-description" style={{display: isEditingDescription ? 'none' : 'block'}}>{cardDetails?.description}</p>
         <div className="description-editor" style={{display: isEditingDescription ? 'block' : 'none'}}>
         <textarea value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
-        <button className="save-description btn btn-success" onClick={()=>setExistsDescriptionToAdd(true)}>Save</button>
+        <button className="save-description btn btn-success" onClick={()=>postDescription()}>Save</button>
         </div>
         <h5><CardList className="card-icons"/>Activity</h5>
         <div className="comment-editor">
           <textarea placeholder="Write a comment.." value={currentComment} onChange={(e)=>setCurrentComment(e.target.value)} onFocus={()=>setIsEditingComment(true)}>
           </textarea>
-          <button className="save-comment btn" onClick={()=>setExistsCommentToAdd(true)} style={{display: isEditingComment ? 'block' : 'none',}}>
+          <button className="save-comment btn" onClick={()=>postNewComment()} style={{display: isEditingComment ? 'block' : 'none',}}>
             {isPostingComment ? null : <span>Save</span>}{isPostingComment ? <div className='loader'><ThreeDots color="black"/></div> : null}</button>
         </div>
         {comments.map((i)=>{

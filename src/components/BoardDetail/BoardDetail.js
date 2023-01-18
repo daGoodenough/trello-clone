@@ -28,18 +28,15 @@ function BoardDetail() {
   const [isCreating, setIsCreating] = useState(false)
   const [newListValue, setNewListValue] = useState('')
   const [newList, setNewList] = useState('')
-  const [isPosting, setIsPosting] = useState(false)
   const [isPostingCardDetails, setIsPostingCardDetails] = useState(false)
   const [listId, setListId] = useState('')
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
   const [cardIsDeleting, setCardIsDeleting] = useState(false)
-  const [isReady, setIsReady] = useState(false)
   const [existsBoardToRerender, setExistsBoardToRerender] = useState(false)
 
-  // console.log(thisState)
-
+  
   //GET data
   useEffect(()=>{
     async function fetchData() {
@@ -55,20 +52,18 @@ function BoardDetail() {
     }
   }
     fetchData()
-  },[isPosting])
+  },[])
 
 //GET data after card has been renamed
 useEffect(()=>{
   async function fetchData() {
     try{
-      setIsReady(false)
       const boardDetails = await fetchBoardDetails(boardId)
       dispatch(storeBoardDetails(boardDetails))
     }
     catch (error) {
       console.log(error)
   } finally {
-      setIsReady(true)
       setIsPostingCardDetails(false)
   }
 }
@@ -80,14 +75,12 @@ useEffect(()=>{
   useEffect(()=>{
     async function fetchData() {
       try{
-        setIsReady(false)
         const boardDetails = await fetchBoardDetails(boardId)
         dispatch(storeBoardDetails(boardDetails))
       }
       catch (error) {
         console.log(error)
     } finally {
-        setIsReady(true)
         setCardIsDeleting(false)
         console.log('deleted card')
     }
@@ -150,36 +143,19 @@ useEffect(()=>{
     deleteData();
   },[exists])
 
-//DELETE list
-  useEffect(()=>{
-    if(listId?.length<2) return
-    async function deleteData(){
-      try{
-        setIsPosting(true)
-        await deleteList(listId)
-      }
-      catch(e){
-        console.error(e)
-      }
-      finally{
-        setIsPosting(false)
-        setListId('')
-      }
-    }
-    deleteData()
-  },[listId])
+
 
 //POST list
   useEffect(()=>{
     async function postData(){
       try{
-        setIsPosting(true)
+      setIsPostingCardDetails(true)
        await postList(boardId, newList)
       }
       catch (error) {
         console.log(error)
     } finally {
-      setIsPosting(false)
+      setIsPostingCardDetails(false)
       setNewListValue('')
     }
     }
@@ -216,7 +192,8 @@ useEffect(()=>{
       </Modal>
         <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
-        {workflows.map((i=> <WorkflowList setCardIsDeleting={setCardIsDeleting} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists} setListId={setListId}/>))}
+        {/* {workflows.map((i=> <ListLocation boardId={boardId} setCardIsDeleting={setCardIsDeleting} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists}/>))} */}
+        {workflows.map((i=> <WorkflowList boardId={boardId} setCardIsDeleting={setCardIsDeleting} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails} setListExists={setListExists}/>))}
         <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={()=>setIsCreating(true)} style={{display: isCreating ? 'none' : 'block'}}>Create new list<PatchPlus className="icn add-list-icon"/></button>
         <div className='new-workflow-box' style={{display: isCreating ? 'block' : 'none',}}>
         <input placeholder='List name' type='text' value={newListValue} onChange={(e)=>setNewListValue(e.target.value)}></input>
