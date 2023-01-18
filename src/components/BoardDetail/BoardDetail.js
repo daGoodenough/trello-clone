@@ -20,7 +20,6 @@ function BoardDetail() {
   const workflows = useSelector((state) => state.boardDetails.lists)
   const thisState = useSelector((state) => state.boardDetails)
   const [isLoading, setIsLoading] = useState(true)
-  const [exists, setExists] = useState(true)
   const [show, setShow] = useState(false);
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
   const [currentTitle, setCurrentTitle] = useState(title)
@@ -65,38 +64,31 @@ function BoardDetail() {
     fetchData()
   }, [isPostingCardDetails])
 
-    //update title
-    const handleTitleChange = async (title) => {
-      try {
-        dispatch(updateBoardTitle(title))
-        setIsEditingBoardName(false);
-  
-        const updatedBoard = await updateBoard(boardId, title)
-        dispatch(storeBoardDetails(updatedBoard))
-      } catch (err) {
-        // setPostingErrors(err);
-        setIsEditingBoardName(false);
-        console.log(err)
-      }
-    };
+  //update title
+  const handleTitleChange = async (title) => {
+    try {
+      dispatch(updateBoardTitle(title))
+      setIsEditingBoardName(false);
 
-
-  //DELETE board
-  useEffect(() => {
-    if (exists) return
-    async function deleteData() {
-      try {
-        await deleteBoard(boardId)
-        navigate(`/`);
-      }
-      catch (error) {
-        console.log(error)
-      } finally {
-        console.log('done');
-      }
+      const updatedBoard = await updateBoard(boardId, title)
+      dispatch(storeBoardDetails(updatedBoard))
+    } catch (err) {
+      // setPostingErrors(err);
+      setIsEditingBoardName(false);
+      console.log(err)
     }
-    deleteData();
-  }, [exists])
+  };
+
+  //DELETE board on click of confirmation
+  const handleBoardDelete = async () => {
+    try {
+      await deleteBoard(boardId)
+      navigate(`/`);
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
   //POST list
   useEffect(() => {
@@ -125,14 +117,20 @@ function BoardDetail() {
       <div className='board-detail-header'>
         <div className='back-button' onClick={() => navigate(`/`)}><ArrowBarLeft className='left-arrow' /></div>
         <h1 style={{ display: isEditingBoardName ? 'none' : 'inline-flex' }}>{title}</h1>
-        <input 
-          style={{ display: isEditingBoardName ? 'inline-flex' : 'none' }} 
-          value={currentTitle} 
-          onChange={(e) => setCurrentTitle(e.target.value)} 
+        <input
+          style={{ display: isEditingBoardName ? 'inline-flex' : 'none' }}
+          value={currentTitle}
+          onChange={(e) => setCurrentTitle(e.target.value)}
           onBlur={(e) => handleTitleChange(e.target.value)}>
         </input>
-        <Pencil className="pencil-icon icn" onClick={() => setIsEditingBoardName(true)} />
-        <Trash3Fill onClick={() => setShow(true)} className="delete-board-icon icn" />
+        <Pencil
+          className="pencil-icon icn"
+          onClick={() => setIsEditingBoardName(true)}
+        />
+        <Trash3Fill
+          onClick={() => setShow(true)}
+          className="delete-board-icon icn"
+        />
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton><h4>Are you sure you want to delete this board?</h4></Modal.Header>
@@ -140,7 +138,7 @@ function BoardDetail() {
           <button class="btn" onClick={handleClose}>
             Cancel
           </button>
-          <button class="btn btn-danger" onClick={() => setExists(false)}>
+          <button class="btn btn-danger" onClick={() => handleBoardDelete()}>
             Delete Board
           </button>
         </Modal.Footer>
