@@ -66,7 +66,7 @@ router.post("/api/user/:userId", async (req, res) => {
   const board = await prisma.board.create({
     data: {
       title: req.body.title,
-      Organization: { connect: { id: "d147c263-ec28-4af9-b3f6-38f905bd2a5b" } },
+      Organization: { connect: { id: req.body.orgId } },
     },
   });
   res.json(board);
