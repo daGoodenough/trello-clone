@@ -9,6 +9,7 @@ import {
   GET_USER,
   REMOVE_USER,
   REORDER_LISTS,
+  UPDATE_TITLE,
 } from './types';
 import axios from 'axios';
 
@@ -90,5 +91,12 @@ export const reOrderLists = (newLists) => {
   return {
     type: REORDER_LISTS,
     payload: newLists,
+  }
+}
+
+export const updateBoardTitle = (newTitle) => {
+  return {
+    type: UPDATE_TITLE,
+    payload: newTitle,
   }
 }
