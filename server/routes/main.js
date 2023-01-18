@@ -38,7 +38,7 @@ router.get("/api/user/:userId", async (req, res) => {
 });
 //GET a user based on userId with an "org" property with a list of "boards"
 
-router.post("/api/dev/org", async (req, res) => {
+router.post("/api/org", async (req, res) => {
   const org = await prisma.organization.create({
     data: {
       name: req.body.name
@@ -48,7 +48,7 @@ router.post("/api/dev/org", async (req, res) => {
 });
 //ADD new Organization
 
-router.post("/api/dev/:orgId", async (req, res) => {
+router.post("/api/org/:orgId/user", async (req, res) => {
   const user = await prisma.user.create({
     data: {
       name: req.body.name,
@@ -62,11 +62,11 @@ router.post("/api/dev/:orgId", async (req, res) => {
 });
 //ADD new User to an Organization
 
-router.post("/api/user/:userId", async (req, res) => {
+router.post("/api/org/:orgId/user/:userId/boards", async (req, res) => {
   const board = await prisma.board.create({
     data: {
       title: req.body.title,
-      Organization: { connect: { id: req.body.orgId } },
+      Organization: { connect: { id: req.params.orgId } },
     },
   });
   res.json(board);
@@ -94,7 +94,7 @@ router.put("/api/boards/:boardId", async (req, res) => {
 });
 //UPDATE a board
 
-router.post("/api/boards/:boardId", async (req, res) => {
+router.post("/api/org/:orgId/user/:userId/boards/:boardId/lists", async (req, res) => {
   const list = await prisma.list.create({
     data: {
       description: req.body.description,
@@ -113,7 +113,7 @@ router.delete("/api/boards/:boardId", async (req, res) => {
 });
 //DELETE board (should be removed from the org its associated with as well)
 
-router.post("/api/lists/:listId", async (req, res) => {
+router.post("/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards", async (req, res) => {
   const card = await prisma.card.create({
     data: {
       title: req.body.title,
@@ -121,7 +121,7 @@ router.post("/api/lists/:listId", async (req, res) => {
         connect: { id: req.params.listId },
       },
       Board: {
-        connect: { id: req.body.boardId },
+        connect: { id: req.params.boardId },
       },
     },
   });
@@ -172,11 +172,11 @@ router.delete("/api/cards/:cardId", async (req, res) => {
 });
 //DELETE card
 
-router.post("/api/cards/:cardId", async (req, res) => {
+router.post("/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/:cardId/comments", async (req, res) => {
   const comment = await prisma.comment.create({
     data: {
       text: req.body.text,
-      user: { connect: { id: req.body.userId } },
+      user: { connect: { id: req.params.userId } },
       Card: { connect: { id: req.params.cardId } },
     },
   });
