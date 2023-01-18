@@ -89,6 +89,10 @@ router.put("/api/org/:orgId/user/:userId/boards/:boardId", async (req, res) => {
   const board = await prisma.board.update({
     where: { id: req.params.boardId },
     data: req.body,
+    include: {
+      lists: true,
+      cards: true,
+    }
   });
   res.json(board);
 });
