@@ -9,6 +9,7 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
         case REORDER_CARDS:
             return {...state, cards: action.payload}
         case REORDER_LISTS:
+            console.log('this is payload', action.payload)
             return {...state, lists: action.payload}
             default:
                 return state;
