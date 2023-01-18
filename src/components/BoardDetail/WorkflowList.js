@@ -74,8 +74,8 @@ async function deleteThisList(){
         <h5>{description}</h5>
         <Trash3Fill onClick={()=>deleteThisList()} className="icn delete-list-icn"/>
         <ul className="list-ul" >
-  {cards.map(i => (
-    <CardLocation index={i.order} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>))}
+  {cards?.map((element, index) => {
+    return <CardLocation index={index} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id}/>})}
 </ul>
         </div>
         <div className="add-card-section" >
