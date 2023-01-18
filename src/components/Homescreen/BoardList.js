@@ -39,7 +39,7 @@ const BoardList = ({boards, userId, setIsPosting}) => {
      <h5 id='board-list-title'>Boards</h5>
      <div className='flex-container'>
      <div className='board-list'>
-      {boards.map(item=>(<BoardItem id={item.id} title={item.title}  /> ))}
+      {boards.map(item=>(<BoardItem key={item.id} id={item.id} title={item.title}  /> ))}
       <div className='board-item new-board-trigger'><button className="open-board-creator" onClick={()=>setIsCreating(true)}>Create new board</button>
       <div className='new-board-box' style={{display: isCreating ? 'block' : 'none',}}>
         <input placeholder='Board Title' type='text' value={newBoardValue} onChange={(e)=>setNewBoardValue(e.target.value)}></input>
