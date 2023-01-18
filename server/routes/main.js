@@ -38,6 +38,30 @@ router.get("/api/user/:userId", async (req, res) => {
 });
 //GET a user based on userId with an "org" property with a list of "boards"
 
+router.post("/api/dev/org", async (req, res) => {
+  const org = await prisma.organization.create({
+    data: {
+      name: req.body.name
+    },
+  });
+  res.json(org);
+});
+//ADD new Organization
+
+router.post("/api/dev/:orgId", async (req, res) => {
+  const user = await prisma.user.create({
+    data: {
+      name: req.body.name,
+      email: req.body.email,
+      org: {
+        connect: { id: req.params.orgId }
+      },
+    }
+});
+  res.json(user);
+});
+//ADD new User to an Organization
+
 router.post("/api/user/:userId", async (req, res) => {
   const board = await prisma.board.create({
     data: {
