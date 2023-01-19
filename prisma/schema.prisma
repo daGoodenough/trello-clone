@@ -44,7 +44,7 @@ model Card {
   listId      String
   label       String?
   members     String[]
-  order       Int       @default(autoincrement())
+  order       Int?
   Board       Board?    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   boardId     String?
 }
@@ -55,7 +55,7 @@ model List {
   cards       Card[]
   Board       Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
   boardId     String
-  order       Int    @default(autoincrement())
+  order       Int?
 }
 
 model Board {

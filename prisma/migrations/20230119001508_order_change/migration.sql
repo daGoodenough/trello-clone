@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "Card" ALTER COLUMN "order" DROP NOT NULL,
+ALTER COLUMN "order" DROP DEFAULT;
+DROP SEQUENCE "Card_order_seq";
+
+-- AlterTable
+ALTER TABLE "List" ALTER COLUMN "order" DROP NOT NULL,
+ALTER COLUMN "order" DROP DEFAULT;
+DROP SEQUENCE "List_order_seq";
