@@ -17,7 +17,9 @@ export const fetchHomescreen = async (userId) => {
 
 export const fetchBoardDetails = async (boardId) => {
   try {
-    const results = await axios.get(`http://localhost:5000/api/boards/${boardId}`)
+    const results = await axios.get(
+      `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}`
+    );
     const data = results.data
     return data
   }
@@ -29,7 +31,9 @@ export const fetchBoardDetails = async (boardId) => {
 
 export const fetchCardDetails = async (cardId) => {
   try {
-    const results = await axios.get(`http://localhost:5000/api/cards/${cardId}`)
+    const results = await axios.get(
+      `http://localhost:5000//api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`
+    );
     const data = results.data
     return data
   }

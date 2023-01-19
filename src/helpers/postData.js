@@ -85,9 +85,12 @@ export const postList = async (boardId, newList) => {
 
 export const updateBoard = async (boardId, newTitle) => {
   try {
-    const response = await axios.put(`http://localhost:5000/api/boards/${boardId}`, {
-      title: newTitle
-    })
+    const response = await axios.put(
+      `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}`,
+      {
+        title: newTitle,
+      }
+    );
     return response.data
   }
   catch (e) {
@@ -98,9 +101,12 @@ export const updateBoard = async (boardId, newTitle) => {
 
 export const updateCard = async (cardId, newCard, newDescription) => {
   try {
-    const response = await axios.put(`http://localhost:5000/api/cards/${cardId}`, {
-      title: newCard
-    })
+    const response = await axios.put(
+      `http://localhost:5000/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`,
+      {
+        title: newCard,
+      }
+    );
     return response.data
   }
   catch (e) {
@@ -111,9 +117,12 @@ export const updateCard = async (cardId, newCard, newDescription) => {
 
 export const updateCardDescription = async (cardId, newDescription) => {
   try {
-    const response = await axios.put(`http://localhost:5000/api/cards/${cardId}`, {
-      description: newDescription
-    })
+    const response = await axios.put(
+      `http://localhost:5000/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`,
+      {
+        description: newDescription,
+      }
+    );
     return response.data
   }
   catch (e) {
