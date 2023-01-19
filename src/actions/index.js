@@ -10,6 +10,7 @@ import {
   REMOVE_USER,
   REORDER_LISTS,
   UPDATE_TITLE,
+  ADD_CARD
 } from './types';
 import axios from 'axios';
 
@@ -99,4 +100,27 @@ export const updateBoardTitle = (newTitle) => {
     type: UPDATE_TITLE,
     payload: newTitle,
   }
+}
+
+export const addCard = (listId, cardToPost, boardId, order) => dispatch => {
+  dispatch({
+    type: ADD_CARD, 
+    payload: {
+      boardId, 
+      description: null, 
+      label: null, 
+      listId, 
+      members: [], 
+      order, 
+      title: cardToPost
+    }})
+  
+  axios.post(
+    `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
+    {
+      title: cardToPost,
+      order
+    }
+  )
+  .then(response => dispatch({type: ADD_CARD, payload: response.data}))
 }

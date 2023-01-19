@@ -22,13 +22,14 @@ export const postComment = async (cardId, commentToPost, userId) => {
   }
 }
 
-  export const postCard = async (listId, cardToPost, boardId) => {
+  export const postCard = async (listId, cardToPost, boardId, order) => {
     try{
    await axios
      .post(
-       `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}`,
+       `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
        {
-         title: cardToPost
+         title: cardToPost,
+         order
        }
      )
      .then((response) => {
