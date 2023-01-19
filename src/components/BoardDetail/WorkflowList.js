@@ -27,8 +27,6 @@ function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, set
       dispatch(addCard(id, newCard, boardId, numCardsInList))
       //use redux-thunk to first dispatch the created card, 
       //then make POST to api, then dispatch again
-
-      await postCard(id, newCard, boardId, numCardsInList)
     }
     catch (e) {
       console.error(e)
