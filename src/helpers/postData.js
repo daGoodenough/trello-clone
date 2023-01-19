@@ -50,11 +50,12 @@ export const postComment = async (cardId, commentToPost, userId) => {
          }
        );
     if (response.status === 200) {
-      ['To Do', 'Doing', 'Done'].forEach(list => {
+      ['To Do', 'Doing', 'Done'].forEach((list, index) => {
         axios.post(
           `http://localhost:5000/api/org/:orgId/user/:userId/boards/${response.data.id}/lists`,
           {
             description: list,
+            order: index,
           }
         );
       })
