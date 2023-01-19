@@ -6,7 +6,7 @@ import {reOrderCards} from '../../actions'
 
 function CardLocation ({index, setIsPostingCardDetails, listId, listName}){
 
-  const cards = useSelector((state) =>state?.boardDetails?.cards)
+  const {cards, id} = useSelector((state) =>state?.boardDetails)
   const dispatch = useDispatch();
 
   const [, drop] = useDrop({
@@ -59,7 +59,7 @@ function CardLocation ({index, setIsPostingCardDetails, listId, listName}){
         else return i
     })
     console.log(nextCards)    
-    dispatch(reOrderCards(nextCards))
+    dispatch(reOrderCards(nextCards, id))
     },
 });
 
