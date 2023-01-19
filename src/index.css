@@ -281,6 +281,7 @@ nav span {
   border-radius: 6px;
   position: relative;
   margin: 10px 10px 10px 10px;
+  overflow-y: scroll;
 }
 
 .workflow-item:hover {
@@ -438,22 +439,24 @@ nav span {
 }
 
 .add-card-section {
-  position: absolute;
+  position: sticky;
+  width: 100%;
   bottom: 0;
   display: block;
-  width: 100%;
+  z-index: 3;
 }
 
 .add-card-btn {
   width: 100%;
-  opacity: 0.7;
   padding: 2.5%;
   border-radius: 6px;
+  background-color: #c7c7c7;
 }
 
 .add-card-btn:hover {
   opacity: 1;
-  background-color: #c7c7c7;
+  background-color: #3c3c3c;
+  color:white;
   cursor: pointer;
 }
 

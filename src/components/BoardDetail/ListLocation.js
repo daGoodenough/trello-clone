@@ -10,6 +10,7 @@ function ListLocation({boardId, setIsPostingCardDetails, workflows, listOrder })
     const [, drop] = useDrop({
         accept: 'list',
         drop: (list) => {
+            console.log('this got called')
             const selected=list.id
             const fromOrder=list.listOrder
             const newLists=workflows.map((i)=>{
