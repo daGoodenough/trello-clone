@@ -49,20 +49,20 @@ function BoardDetail() {
   }, [])
 
   //GET data after card has been renamed
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const boardDetails = await fetchBoardDetails(boardId)
-        dispatch(storeBoardDetails(boardDetails))
-      }
-      catch (error) {
-        console.log(error)
-      } finally {
-        setIsPostingCardDetails(false)
-      }
-    }
-    fetchData()
-  }, [isPostingCardDetails])
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const boardDetails = await fetchBoardDetails(boardId)
+  //       dispatch(storeBoardDetails(boardDetails))
+  //     }
+  //     catch (error) {
+  //       console.log(error)
+  //     } finally {
+  //       setIsPostingCardDetails(false)
+  //     }
+  //   }
+  //   fetchData()
+  // }, [isPostingCardDetails])
 
   //update title
   const handleTitleChange = async (title) => {

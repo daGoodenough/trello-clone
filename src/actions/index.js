@@ -120,7 +120,6 @@ export const reOrderLists = (newLists, boardId) => dispatch => {
     }
   )
     .then(response => {
-      console.log("Response recieved")
       dispatch({
         type: REORDER_LISTS,
         payload: response.data,

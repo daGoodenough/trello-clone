@@ -89,7 +89,6 @@ router.put("/api/org/:orgId/user/:userId/boards/:boardId", async (req, res) => {
   if (req.query.reordercards === '1') {
     let updatedCards = []
     for (const newCard of req.body.newCards) {
-      console.log(newCard);
       const card = await prisma.card.update({
         where: { id: newCard.id },
         data: {
