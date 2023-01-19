@@ -34,20 +34,20 @@ function CardDetail({ isOpen, setIsOpen, cardId, listName }) {
 
 
 //GET card details
-useEffect(()=>{
-  async function fetchData() {
-    try{
-      const cardDetails = await fetchCardDetails(cardId)
-      dispatch(storeCardDetails(cardDetails))
-    }
-    catch (error) {
-      console.log(error)
-  } finally {
-      console.log('done')
-  }
-}
-  fetchData()
-},[isOpen, isPostingComment, isDeletingComment, isPostingDescription])
+// useEffect(()=>{
+//   async function fetchData() {
+//     try{
+//       const cardDetails = await fetchCardDetails(cardId)
+//       dispatch(storeCardDetails(cardDetails))
+//     }
+//     catch (error) {
+//       console.log(error)
+//   } finally {
+//       console.log('done')
+//   }
+// }
+//   fetchData()
+// },[isOpen, isPostingComment, isDeletingComment, isPostingDescription])
 
 //POST comment
 async function postNewComment(){

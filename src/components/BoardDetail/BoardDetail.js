@@ -49,27 +49,27 @@ function BoardDetail() {
   }, [])
 
   //GET data after card has been renamed
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const boardDetails = await fetchBoardDetails(boardId)
-        dispatch(storeBoardDetails(boardDetails))
-      }
-      catch (error) {
-        console.log(error)
-      } finally {
-        setIsPostingCardDetails(false)
-      }
-    }
-    fetchData()
-  }, [isPostingCardDetails])
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const boardDetails = await fetchBoardDetails(boardId)
+  //       dispatch(storeBoardDetails(boardDetails))
+  //     }
+  //     catch (error) {
+  //       console.log(error)
+  //     } finally {
+  //       setIsPostingCardDetails(false)
+  //     }
+  //   }
+  //   fetchData()
+  // }, [isPostingCardDetails])
 
   //update title
   const handleTitleChange = async (title) => {
     try {
       dispatch(updateBoardTitle(title))
       setIsEditingBoardName(false);
-
+      // setCurrentTitle(title)
       const updatedBoard = await updateBoard(boardId, title)
       dispatch(storeBoardDetails(updatedBoard))
     } catch (err) {
@@ -134,7 +134,7 @@ function BoardDetail() {
           style={{ display: isEditingBoardName ? 'inline-flex' : 'none' }}
           value={currentTitle}
           onChange={(e) => setCurrentTitle(e.target.value)}
-          onBlur={(e) => handleTitleChange(e.target.value)}>
+          onBlur={() => handleTitleChange(currentTitle)}>
         </input>
         <Pencil
           className="pencil-icon icn"
@@ -158,7 +158,7 @@ function BoardDetail() {
       </Modal>
       <DndProvider backend={HTML5Backend}>
         <div className='workflow-box'>
-          {workflows.map((i, index) => {
+          {workflows?.map((i, index) => {
             return <ListLocation workflows={workflows} listOrder={index} boardId={boardId} key={i.id} setIsPostingCardDetails={setIsPostingCardDetails} />
           })}
           <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={() => setIsCreating(true)} style={{ display: isCreating ? 'none' : 'block' }}>Create new list<PatchPlus className="icn add-list-icon" /></button>

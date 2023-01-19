@@ -32,6 +32,7 @@ export const postComment = async (cardId, commentToPost, userId) => {
        `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
        {
          title: cardToPost,
+         order: order
        }
      )
      .then((response) => {
