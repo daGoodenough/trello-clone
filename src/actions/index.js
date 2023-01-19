@@ -13,30 +13,32 @@ import {
   ADD_CARD
 } from './types';
 import axios from 'axios';
+import { BASE_URL } from "../helpers/base-url";
 
 export const localLogin = (event, callback) => dispatch => {
   event.preventDefault();
   const email = event.currentTarget[0].value
   const password = event.currentTarget[1].value
 
-  axios.post('http://localhost:5000/auth/login', {
-    email,
-    password
-  })
-  .then(response => {
-    localStorage.setItem("token", response.data.token);
-    dispatch({
-      type: AUTH_USER,
-      payload: response.data,
+  axios
+    .post(`${BASE_URL}auth/login`, {
+      email,
+      password,
+    })
+    .then((response) => {
+      localStorage.setItem("token", response.data.token);
+      dispatch({
+        type: AUTH_USER,
+        payload: response.data,
+      });
+      callback();
+    })
+    .catch((error) => {
+      dispatch({
+        type: AUTH_ERROR,
+        payload: error.response.status,
+      });
     });
-    callback();
-  })
-  .catch(error => {
-    dispatch({
-      type: AUTH_ERROR,
-      payload: error.response.status,
-    });
-  });
 }
 
 export const logout = () => dispatch => {
@@ -50,14 +52,15 @@ export const fetchUser = (errorCb) => dispatch => {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     }
   };
-  axios.get('http://localhost:5000/auth/current_user', config)
-    .then(response => {
-      dispatch({ type: GET_USER, payload: response.data })
+  axios
+    .get(`${BASE_URL}auth/current_user`, config)
+    .then((response) => {
+      dispatch({ type: GET_USER, payload: response.data });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       errorCb();
-    })
+    });
 }
 
 export const storeBoardDetails = (boardDetails) => {
@@ -115,12 +118,13 @@ export const addCard = (listId, cardToPost, boardId, order) => dispatch => {
       title: cardToPost
     }})
   
-  axios.post(
-    `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
-    {
-      title: cardToPost,
-      order
-    }
-  )
-  .then(response => dispatch({type: ADD_CARD, payload: response.data}))
+  axios
+    .post(
+      `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
+      {
+        title: cardToPost,
+        order,
+      }
+    )
+    .then((response) => dispatch({ type: ADD_CARD, payload: response.data }));
 }

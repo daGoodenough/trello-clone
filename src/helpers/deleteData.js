@@ -1,11 +1,13 @@
 import axios from 'axios'
+import { BASE_URL } from "./base-url";
 
 axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+
 
 export const deleteBoard = async (boardId) => {
     try{
        await axios.delete(
-         `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}`
+         `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}`
        );
     }
     catch(e){
@@ -17,7 +19,7 @@ export const deleteBoard = async (boardId) => {
 export const deleteList = async (listId) => {
     try{
        await axios.delete(
-         `http://localhost:5000/api/org/:orgId/user/:userId/boards/:boardId/lists/${listId}`
+         `${BASE_URL}api/org/:orgId/user/:userId/boards/:boardId/lists/${listId}`
        );
     }
     catch(e){
@@ -29,7 +31,7 @@ export const deleteList = async (listId) => {
 export const deleteComment = async (commentId) => {
     try{
        await axios.delete(
-         `http://localhost:5000/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/:cardId/comments/${commentId}`
+         `${BASE_URL}api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/:cardId/comments/${commentId}`
        );
     }
     catch(e){
@@ -41,7 +43,7 @@ export const deleteComment = async (commentId) => {
   export const deleteCard = async (cardId) => {
     try{
        await axios.delete(
-         `http://localhost:5000/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`
+         `${BASE_URL}api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`
        );
     }
     catch(e){

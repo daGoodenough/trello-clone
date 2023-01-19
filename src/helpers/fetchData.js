@@ -1,12 +1,18 @@
 import axios from 'axios'
-
+import {BASE_URL} from './base-url'
 axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+
+
 
 export const fetchHomescreen = async (userId) => {
 
   try {
-    const results = await axios.get(`http://localhost:5000/api/user/${userId}`)
+    console.log(userId)
+    const results = await axios.get(
+      `${BASE_URL}api/user/${userId}`
+    );
     const data = results.data
+    console.log(data)
     return data
   }
   catch (e) {
@@ -17,10 +23,12 @@ export const fetchHomescreen = async (userId) => {
 
 export const fetchBoardDetails = async (boardId) => {
   try {
+    
     const results = await axios.get(
-      `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}`
+      `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}`
     );
     const data = results.data
+    console.log(data);
     return data
   }
   catch (e) {
@@ -32,7 +40,7 @@ export const fetchBoardDetails = async (boardId) => {
 export const fetchCardDetails = async (cardId) => {
   try {
     const results = await axios.get(
-      `http://localhost:5000//api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`
+      `${BASE_URL}/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`
     );
     const data = results.data
     return data
