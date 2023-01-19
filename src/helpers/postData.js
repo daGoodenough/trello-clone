@@ -69,12 +69,13 @@ export const postComment = async (cardId, commentToPost, userId) => {
   }
 }
 
-export const postList = async (boardId, newList) => {
+export const postList = async (boardId, newList, order) => {
   try {
     const response = await axios.post(
       `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists`,
       {
         description: newList,
+        order
       }
     );
     return response.data

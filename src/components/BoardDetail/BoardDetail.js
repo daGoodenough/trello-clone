@@ -95,7 +95,7 @@ function BoardDetail() {
     async function postData() {
       try {
         setIsPostingCardDetails(true)
-        await postList(boardId, newList)
+        await postList(boardId, newList, thisState.lists.length - 1);
       }
       catch (error) {
         console.log(error)
@@ -108,6 +108,19 @@ function BoardDetail() {
       postData()
     }
   }, [newList])
+
+  // const handleCreateList = () => {
+  //   try {
+  //     setIsPostingCardDetails(true)
+  //     await postList(boardId, newList)
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   } finally {
+  //     setIsPostingCardDetails(false)
+  //     setNewListValue('')
+  //   }
+  // }
 
   if (isLoading) {
     return <div>Loading...</div>
