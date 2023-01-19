@@ -102,6 +102,7 @@ router.post("/api/org/:orgId/user/:userId/boards/:boardId/lists", async (req, re
   const list = await prisma.list.create({
     data: {
       description: req.body.description,
+      order: req.body.order,
       Board: { connect: { id: req.params.boardId } },
     },
   });
@@ -124,6 +125,7 @@ router.post("/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards", 
   const card = await prisma.card.create({
     data: {
       title: req.body.title,
+      order: req.body.order,
       List: {
         connect: { id: req.params.listId },
       },
