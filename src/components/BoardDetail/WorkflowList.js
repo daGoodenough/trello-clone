@@ -23,7 +23,6 @@ function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, set
         if (card.listId === id) {count ++};
         return count;
       }, 0)
-      console.log(numCardsInList)
       dispatch(addCard(id, newCard, boardId, numCardsInList))
       //use redux-thunk to first dispatch the created card, 
       //then make POST to api, then dispatch again

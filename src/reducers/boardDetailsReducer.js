@@ -1,6 +1,14 @@
 import _ from 'lodash';
 
-import { STORE_BOARD_DETAILS, REORDER_CARDS, REORDER_LISTS, UPDATE_TITLE, ADD_CARD, DELETE_LIST } from '../actions/types';
+import { 
+    STORE_BOARD_DETAILS, 
+    REORDER_CARDS, 
+    REORDER_LISTS, 
+    UPDATE_TITLE, 
+    ADD_CARD, 
+    DELETE_LIST,
+    DELETE_CARD,
+} from '../actions/types';
 
 const DEFAULT_STATE = { cards: [] }
 
@@ -39,6 +47,11 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
                     return list.id !== action.payload 
             }))
             return { ...state, lists: newLists};
+        case DELETE_CARD:
+            const newCards =  _.remove(state.cards, (card => {
+                return card.id !== action.payload 
+        }))
+            return {...state, cards: newCards}
         default:
             return state;
     }
