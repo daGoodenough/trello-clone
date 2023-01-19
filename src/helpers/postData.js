@@ -16,7 +16,7 @@ export const postComment = async (cardId, commentToPost, userId) => {
         }
       )
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
       });
   }
   catch (e) {
@@ -36,7 +36,7 @@ export const postComment = async (cardId, commentToPost, userId) => {
        }
      )
      .then((response) => {
-       console.log(response.data);
+      //  console.log(response.data);
      });
   }
   catch (e) {

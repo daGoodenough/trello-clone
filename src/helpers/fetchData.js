@@ -7,12 +7,10 @@ axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getIte
 export const fetchHomescreen = async (userId) => {
 
   try {
-    console.log(userId)
     const results = await axios.get(
       `${BASE_URL}api/user/${userId}`
     );
     const data = results.data
-    console.log(data)
     return data
   }
   catch (e) {
@@ -28,7 +26,6 @@ export const fetchBoardDetails = async (boardId) => {
       `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}`
     );
     const data = results.data
-    console.log(data);
     return data
   }
   catch (e) {
