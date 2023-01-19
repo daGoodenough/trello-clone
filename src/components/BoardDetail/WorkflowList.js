@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Backspace, Trash3Fill } from 'react-bootstrap-icons';
 import { postCard } from '../../helpers/postData'
-import { deleteList } from '../../helpers/deleteData'
+import { deleteList } from '../../actions/delete-actions';
 import { addCard } from '../../actions';
 
 function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, setListId, boardId }) {
@@ -23,7 +23,6 @@ function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, set
         if (card.listId === id) {count ++};
         return count;
       }, 0)
-      console.log(numCardsInList)
       dispatch(addCard(id, newCard, boardId, numCardsInList))
       //use redux-thunk to first dispatch the created card, 
       //then make POST to api, then dispatch again
@@ -41,14 +40,13 @@ function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, set
   async function deleteThisList() {
     try {
       setIsPostingCardDetails(true)
-      await deleteList(id)
+       dispatch(deleteList(id));
     }
     catch (e) {
       console.error(e)
     }
     finally {
       setIsPostingCardDetails(false)
-      setListId('')
     }
   }
 
