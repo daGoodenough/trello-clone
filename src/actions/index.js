@@ -14,29 +14,32 @@ import {
 } from './types';
 import axios from 'axios';
 
+const BASE_URL = process.env.BASE_URL
+
 export const localLogin = (event, callback) => dispatch => {
   event.preventDefault();
   const email = event.currentTarget[0].value
   const password = event.currentTarget[1].value
 
-  axios.post('http://localhost:5000/auth/login', {
-    email,
-    password
-  })
-  .then(response => {
-    localStorage.setItem("token", response.data.token);
-    dispatch({
-      type: AUTH_USER,
-      payload: response.data,
+  axios
+    .post("https://trello-server.fly.dev/auth/login", {
+      email,
+      password,
+    })
+    .then((response) => {
+      localStorage.setItem("token", response.data.token);
+      dispatch({
+        type: AUTH_USER,
+        payload: response.data,
+      });
+      callback();
+    })
+    .catch((error) => {
+      dispatch({
+        type: AUTH_ERROR,
+        payload: error.response.status,
+      });
     });
-    callback();
-  })
-  .catch(error => {
-    dispatch({
-      type: AUTH_ERROR,
-      payload: error.response.status,
-    });
-  });
 }
 
 export const logout = () => dispatch => {
@@ -50,14 +53,15 @@ export const fetchUser = (errorCb) => dispatch => {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     }
   };
-  axios.get('http://localhost:5000/auth/current_user', config)
-    .then(response => {
-      dispatch({ type: GET_USER, payload: response.data })
+  axios
+    .get(`https://trello-server.fly.dev/auth/current_user`, config)
+    .then((response) => {
+      dispatch({ type: GET_USER, payload: response.data });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       errorCb();
-    })
+    });
 }
 
 export const storeBoardDetails = (boardDetails) => {

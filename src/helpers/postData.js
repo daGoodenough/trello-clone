@@ -1,6 +1,9 @@
 import axios from 'axios'
+import { BASE_URL } from "./base-url";
 
 axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+
+
 
 export const postComment = async (cardId, commentToPost, userId) => {
   if (commentToPost.length < 1) return
@@ -9,7 +12,7 @@ export const postComment = async (cardId, commentToPost, userId) => {
       .post(
         `http://localhost:5000/api/org/:orgId/user/${userId}/boards/:boardId/lists/:listId/cards/${cardId}`,
         {
-          text: commentToPost
+          text: commentToPost,
         }
       )
       .then((response) => {
@@ -26,10 +29,9 @@ export const postComment = async (cardId, commentToPost, userId) => {
     try{
    await axios
      .post(
-       `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
+       `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}`,
        {
          title: cardToPost,
-         order
        }
      )
      .then((response) => {
@@ -45,15 +47,15 @@ export const postComment = async (cardId, commentToPost, userId) => {
   export const postBoard = async (userId, newBoard, orgId) => {
     try{
        const response = await axios.post(
-         `http://localhost:5000/api/org/${orgId}/user/${userId}/boards`,
+         `${BASE_URL}api/org/${orgId}/user/${userId}/boards`,
          {
-           title: newBoard
+           title: newBoard,
          }
        );
     if (response.status === 200) {
       ['To Do', 'Doing', 'Done'].forEach((list, index) => {
         axios.post(
-          `http://localhost:5000/api/org/:orgId/user/:userId/boards/${response.data.id}/lists`,
+          `${BASE_URL}api/org/:orgId/user/:userId/boards/${response.data.id}/lists`,
           {
             description: list,
             order: index,
@@ -72,7 +74,7 @@ export const postComment = async (cardId, commentToPost, userId) => {
 export const postList = async (boardId, newList, order) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists`,
+      `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}/lists`,
       {
         description: newList,
         order
@@ -89,7 +91,7 @@ export const postList = async (boardId, newList, order) => {
 export const updateBoard = async (boardId, newTitle) => {
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}`,
+      `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}`,
       {
         title: newTitle,
       }
@@ -105,7 +107,7 @@ export const updateBoard = async (boardId, newTitle) => {
 export const updateCard = async (cardId, newCard, newDescription) => {
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`,
+      `${BASE_URL}api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`,
       {
         title: newCard,
       }
@@ -121,7 +123,7 @@ export const updateCard = async (cardId, newCard, newDescription) => {
 export const updateCardDescription = async (cardId, newDescription) => {
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`,
+      `${BASE_URL}api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`,
       {
         description: newDescription,
       }
