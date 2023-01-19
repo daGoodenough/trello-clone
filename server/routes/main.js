@@ -111,7 +111,6 @@ router.put("/api/org/:orgId/user/:userId/boards/:boardId", async (req, res) => {
       });
       updatedLists.push(list)
     }
-    console.log(updatedLists);
     return res.json(updatedLists);
   }
 
