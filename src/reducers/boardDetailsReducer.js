@@ -1,4 +1,6 @@
-import { STORE_BOARD_DETAILS, REORDER_CARDS, REORDER_LISTS, UPDATE_TITLE, ADD_CARD } from '../actions/types';
+import _ from 'lodash';
+
+import { STORE_BOARD_DETAILS, REORDER_CARDS, REORDER_LISTS, UPDATE_TITLE, ADD_CARD, DELETE_LIST } from '../actions/types';
 
 const DEFAULT_STATE = { cards: [] }
 
@@ -32,6 +34,11 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
             cardsCopy.splice(cardIndex, 1, action.payload);
 
             return {...state, cards: cardsCopy}
+        case DELETE_LIST:
+            const newLists = _.remove(state.lists, (list => {
+                    return list.id !== action.payload 
+            }))
+            return { ...state, lists: newLists};
         default:
             return state;
     }
