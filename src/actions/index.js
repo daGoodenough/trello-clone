@@ -13,8 +13,7 @@ import {
   ADD_CARD
 } from './types';
 import axios from 'axios';
-
-const BASE_URL = process.env.BASE_URL
+import { BASE_URL } from "../helpers/base-url";
 
 export const localLogin = (event, callback) => dispatch => {
   event.preventDefault();
@@ -22,7 +21,7 @@ export const localLogin = (event, callback) => dispatch => {
   const password = event.currentTarget[1].value
 
   axios
-    .post("https://trello-server.fly.dev/auth/login", {
+    .post(`${BASE_URL}auth/login`, {
       email,
       password,
     })
@@ -54,7 +53,7 @@ export const fetchUser = (errorCb) => dispatch => {
     }
   };
   axios
-    .get(`https://trello-server.fly.dev/auth/current_user`, config)
+    .get(`${BASE_URL}auth/current_user`, config)
     .then((response) => {
       dispatch({ type: GET_USER, payload: response.data });
     })
@@ -119,12 +118,13 @@ export const addCard = (listId, cardToPost, boardId, order) => dispatch => {
       title: cardToPost
     }})
   
-  axios.post(
-    `http://localhost:5000/api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
-    {
-      title: cardToPost,
-      order
-    }
-  )
-  .then(response => dispatch({type: ADD_CARD, payload: response.data}))
+  axios
+    .post(
+      `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
+      {
+        title: cardToPost,
+        order,
+      }
+    )
+    .then((response) => dispatch({ type: ADD_CARD, payload: response.data }));
 }

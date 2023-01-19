@@ -10,7 +10,7 @@ export const postComment = async (cardId, commentToPost, userId) => {
   try {
     await axios
       .post(
-        `http://localhost:5000/api/org/:orgId/user/${userId}/boards/:boardId/lists/:listId/cards/${cardId}`,
+        `${BASE_URL}api/org/:orgId/user/${userId}/boards/:boardId/lists/:listId/cards/${cardId}/comments`,
         {
           text: commentToPost,
         }
@@ -29,7 +29,7 @@ export const postComment = async (cardId, commentToPost, userId) => {
     try{
    await axios
      .post(
-       `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}`,
+       `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards`,
        {
          title: cardToPost,
        }
