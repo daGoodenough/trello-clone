@@ -17,9 +17,8 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
   const [existsTitleToChange, setExistsTitleToChange] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
-  const [thisCardId, setThisCardId] = useState('')
+  const [selectedCardId, setSelectedCardId] = useState(null)
   const { cards } = useSelector(state => state.boardDetails)
 
   //make card draggable
@@ -92,7 +91,7 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
   return (
     <div className="card-item" ref={dragRef} style={{ opacity }}>
       <div style={{ display: isEditingTitle ? 'none' : 'block', }}>
-        <div className='open-card-detail-target' onClick={() => setIsOpen(true)}>
+        <div className='open-card-detail-target' onClick={() => setSelectedCardId(cardId)}>
           <div  >
             {cardTitle}
           </div>
@@ -110,7 +109,7 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
           <div className='comments-length'><Chat /><span></span></div>
         </div>
       </div>
-      <CardDetail listId={listId} isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} listName={listName} boardId={boardId} />
+      {selectedCardId===cardId ? <CardDetail setSelectedCardId={setSelectedCardId} selectedCardId={selectedCardId} listId={listId} cardId={cardId} listName={listName} boardId={boardId} /> : null}
       <div className='card-title-editor' style={{ display: isEditingTitle ? 'flex' : 'none', }}>
         <input type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)}></input>
         <button className='btn btn-primary' onClick={() => setExistsTitleToChange(true)}>Save</button>
