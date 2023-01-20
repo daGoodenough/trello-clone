@@ -40,7 +40,7 @@ return (
 <div ref={drop} className="list-location">
 {workflows?.map((i)=>{
 if(i.order===listOrder){
- return <WorkflowList listOrder={i.order} boardId={boardId} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails}/>
+ return <WorkflowList lists={workflows} listOrder={i.order} boardId={boardId} key={i.id} id={i.id} cardItems={i.cards} description={i.description} setIsPostingCardDetails={setIsPostingCardDetails}/>
 }
 
 })}
