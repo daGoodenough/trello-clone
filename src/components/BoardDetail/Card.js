@@ -7,10 +7,11 @@ import CardDetail from './CardDetail/CardDetail'
 import { deleteCard } from '../../actions/delete-actions'
 import { updateCard } from '../../helpers/postData'
 import { ThreeDots } from 'react-loader-spinner'
-import { reOrderCards } from '../../actions'
+import { reOrderCards, storeBoardDetails } from '../../actions'
+import { fetchBoardDetails } from '../../helpers/fetchData';
 
 
-const Card = ({ order, title, cardId, listId, description, listName, setIsPostingCardDetails, boardId }) => {
+const Card = ({ order, title, cardId, listId, description, listName, setIsPostingCardDetails, boardId, comments }) => {
   const dispatch = useDispatch();
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
@@ -32,6 +33,17 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
     }),
     []
   )
+
+  useEffect(() => {
+    const getData = async () => {
+          const boardDetails = await fetchBoardDetails(boardId)
+          dispatch(storeBoardDetails(boardDetails))
+    }
+    if(selectedCardId === null) {
+      getData();
+    };
+    return;
+  }, [selectedCardId]);
 
   // DELETE card
   const handleCardDelete = (cards) => {
@@ -106,7 +118,7 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
             }} className="icn delete-card-icn card-icn" />
           </div>}
           {isDeleting || isUpdating ? <div className='loader'><ThreeDots color="black" /></div> : null}
-          <div className='comments-length'><Chat /><span></span></div>
+          <div className='comments-length'><Chat /><span>{comments?.length}</span></div>
         </div>
       </div>
       {selectedCardId===cardId ? <CardDetail setSelectedCardId={setSelectedCardId} selectedCardId={selectedCardId} listId={listId} cardId={cardId} listName={listName} boardId={boardId} /> : null}
