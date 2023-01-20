@@ -40,7 +40,7 @@ function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, set
   async function deleteThisList() {
     try {
       setIsPostingCardDetails(true)
-       dispatch(deleteList(id));
+       dispatch(deleteList(id, listOrder));
     }
     catch (e) {
       console.error(e)

@@ -2,10 +2,10 @@ import axios from 'axios';
 import { BASE_URL } from '../helpers/base-url';
 import { DELETE_LIST, DELETE_CARD } from './types';
 
-export const deleteList = (listId) => dispatch => {
+export const deleteList = (listId, listOrder) => dispatch => {
   dispatch({
     type: DELETE_LIST,
-    payload: listId
+    payload: {listId, listOrder}
   })
 
   axios.delete(
@@ -20,10 +20,10 @@ export const deleteList = (listId) => dispatch => {
     });
 };
 
-export const deleteCard = (cardId) => dispatch => {
+export const deleteCard = (cardId, cardOrder) => dispatch => {
     dispatch({
       type: DELETE_CARD,
-      payload: cardId,
+      payload: {cardId, cardOrder}
     })
 
     axios.delete(

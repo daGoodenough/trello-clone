@@ -36,7 +36,7 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
     try {
       setIsPostingCardDetails(true)
       setIsDeleting(true)
-      dispatch(deleteCard(cardId));
+      dispatch(deleteCard(cardId, order));
     }
     catch (e) {
       console.error(e)
