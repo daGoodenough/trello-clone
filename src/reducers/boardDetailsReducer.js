@@ -1,4 +1,15 @@
-import { STORE_BOARD_DETAILS, REORDER_CARDS, REORDER_LISTS, UPDATE_TITLE, ADD_CARD } from '../actions/types';
+import _ from 'lodash';
+
+import {
+    STORE_BOARD_DETAILS,
+    REORDER_CARDS,
+    REORDER_LISTS,
+    UPDATE_TITLE,
+    ADD_CARD,
+    DELETE_LIST,
+    DELETE_CARD,
+    ADD_LIST,
+} from '../actions/types';
 
 const DEFAULT_STATE = { cards: [] }
 
@@ -20,18 +31,54 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
                     card.title === action.payload.title &&
                     card.order === action.payload.order
                 ) {
-                    isUnique = false; 
+                    isUnique = false;
                     cardIndex = index;
                 }
             })
             if (isUnique) {
-                return {...state, cards:[...state.cards, action.payload]};
+                return { ...state, cards: [...state.cards, action.payload] };
             }
 
             const cardsCopy = state.cards;
             cardsCopy.splice(cardIndex, 1, action.payload);
 
-            return {...state, cards: cardsCopy}
+            return { ...state, cards: cardsCopy }
+        case ADD_LIST:
+            let isUniqueList = true;
+            let listIndex;
+            state.lists.forEach((list, index) => {
+                if (list.boardId === action.payload.boardId &&
+                    list.description === action.payload.description &&
+                    list.order === action.payload.order
+                ) {
+                    isUniqueList = false;
+                    listIndex = index;
+                }
+            });
+            if (isUniqueList) {
+                return { ...state, lists: [...state.lists, action.payload] }
+            }
+
+            const listsCopy = state.lists;
+            listsCopy.splice(listIndex, 1, action.payload);
+
+            return { ...state, lists: listsCopy };
+        case DELETE_LIST:
+            let newLists = _.remove(state.lists, (list => {
+                if(list.order > action.payload.listOrder) {
+                    list.order -= 1;
+                }
+                return list.id !== action.payload.listId
+            }))
+            return { ...state, lists: newLists };
+        case DELETE_CARD:
+            const newCards = _.remove(state.cards, (card => {
+                if(card.order > action.payload.cardOrder) {
+                    card.order -= 1;
+                }
+                return card.id !== action.payload.cardId
+            }))
+            return { ...state, cards: newCards }
         default:
             return state;
     }
