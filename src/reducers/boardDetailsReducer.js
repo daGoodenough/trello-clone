@@ -65,17 +65,15 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
             return { ...state, lists: listsCopy };
         case DELETE_LIST:
             let newLists = _.remove(state.lists, (list => {
-                if(list.order > action.payload.listOrder) {
-                    list.order -= 1;
-                }
                 return list.id !== action.payload.listId
             }))
-            return { ...state, lists: newLists };
+
+            let cardsToKeep = _.remove(state.cards, (card => {
+                return card.listId !== action.payload.listId;
+            }))
+            return { ...state, lists: newLists, cards: cardsToKeep };
         case DELETE_CARD:
             const newCards = _.remove(state.cards, (card => {
-                if(card.order > action.payload.cardOrder) {
-                    card.order -= 1;
-                }
                 return card.id !== action.payload.cardId
             }))
             return { ...state, cards: newCards }
