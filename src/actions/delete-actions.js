@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../helpers/base-url';
-import { DELETE_LIST, DELETE_CARD, DELETE_COMMENT } from './types';
+import { DELETE_LIST, DELETE_CARD, DELETE_COMMENT, REMOVE_MEMBER } from './types';
 
 export const deleteList = (listId, listOrder) => dispatch => {
   dispatch({
@@ -55,5 +55,32 @@ export const deleteComment = (commentId) => dispatch => {
 })
 }
 
+//REMOVE members
+export const removeMember = (cardId, newMembers) => dispatch => {
+  console.log('remove member was called for', newMembers)
+  dispatch({
+    type: REMOVE_MEMBER,
+    payload: newMembers,
+  })
+
+  axios.put(
+    `${BASE_URL}api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`,
+    {
+      members: newMembers,
+    }
+  )
+    .then(response => {
+      console.log('in action', response.data)
+      dispatch({
+        type: REMOVE_MEMBER,
+        payload: response.data.members,
+      })
+      console.log("REMOVE member recieved")
+    })
+    .catch(e =>  {
+    console.error('Error in removing member', e);
+    throw e;
+  })
+}
 
 

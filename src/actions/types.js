@@ -18,3 +18,4 @@ export const ADD_COMMENT = 'add_comment';
 export const UPDATE_DESCRIPTION = 'update_description';
 export const UPDATE_MEMBERS = 'update_members'
 export const DELETE_COMMENT = 'delete_comment'
+export const REMOVE_MEMBER = 'remove_member'

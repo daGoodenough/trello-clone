@@ -108,7 +108,7 @@ export const updateMembers = (cardId, newMembers) => dispatch => {
     .then(response => {
       dispatch({
         type: UPDATE_MEMBERS,
-        payload: response.data,
+        payload: response.data.members,
       })
       console.log("New members recieved")
     })
