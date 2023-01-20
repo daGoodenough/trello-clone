@@ -19,6 +19,7 @@ const Card = ({ order, title, cardId, listId, description, listName, boardId, ca
   const [isUpdating, setIsUpdating] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [selectedCardId, setSelectedCardId] = useState(null)
+  const [existsDataToRender, setExistsDataToRender] = useState(false)
   const [membersWithColors, setMembersWithColors] = useState([])
   const memberColors = ['bisque', 'darkcyan', 'darkgoldenrod', 'darkolivegreen' ]
   const userId = useSelector((state)=> state?.auth?.userId)
@@ -74,14 +75,21 @@ const Card = ({ order, title, cardId, listId, description, listName, boardId, ca
 
   useEffect(() => {
     const getData = async () => {
+      try{
           const boardDetails = await fetchBoardDetails(boardId)
           dispatch(storeBoardDetails(boardDetails))
+      }
+      catch(e){
+        console.error(e)
+      }
+      finally{
+        setExistsDataToRender(false)
+      }
     }
-    if(selectedCardId === null) {
-      getData();
-    };
+    if(!existsDataToRender) return 
+    getData();
     return;
-  }, [selectedCardId]);
+  }, [existsDataToRender]);
 
   // DELETE card
   const handleCardDelete = (cards) => {
@@ -136,7 +144,8 @@ const Card = ({ order, title, cardId, listId, description, listName, boardId, ca
   return (
     <div className="card-item" ref={dragRef} style={{ opacity }}>
       <div style={{ display: isEditingTitle ? 'none' : 'block', }}>
-        <div className='open-card-detail-target' onClick={() => setSelectedCardId(cardId)}>
+        <div className='open-card-detail-target' onClick={(e) =>
+          setSelectedCardId(cardId)}>
           <div  >
             {cardTitle}
           </div>
@@ -161,7 +170,7 @@ const Card = ({ order, title, cardId, listId, description, listName, boardId, ca
           <div className='comments-length'><Chat /><span>{comments?.length}</span></div>
         </div>
       </div>
-      {selectedCardId===cardId ? <CardDetail setSelectedCardId={setSelectedCardId} selectedCardId={selectedCardId} listId={listId} cardId={cardId} listName={listName} boardId={boardId} /> : null}
+      {selectedCardId===cardId ? <CardDetail setExistsDataToRender={setExistsDataToRender} setSelectedCardId={setSelectedCardId} selectedCardId={selectedCardId} listId={listId} cardId={cardId} listName={listName} boardId={boardId} /> : null}
       <div className='card-title-editor' style={{ display: isEditingTitle ? 'flex' : 'none', }}>
         <input type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)}></input>
         <button className='btn btn-primary' onClick={() => setExistsTitleToChange(true)}>Save</button>
