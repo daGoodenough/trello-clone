@@ -9,7 +9,7 @@ import { ThreeDots } from 'react-loader-spinner'
 import _ from 'lodash';
 
 
-function CardDetail({ setSelectedCardId, selectedCardId, cardId, listName, listId, boardId }) {
+function CardDetail({ setSelectedCardId, selectedCardId, setExistsDataToRender, cardId, listName, listId, boardId }) {
 
   const [currentComment, setCurrentComment] = useState('')
   const [isPostingComment, setIsPostingComment] = useState(false)
@@ -166,6 +166,11 @@ async function removeMember(selectedMember){
   }
 
 
+function closeHandler(){
+  setExistsDataToRender(true)
+  setSelectedCardId(null)
+}
+
 
     return (
       <div className="card-detail-box">
@@ -200,7 +205,7 @@ async function removeMember(selectedMember){
           </ul>
         </div> : null}
         </div>
-        <Backspace className="close-card-detail icn" onClick={()=>setSelectedCardId(null)}/>
+        <Backspace className="close-card-detail icn" onClick={()=>closeHandler()}/>
         <h5><CardText className="card-icons"/>Description
         <button className="btn edit-description-button" onClick={()=>setIsEditingDescription(true)}>Edit</button></h5>
         <p className="card-description" style={{display: isEditingDescription ? 'none' : 'block'}}>{desc}</p>
