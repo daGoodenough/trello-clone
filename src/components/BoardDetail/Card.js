@@ -7,7 +7,7 @@ import { updateCard } from '../../helpers/postData'
 import { ThreeDots } from 'react-loader-spinner'
 
 
-const Card = ({order, title, cardId, listId, description, listName, setIsPostingCardDetails }) => {
+const Card = ({order, title, cardId, listId, description, listName, setIsPostingCardDetails, boardId }) => {
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [existsTitleToChange, setExistsTitleToChange] = useState(false)
@@ -93,7 +93,7 @@ const Card = ({order, title, cardId, listId, description, listName, setIsPosting
             <div className='comments-length'><Chat/><span></span></div>
             </div>
             </div>
-            <CardDetail isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} listName={listName}/>
+            <CardDetail listId={listId} isOpen={isOpen} setIsOpen={setIsOpen} cardId={cardId} listName={listName} boardId={boardId}/>
             <div className='card-title-editor' style={{display: isEditingTitle ? 'flex' : 'none',}}>
               <input type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)}></input>
               <button className='btn btn-primary' onClick={() => setExistsTitleToChange(true)}>Save</button>

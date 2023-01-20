@@ -34,10 +34,10 @@ export const fetchBoardDetails = async (boardId) => {
   }
 }
 
-export const fetchCardDetails = async (cardId) => {
+export const fetchCardDetails = async (cardId, listId, boardId) => {
   try {
     const results = await axios.get(
-      `${BASE_URL}/api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/${cardId}`
+      `${BASE_URL}api/org/:orgId/user/:userId/boards/${boardId}/lists/${listId}/cards/${cardId}`
     );
     const data = results.data
     return data
