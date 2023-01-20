@@ -7,10 +7,11 @@ import CardDetail from './CardDetail/CardDetail'
 import { deleteCard } from '../../actions/delete-actions'
 import { updateCard } from '../../helpers/postData'
 import { ThreeDots } from 'react-loader-spinner'
-import { reOrderCards, storeHomescreen } from '../../actions'
+import { reOrderCards, storeBoardDetails, storeHomescreen } from '../../actions'
+import { fetchBoardDetails } from '../../helpers/fetchData';
 import { fetchHomescreen } from '../../helpers/fetchData'
 
-const Card = ({ order, title, cardId, listId, description, listName, boardId, cardMembers }) => {
+const Card = ({ order, title, cardId, listId, description, listName, boardId, cardMembers, comments }) => {
   const dispatch = useDispatch();
   const [cardTitle, setCardTitle] = useState(title)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
@@ -57,7 +58,7 @@ const Card = ({ order, title, cardId, listId, description, listName, boardId, ca
     }
   }
     fetchData()
-  },[selectedCardId])
+  },[])
 
   //make card draggable
   const [{ opacity }, dragRef] = useDrag(
@@ -70,6 +71,17 @@ const Card = ({ order, title, cardId, listId, description, listName, boardId, ca
     }),
     []
   )
+
+  useEffect(() => {
+    const getData = async () => {
+          const boardDetails = await fetchBoardDetails(boardId)
+          dispatch(storeBoardDetails(boardDetails))
+    }
+    if(selectedCardId === null) {
+      getData();
+    };
+    return;
+  }, [selectedCardId]);
 
   // DELETE card
   const handleCardDelete = (cards) => {
@@ -146,7 +158,7 @@ const Card = ({ order, title, cardId, listId, description, listName, boardId, ca
             }} className="icn delete-card-icn card-icn" />
           </div>}
           {isDeleting || isUpdating ? <div className='loader'><ThreeDots color="black" /></div> : null}
-          <div className='comments-length'><Chat /><span></span></div>
+          <div className='comments-length'><Chat /><span>{comments?.length}</span></div>
         </div>
       </div>
       {selectedCardId===cardId ? <CardDetail setSelectedCardId={setSelectedCardId} selectedCardId={selectedCardId} listId={listId} cardId={cardId} listName={listName} boardId={boardId} /> : null}
