@@ -26,6 +26,7 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
         case ADD_CARD:
             let isUnique = true;
             let cardIndex;
+
             state.cards.forEach((card, index) => {
                 if (card.listId === action.payload.listId &&
                     card.title === action.payload.title &&
@@ -35,6 +36,7 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
                     cardIndex = index;
                 }
             })
+
             if (isUnique) {
                 return { ...state, cards: [...state.cards, action.payload] };
             }
@@ -46,6 +48,7 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
         case ADD_LIST:
             let isUniqueList = true;
             let listIndex;
+
             state.lists.forEach((list, index) => {
                 if (list.boardId === action.payload.boardId &&
                     list.description === action.payload.description &&
@@ -55,6 +58,7 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
                     listIndex = index;
                 }
             });
+
             if (isUniqueList) {
                 return { ...state, lists: [...state.lists, action.payload] }
             }
@@ -65,19 +69,19 @@ const boardDetailsReducer = function (state = DEFAULT_STATE, action) {
             return { ...state, lists: listsCopy };
         case DELETE_LIST:
             let newLists = _.remove(state.lists, (list => {
-                if(list.order > action.payload.listOrder) {
-                    list.order -= 1;
-                }
                 return list.id !== action.payload.listId
             }))
-            return { ...state, lists: newLists };
+
+            let cardsToKeep = _.remove(state.cards, (card => {
+                return card.listId !== action.payload.listId;
+            }))
+
+            return { ...state, lists: newLists, cards: cardsToKeep };
         case DELETE_CARD:
             const newCards = _.remove(state.cards, (card => {
-                if(card.order > action.payload.cardOrder) {
-                    card.order -= 1;
-                }
                 return card.id !== action.payload.cardId
             }))
+
             return { ...state, cards: newCards }
         default:
             return state;

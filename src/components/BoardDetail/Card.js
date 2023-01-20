@@ -1,11 +1,13 @@
 import { useDrag } from 'react-dnd'
+import _ from 'lodash';
 import { Pencil, Backspace, Chat, Trash3Fill } from 'react-bootstrap-icons'
 import { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CardDetail from './CardDetail/CardDetail'
 import { deleteCard } from '../../actions/delete-actions'
 import { updateCard } from '../../helpers/postData'
 import { ThreeDots } from 'react-loader-spinner'
+import { reOrderCards } from '../../actions'
 
 
 const Card = ({ order, title, cardId, listId, description, listName, setIsPostingCardDetails, boardId }) => {
@@ -18,6 +20,7 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [thisCardId, setThisCardId] = useState('')
+  const { cards } = useSelector(state => state.boardDetails)
 
   //make card draggable
   const [{ opacity }, dragRef] = useDrag(
@@ -32,11 +35,26 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
   )
 
   // DELETE card
-  const handleCardDelete = () => {
+  const handleCardDelete = (cards) => {
     try {
+      const newCards = _.remove(cards, (card => {
+        //removes the deleted card from the list
+        if (card.order > order && card.listId === listId) {
+          //decrements all card orders after deleted card in that list
+          card.order -= 1;
+        }
+        return card.id !== cardId
+      }));
+
       setIsPostingCardDetails(true)
       setIsDeleting(true)
+
       dispatch(deleteCard(cardId, order));
+
+      if (newCards.length > 1) {
+        //cards get re-ordered if deleted
+        dispatch(reOrderCards(newCards, boardId))
+      }
     }
     catch (e) {
       console.error(e)
@@ -85,7 +103,7 @@ const Card = ({ order, title, cardId, listId, description, listName, setIsPostin
             }} className="icn edit-card-icn card-icn" />
             <Trash3Fill onClick={(e) => {
               e.stopPropagation();
-              handleCardDelete()
+              handleCardDelete(cards)
             }} className="icn delete-card-icn card-icn" />
           </div>}
           {isDeleting || isUpdating ? <div className='loader'><ThreeDots color="black" /></div> : null}
