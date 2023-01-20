@@ -49,6 +49,10 @@ function BoardDetail() {
     fetchData()
   }, [])
 
+  useEffect(()=>{
+    setCurrentTitle(title)
+  },[isLoading])
+
   //GET data after card has been renamed
   // useEffect(() => {
   //   async function fetchData() {
@@ -70,7 +74,6 @@ function BoardDetail() {
     try {
       dispatch(updateBoardTitle(title))
       setIsEditingBoardName(false);
-      // setCurrentTitle(title)
       const updatedBoard = await updateBoard(boardId, title)
       dispatch(storeBoardDetails(updatedBoard))
     } catch (err) {
@@ -173,7 +176,7 @@ return (
     <DndProvider backend={HTML5Backend}>
       <div className='workflow-box'>
         {workflows?.map((i, index) => {
-          return <ListLocation workflows={workflows} listOrder={index} boardId={boardId} key={i.id} setIsPostingCardDetails={setIsPostingCardDetails} />
+          return <ListLocation workflows={workflows} listOrder={index} boardId={boardId} key={i.id} setIsPostingCardDetails={setIsPostingCardDetails}/>
         })}
         <div className='new-workflow-trigger'><button className="btn new-workflow-btn" onClick={() => setIsCreating(true)} style={{ display: isCreating ? 'none' : 'block' }}>Create new list<PatchPlus className="icn add-list-icon" /></button>
           <div className='new-workflow-box' style={{ display: isCreating ? 'block' : 'none', }}>

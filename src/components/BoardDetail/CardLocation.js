@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {reOrderCards} from '../../actions'
 
-function CardLocation ({index, setIsPostingCardDetails, listId, listName}){
+function CardLocation ({index, setIsPostingCardDetails, listId, listName, boardId}){
 
   const {cards, id} = useSelector((state) =>state?.boardDetails)
   const dispatch = useDispatch();
@@ -19,7 +19,6 @@ function CardLocation ({index, setIsPostingCardDetails, listId, listName}){
         .filter(i => i.listId === listId)
         .map(i => i.order)
         .sort((a, b) => b - a)[0];
-        console.log('hghest', highestOrder)
       if (!highestOrder) highestOrder = -1;
       const nextCards = cards.map(i => {
           if (i.title === selected) {
@@ -59,7 +58,7 @@ function CardLocation ({index, setIsPostingCardDetails, listId, listName}){
         else return i
     })
     console.log(nextCards)    
-    dispatch(reOrderCards(nextCards, id))
+    dispatch(reOrderCards(nextCards))
     },
 });
 
@@ -70,7 +69,7 @@ return (
     <div ref={drop} className='card-location' id={index}>
     {cards?.map((i) => {
       if (i?.listId === listId && i?.order === index) {
-        return <Card order={index} key={i.id} title={i.title} cardId={i.id} listId={i.listId} description={i.description} listName={listName} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails}/>
+        return <Card order={index} key={i.id} title={i.title} cardId={i.id} listId={i.listId} description={i.description} listName={listName} comments={i.comments} setIsPostingCardDetails={setIsPostingCardDetails} boardId={boardId}/>
       }
       if(i?.order === index){
       return <div className='empty-div'></div>

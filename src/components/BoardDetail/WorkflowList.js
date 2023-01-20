@@ -40,7 +40,7 @@ function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, set
   async function deleteThisList() {
     try {
       setIsPostingCardDetails(true)
-       dispatch(deleteList(id));
+       dispatch(deleteList(id, listOrder));
     }
     catch (e) {
       console.error(e)
@@ -83,7 +83,7 @@ function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, set
         <Trash3Fill onClick={() => deleteThisList()} className="icn delete-list-icn" />
         <ul className="list-ul" >
           {cards?.map((element, index) => {
-            return <CardLocation index={index} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id} />
+            return <CardLocation key={element.id} index={index} listName={description} setIsPostingCardDetails={setIsPostingCardDetails} listId={id} boardId={boardId} />
           })}
         </ul>
       </div>
