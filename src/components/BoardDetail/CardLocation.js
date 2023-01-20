@@ -57,7 +57,8 @@ function CardLocation ({index, listId, listName, boardId}){
         }
         else return i
     })
-    console.log(nextCards)    
+    const orders = nextCards.map((i)=>i.order)
+    console.log(orders)    
     dispatch(reOrderCards(nextCards))
     },
 });
