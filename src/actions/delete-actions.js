@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../helpers/base-url';
-import { DELETE_LIST, DELETE_CARD } from './types';
+import { DELETE_LIST, DELETE_CARD, DELETE_COMMENT } from './types';
 
 export const deleteList = (listId, listOrder) => dispatch => {
   dispatch({
@@ -37,3 +37,23 @@ export const deleteCard = (cardId, cardOrder) => dispatch => {
      throw e;
  })
 }
+
+export const deleteComment = (commentId) => dispatch => {
+  dispatch({
+    type: DELETE_COMMENT,
+    payload: commentId
+  })
+
+  axios.delete(
+    `${BASE_URL}api/org/:orgId/user/:userId/boards/:boardId/lists/:listId/cards/:cardId/comments/${commentId}`
+  )
+  .then(response => {
+  })
+.catch(e => {
+   console.error('Error in deleting comment', e);
+   throw e;
+})
+}
+
+
+

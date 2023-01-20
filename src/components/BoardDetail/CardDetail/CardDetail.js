@@ -2,19 +2,18 @@ import { Backspace, CardText, CardList, CaretRightSquare, Trash3Fill } from "rea
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch  } from 'react-redux'
 import { fetchCardDetails, fetchHomescreen } from '../../../helpers/fetchData'
-import { postComment, updateCardDescription, addMemberToCard } from '../../../helpers/postData'
+import { postComment, updateDescription, updateMembers } from '../../../actions/post-actions';
+import { deleteComment } from '../../../actions/delete-actions';
 import {storeCardDetails, storeHomescreen} from '../../../actions'
 import { ThreeDots } from 'react-loader-spinner'
-import { deleteComment } from "../../../helpers/deleteData";
 
-function CardDetail({ isOpen, setIsOpen, cardId, listName, listId, boardId }) {
+
+function CardDetail({ setSelectedCardId, selectedCardId, cardId, listName, listId, boardId }) {
 
   const [currentComment, setCurrentComment] = useState('')
   const [isPostingComment, setIsPostingComment] = useState(false)
-  const [isDeletingComment, setIsDeletingComment] = useState(false)
   const [isEditingComment, setIsEditingComment] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
-  const [isPostingDescription, setIsPostingDescription] = useState(false)
   const [isAddingMembers, setIsAddingMembers] = useState(false)
   const [commentId, setCommentId] = useState('')
   const userId = useSelector((state)=> state?.auth?.userId)
@@ -27,6 +26,7 @@ function CardDetail({ isOpen, setIsOpen, cardId, listName, listId, boardId }) {
   const [description, setDescription] = useState(desc)
   const dispatch = useDispatch()
 
+
 //GET card details
 useEffect(()=>{
   async function fetchData() {
@@ -37,7 +37,6 @@ useEffect(()=>{
       const homescreen = await fetchHomescreen(userId)
       dispatch(storeHomescreen(homescreen))
       }
-      
     }
     catch (error) {
       console.log(error)
@@ -46,19 +45,17 @@ useEffect(()=>{
   }
 }
   fetchData()
-},[isOpen])
+},[selectedCardId])
 
 //POST comment
 async function postNewComment(){
   try{
-      setIsPostingComment(true)
-      await postComment(cardId, currentComment, userId) 
+    dispatch(postComment(userId, cardId, currentComment)) 
     }
   catch(e) {
       console.error(e)
     }
   finally{
-      setIsPostingComment(false)
       setCurrentComment('')
       setIsEditingComment(false)
     }
@@ -67,15 +64,15 @@ async function postNewComment(){
 
 //POST description
 async function postDescription(){
+  console.log('post description called')
+  console.log('this is the descrit', description)
   try{
-      setIsPostingDescription(true)
-      await updateCardDescription(cardId, description) 
+    dispatch(updateDescription(cardId, description)) 
     }
   catch(e) {
       console.error(e)
     }
   finally{
-      setIsPostingDescription(false)
       setIsEditingDescription(false)
     }
   }
@@ -85,7 +82,7 @@ async function postMember(member){
   if(cardMembers.includes(member)) return
   const newMembers = [...cardMembers, member]
   try{
-      await addMemberToCard(cardId, newMembers) 
+     dispatch(updateMembers(cardId, newMembers)) 
     }
   catch(e) {
       console.error(e)
@@ -99,14 +96,12 @@ async function postMember(member){
   useEffect(()=>{
    async function deleteData(){
     try{
-      setIsDeletingComment(true)
-      await deleteComment(commentId)
+       dispatch(deleteComment(commentId))
     }
     catch(e){
       console.error(e)
     }
     finally{
-      setIsDeletingComment(false)
       setCommentId('')
     }
    }
@@ -115,18 +110,15 @@ async function postMember(member){
   },[commentId])
 
   function getUserById(id){
-    if(!members) return '.'
+    if(!members) return 
     const user = members.find((i) => i.id === id);
-    const userName = user ? user.name : null;    
+    const userName = user ? user.name : null;   
+    if(userName===null) return 
     const [firstName, lastName] = userName.split(" ");
     const initials = firstName[0] + lastName[0]; 
     return initials
   }
 
-
-  if(!isOpen) return(
-    <div></div>
-  )
 
     return (
       <div className="card-detail-box">
@@ -156,10 +148,10 @@ async function postMember(member){
           </ul>
         </div> : null}
         </div>
-        <Backspace className="close-card-detail icn" onClick={()=>setIsOpen(false)}/>
+        <Backspace className="close-card-detail icn" onClick={()=>setSelectedCardId(null)}/>
         <h5><CardText className="card-icons"/>Description
         <button className="btn edit-description-button" onClick={()=>setIsEditingDescription(true)}>Edit</button></h5>
-        <p className="card-description" style={{display: isEditingDescription ? 'none' : 'block'}}>{cardDetails?.description}</p>
+        <p className="card-description" style={{display: isEditingDescription ? 'none' : 'block'}}>{desc}</p>
         <div className="description-editor" style={{display: isEditingDescription ? 'block' : 'none'}}>
         <textarea value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
         <button className="save-description btn btn-success" onClick={()=>postDescription()}>Save</button>
@@ -171,14 +163,13 @@ async function postMember(member){
           <button className="save-comment btn" onClick={()=>postNewComment()} style={{display: isEditingComment ? 'block' : 'none',}}>
             {isPostingComment ? null : <span>Save</span>}{isPostingComment ? <div className='loader'><ThreeDots color="black"/></div> : null}</button>
         </div>
-        {comments?.map((i, index)=>{
-          return <div className="comment" key={i.id}>{isDeletingComment ? null : 
-          <><span  className="initials-circle-comment" style={{backgroundColor: memberColors[index]}}>{getUserById(i.userId)}</span>
-          <span>{i.text}</span></>}
-          {isDeletingComment ? <div className='loader'><ThreeDots color="black"/></div> : null}
+        {comments?.length>0 ? comments?.map((i, index)=>{
+          if (!i.text) return
+          return <div className="comment" key={i.id}>
+          <span  className="initials-circle-comment" style={{backgroundColor: memberColors[index]}}>{getUserById(i.userId)}</span>
+          <span>{i.text}</span>
           <span data-key={i.id} className="delete-comment icn" onClick={(e)=>setCommentId(e.currentTarget.dataset.key)}>
-            <Trash3Fill/></span></div>
-        })}
+            <Trash3Fill/></span></div>}): null}
       </div>
     );
   }
