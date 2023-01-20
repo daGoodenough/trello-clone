@@ -1,26 +1,26 @@
 import CardLocation from './CardLocation'
 import { useDrag } from 'react-dnd'
+import _ from 'lodash';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Backspace, Trash3Fill } from 'react-bootstrap-icons';
 import { postCard } from '../../helpers/postData'
 import { deleteList } from '../../actions/delete-actions';
-import { addCard } from '../../actions';
+import { addCard, reOrderLists } from '../../actions';
 
-function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, setListId, boardId }) {
+function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, setListId, boardId, lists }) {
   const dispatch = useDispatch();
   const cards = useSelector((state) => state?.boardDetails?.cards)
   const [newCard, setNewCard] = useState('')
   const [newCardOrder, setNewCardOrder] = useState(0)
   const [isComposingCard, setIsComposingCard] = useState(false)
 
-
   async function postNewCard() {
     try {
       // setIsPostingCardDetails(true)
 
       const numCardsInList = cards.reduce((count, card) => {
-        if (card.listId === id) {count ++};
+        if (card.listId === id) { count++ };
         return count;
       }, 0)
       dispatch(addCard(id, newCard, boardId, numCardsInList))
@@ -37,16 +37,31 @@ function WorkflowList({ description, listOrder, id, setIsPostingCardDetails, set
     }
   }
 
-  async function deleteThisList() {
+  function deleteThisList() {
     try {
       setIsPostingCardDetails(true)
-       dispatch(deleteList(id, listOrder));
+
+      let newLists = _.remove(lists, (list => {
+        //this makes it so that we have a new array of lists without the delted list
+        //so that we can call reOrderLists later
+        if (list.order > listOrder) {
+          list.order -= 1;
+        }
+        return list.id !== id;
+      }))
+
+      dispatch(deleteList(id, listOrder));
+      
+      if (newLists.length > 0) {
+        //when lists are deleted they get re-ordered
+        dispatch(reOrderLists(newLists, id))
+      }
     }
     catch (e) {
       console.error(e)
     }
     finally {
-      setIsPostingCardDetails(false)
+      // setIsPostingCardDetails(false)
     }
   }
 
